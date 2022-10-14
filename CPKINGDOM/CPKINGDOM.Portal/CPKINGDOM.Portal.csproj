@@ -24,8 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\fetch-data\fetch-data-service.ts" />
-    <None Remove="ClientApp\src\app\fetch-data\model\category.ts" />
+    <None Remove="ClientApp\src\app\item\item-component.ts" />
+    <None Remove="ClientApp\src\app\item\item-service.ts" />
+    <None Remove="ClientApp\src\app\models\category.ts" />
+    <None Remove="ClientApp\src\app\models\item.ts" />
+    <None Remove="ClientApp\src\app\models\JResponse.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,8 +36,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\fetch-data\fetch-data-service.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\fetch-data\model\category.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\item\item-component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\item\item-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\category.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\item.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\JResponse.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
