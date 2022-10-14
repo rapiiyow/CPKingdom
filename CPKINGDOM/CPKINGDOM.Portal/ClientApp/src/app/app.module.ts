@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -8,10 +8,10 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatDividerModule, MatIconModule, MatTableModule } from '@angular/material';
+import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatTableModule } from '@angular/material';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { ItemComponent } from './item/item-component';
 
 @NgModule({
     declarations: [
@@ -19,7 +19,7 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
         NavMenuComponent,
         HomeComponent,
         CounterComponent,
-        FetchDataComponent
+        ItemComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,14 +28,18 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
             { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'item-component', component: ItemComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,
         MatButtonModule,
         MatIconModule,
         MatDividerModule,
-        NgbModalModule
+        NgbModalModule,
+        MatPaginatorModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        MatInputModule
     ],
     providers: [],
     bootstrap: [AppComponent]

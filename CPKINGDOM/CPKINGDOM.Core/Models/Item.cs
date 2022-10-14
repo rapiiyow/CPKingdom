@@ -4,7 +4,7 @@ using System.Text;
 
 namespace CPKINGDOM.Core.Models
 {
-    class Item
+    public class Item
     {
         public int Id { get; set; }
         public string Barcode { get; set; }
@@ -12,5 +12,6 @@ namespace CPKINGDOM.Core.Models
         public string Description { get; set; }
         public decimal Srp { get; set; }
         public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 }

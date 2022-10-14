@@ -29,7 +29,7 @@ namespace CPKINGDOM.Portal
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            services.AddScoped<ICategorySvc, CategorySvc>();
+            services.AddScoped<IItemSvc, ItemSvc>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

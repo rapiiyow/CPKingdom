@@ -12,7 +12,7 @@ namespace CPKINGDOM.Portal.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private readonly ICategorySvc _categorySvc;
+        private readonly IItemSvc _categorySvc;
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -20,7 +20,7 @@ namespace CPKINGDOM.Portal.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, ICategorySvc categorySvc)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IItemSvc categorySvc)
         {
             _logger = logger;
             _categorySvc = categorySvc;
