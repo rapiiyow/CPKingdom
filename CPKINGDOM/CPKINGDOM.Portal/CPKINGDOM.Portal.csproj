@@ -24,7 +24,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\fetch-data\fetch-data-service.ts" />
+    <None Remove="ClientApp\src\app\fetch-data\model\category.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CPKINGDOM.Core\CPKINGDOM.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\fetch-data\fetch-data-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\fetch-data\model\category.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

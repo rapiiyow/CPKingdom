@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FectchDataService } from './fetch-data-service';
 
 @Component({
     selector: 'app-fetch-data',
@@ -11,11 +12,14 @@ export class FetchDataComponent {
     public categories: Category[];
     displayedColumns: string[] = ['actions', 'name'];
     Test: Category;
-    constructor(private modalService: NgbModal, http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    constructor(private modalService: NgbModal, http: HttpClient, @Inject('BASE_URL') baseUrl: string, private fetchDataService: FectchDataService) {
 
-        http.get<Category[]>(baseUrl + 'weatherforecast/getcategories').subscribe(result => {
-            this.categories = result;
-        }, error => console.error(error));
+        fetchDataService.getCategories().subscribe(res => {
+            this.categories = res;
+        });
+        //http.get<Category[]>(baseUrl + 'weatherforecast/getcategories').subscribe(result => {
+        //    this.categories = result;
+        //}, error => console.error(error));
     }
 
     onClick(test: string) {
