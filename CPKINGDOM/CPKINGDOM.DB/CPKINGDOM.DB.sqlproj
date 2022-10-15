@@ -62,6 +62,7 @@
   <ItemGroup>
     <Build Include="Tables\Category.sql" />
     <Build Include="Tables\Item.sql" />
+    <Build Include="Tables\Brand.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />

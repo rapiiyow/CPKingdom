@@ -4,5 +4,6 @@
 	[Name] [nvarchar](50) NULL,
 	[Description] [nvarchar](50) NULL,
 	[Srp] [decimal](18, 2) NULL,
-	[CategoryId] [int] NULL
+	[CategoryId] [int] NULL, 
+    [BrandId] INT NULL
 ) ON [PRIMARY]
