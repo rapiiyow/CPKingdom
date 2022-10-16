@@ -42,6 +42,17 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [HttpPost("updateitem")]
+        public IActionResult UpdateItem(Item item)
+        {
+            var result = new JResponse()
+            {
+                Success = _itemSvc.UpdateItem(item),
+                Message = "Item successfully updated!"
+            };
+            return Ok(result);
+        }
+
         [HttpPost("savenewbrand")]
         public IActionResult SaveNewBrand(Brand brand)
         {

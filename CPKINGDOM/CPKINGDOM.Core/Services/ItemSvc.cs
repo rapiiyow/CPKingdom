@@ -58,13 +58,14 @@ namespace CPKINGDOM.Core.Services
 	                a.[Description],
 	                a.[Srp],
 	                a.[CategoryId],
-	                b.[Name] AS CategoryName
+                    a.[BrandId],
+	                b.[Name] AS BrandName
                 FROM
 	                [Item] a
                 INNER JOIN
-	                [Category] b
+	                [Brand] b
                 ON
-	                a.[CategoryId] = b.[Id]
+	                a.[BrandId] = b.[Id]
                 ORDER BY
 	                a.[Name];
             ");
@@ -82,7 +83,8 @@ namespace CPKINGDOM.Core.Services
                     [Name],
                     [Description],
                     [Srp],
-                    [CategoryId]
+                    [CategoryId],
+                    [BrandId]
                 )
                 VALUES 
                 (
@@ -90,8 +92,26 @@ namespace CPKINGDOM.Core.Services
                     @Name,
                     @Description,
                     @Srp,
-                    @CategoryId
+                    @CategoryId,
+                    @BrandId
                 )", item);
+
+            return row != 0;
+        }
+        public bool UpdateItem(Item item)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                UPDATE [dbo].[Item] SET 
+                    [Barcode] = @Barcode, 
+                    [Name] = @Name, 
+                    [Description] = @Description, 
+                    [Srp] = @Srp,
+                    [CategoryId] = @CategoryId,
+                    [BrandId] = @BrandId
+                WHERE 
+                    [Id] = @Id;", item);
 
             return row != 0;
         }

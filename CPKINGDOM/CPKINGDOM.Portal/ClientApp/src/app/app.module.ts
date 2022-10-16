@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatTableModule } from '@angular/material';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +19,6 @@ import { CategoryComponent } from './category/category-component';
         AppComponent,
         NavMenuComponent,
         HomeComponent,
-        CounterComponent,
         ItemComponent,
         BrandComponent,
         CategoryComponent
@@ -31,7 +29,6 @@ import { CategoryComponent } from './category/category-component';
         FormsModule,
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'counter', component: CounterComponent },
             { path: 'item-component', component: ItemComponent },
             { path: 'brand-component', component: BrandComponent },
             { path: 'category-component', component: CategoryComponent },

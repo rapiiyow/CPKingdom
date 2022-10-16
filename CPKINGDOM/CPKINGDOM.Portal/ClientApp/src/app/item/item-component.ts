@@ -2,6 +2,7 @@
 import { FormControl } from "@angular/forms";
 import { MatPaginator, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
+import { Brand } from "../models/brand";
 import { Category } from "../models/category";
 import { Item } from "../models/item";
 import { JResponse } from "../models/JResponse";
@@ -14,8 +15,8 @@ import { ItemService } from "./item-service";
 })
 export class ItemComponent implements OnInit {
     categories: Category[];
-    selectedCategory: Category;
-    displayedColumns: string[] = ['actions', 'categoryName', 'name', 'description', 'srp'];
+    brands: Brand[];
+    displayedColumns: string[] = ['actions', 'brandName', 'name', 'description', 'srp'];
     dataSource: any = [];
     itemModel: Item = new Item();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -26,6 +27,7 @@ export class ItemComponent implements OnInit {
     constructor(private modalService: NgbModal, private itemService: ItemService, private cdf: ChangeDetectorRef) {
         this.getItems();
         this.getCategories();
+        this.getBrands();
     }
     ngOnInit(): void {
         this.nameFilter.valueChanges
@@ -48,6 +50,11 @@ export class ItemComponent implements OnInit {
             this.categories = res;
         });
     }
+    getBrands() {
+        this.itemService.getBrands().subscribe(res => {
+            this.brands = res;
+        });
+    }
     getItems() {
         this.itemService.getItems().subscribe(res => {
             this.dataSource = new MatTableDataSource<Item>(res);
@@ -56,19 +63,33 @@ export class ItemComponent implements OnInit {
         });
     }
     onNewClick(content) {
+        this.itemModel = new Item();
         this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
     }
     onSaveItemClick() {
-        this.itemService.saveNewItem(this.itemModel).subscribe((res: JResponse) => {
-            if (res.success) {
-                this.getItems();
-                this.itemModel = new Item();
-                this.onCloseModal();
-            }
-            else {
-                alert('Failed to add new item.');
-            }
-        });
+        if (this.itemModel.id <= 0) {
+            this.itemService.saveNewItem(this.itemModel).subscribe((res: JResponse) => {
+                if (res.success) {
+                    this.getItems();
+                    this.itemModel = new Item();
+                    this.onCloseModal();
+                }
+                else {
+                    alert('Failed to add new item.');
+                }
+            });
+        } else {
+            this.itemService.updateItem(this.itemModel).subscribe((res: JResponse) => {
+                if (res.success) {
+                    this.getItems();
+                    this.itemModel = new Item();
+                    this.onCloseModal();
+                }
+                else {
+                    alert('Failed to update item.');
+                }
+            });
+        }
     }
     createFilter(): (data: any, filter: string) => boolean {
         let filterFunction = function (data, filter): boolean {

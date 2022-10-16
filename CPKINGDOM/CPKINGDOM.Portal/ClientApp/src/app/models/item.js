@@ -10,6 +10,8 @@ var Item = /** @class */ (function () {
         this.srp = 0;
         this.categoryId = 0;
         this.categoryName = '';
+        this.brandId = 0;
+        this.brandName = '';
     }
     return Item;
 }());

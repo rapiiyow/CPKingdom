@@ -43,7 +43,6 @@ export class CategoryComponent implements OnInit {
         this.modalRef = this.modalService.open(content, { size: 'sm', backdrop: 'static', keyboard: false });
     }
     onSaveCategoryClick() {
-        debugger;
         if (this.categoryModel.id <= 0) {
             this.categoryService.saveNewCategory(this.categoryModel).subscribe((res: JResponse) => {
                 if (res.success) {
