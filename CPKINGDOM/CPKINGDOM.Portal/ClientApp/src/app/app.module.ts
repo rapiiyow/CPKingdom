@@ -29,9 +29,9 @@ import { CategoryComponent } from './category/category-component';
         FormsModule,
         RouterModule.forRoot([
             { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'item-component', component: ItemComponent },
-            { path: 'brand-component', component: BrandComponent },
-            { path: 'category-component', component: CategoryComponent },
+            { path: 'item', component: ItemComponent },
+            { path: 'brand', component: BrandComponent },
+            { path: 'category', component: CategoryComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,
