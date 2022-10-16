@@ -31,6 +31,21 @@ namespace CPKINGDOM.Core.Services
 
             return categories.ToList();
         }
+        public List<Brand> GetBrands()
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var brands = _context.Query<Brand>(@"
+                SELECT
+                    *
+                FROM
+                    Brand
+                ORDER BY
+                    Name;
+            ");
+
+            return brands.ToList();
+        }
         public List<Item> GetItems()
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
@@ -77,6 +92,62 @@ namespace CPKINGDOM.Core.Services
                     @Srp,
                     @CategoryId
                 )", item);
+
+            return row != 0;
+        }
+        public bool SaveNewCategory(Category category)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                INSERT INTO [Category] 
+                (
+                    [Name]
+                )
+                VALUES 
+                (
+                    @Name
+                )", category);
+
+            return row != 0;
+        }
+        public bool SaveNewBrand(Brand brand)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                INSERT INTO [Brand] 
+                (
+                    [Name]
+                )
+                VALUES 
+                (
+                    @Name
+                )", brand);
+
+            return row != 0;
+        }
+        public bool UpdateBrand(Brand brand)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                UPDATE [Brand] SET
+                    [Name] = @Name
+                WHERE
+                    [Id] = @Id;", brand);
+
+            return row != 0;
+        }
+        public bool UpdateCategory(Category category)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                UPDATE [Category] SET
+                    [Name] = @Name
+                WHERE
+                    [Id] = @Id;", category);
 
             return row != 0;
         }

@@ -24,8 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\brand\brand-component.ts" />
+    <None Remove="ClientApp\src\app\brand\brand-service.ts" />
+    <None Remove="ClientApp\src\app\category\category-component.ts" />
+    <None Remove="ClientApp\src\app\category\category-service.ts" />
     <None Remove="ClientApp\src\app\item\item-component.ts" />
     <None Remove="ClientApp\src\app\item\item-service.ts" />
+    <None Remove="ClientApp\src\app\models\brand.ts" />
     <None Remove="ClientApp\src\app\models\category.ts" />
     <None Remove="ClientApp\src\app\models\item.ts" />
     <None Remove="ClientApp\src\app\models\JResponse.ts" />
@@ -36,8 +41,21 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\category\category-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\category\category-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\brand\brand-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\brand\brand-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\item\item-component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\item\item-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\brand.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\category.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\JResponse.ts" />

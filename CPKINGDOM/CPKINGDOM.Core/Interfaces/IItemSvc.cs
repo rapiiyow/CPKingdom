@@ -7,6 +7,11 @@ namespace CPKINGDOM.Core.Interfaces
     {
         List<Category> GetCategories();
         List<Item> GetItems();
+        List<Brand> GetBrands();
         bool SaveNewItem(Item item);
+        bool SaveNewCategory(Category category);
+        bool SaveNewBrand(Brand brand);
+        bool UpdateBrand(Brand brand);
+        bool UpdateCategory(Category category);
     }
 }

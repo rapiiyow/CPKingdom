@@ -12,6 +12,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatTableModule } from '@angular/material';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemComponent } from './item/item-component';
+import { BrandComponent } from './brand/brand-component';
+import { CategoryComponent } from './category/category-component';
 
 @NgModule({
     declarations: [
@@ -19,7 +21,9 @@ import { ItemComponent } from './item/item-component';
         NavMenuComponent,
         HomeComponent,
         CounterComponent,
-        ItemComponent
+        ItemComponent,
+        BrandComponent,
+        CategoryComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -29,6 +33,8 @@ import { ItemComponent } from './item/item-component';
             { path: '', component: HomeComponent, pathMatch: 'full' },
             { path: 'counter', component: CounterComponent },
             { path: 'item-component', component: ItemComponent },
+            { path: 'brand-component', component: BrandComponent },
+            { path: 'category-component', component: CategoryComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,
