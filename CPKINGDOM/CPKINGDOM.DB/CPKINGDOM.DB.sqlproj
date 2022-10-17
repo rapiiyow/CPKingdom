@@ -66,6 +66,7 @@
     <Build Include="Tables\Supplier.sql" />
     <Build Include="Tables\Staff.sql" />
     <Build Include="Tables\Role.sql" />
+    <Build Include="Tables\Inventory.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />
