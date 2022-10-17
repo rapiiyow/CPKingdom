@@ -64,9 +64,12 @@
     <Build Include="Tables\Item.sql" />
     <Build Include="Tables\Brand.sql" />
     <Build Include="Tables\Supplier.sql" />
+    <Build Include="Tables\Staff.sql" />
+    <Build Include="Tables\Role.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />
+    <None Include="TableData\Role.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />

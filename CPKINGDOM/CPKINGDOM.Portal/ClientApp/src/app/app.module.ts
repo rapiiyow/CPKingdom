@@ -13,6 +13,8 @@ import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemComponent } from './item/item-component';
 import { BrandComponent } from './brand/brand-component';
 import { CategoryComponent } from './category/category-component';
+import { SupplierComponent } from './supplier/supplier-component';
+import { StaffComponent } from './staff/staff-component';
 
 @NgModule({
     declarations: [
@@ -21,7 +23,9 @@ import { CategoryComponent } from './category/category-component';
         HomeComponent,
         ItemComponent,
         BrandComponent,
-        CategoryComponent
+        CategoryComponent,
+        SupplierComponent,
+        StaffComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,6 +36,8 @@ import { CategoryComponent } from './category/category-component';
             { path: 'item', component: ItemComponent },
             { path: 'brand', component: BrandComponent },
             { path: 'category', component: CategoryComponent },
+            { path: 'supplier', component: SupplierComponent },
+            { path: 'staff', component: StaffComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,

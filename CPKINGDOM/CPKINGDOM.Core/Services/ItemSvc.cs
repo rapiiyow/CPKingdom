@@ -72,6 +72,21 @@ namespace CPKINGDOM.Core.Services
 
             return items.ToList();
         }
+        public List<Supplier> GetSuppliers()
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var suppliers = _context.Query<Supplier>(@"
+                SELECT
+	                *
+                FROM
+	                [Supplier] 
+                ORDER BY
+	                [Name];
+            ");
+
+            return suppliers.ToList();
+        }
         public bool SaveNewItem(Item item)
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
@@ -97,24 +112,7 @@ namespace CPKINGDOM.Core.Services
                 )", item);
 
             return row != 0;
-        }
-        public bool UpdateItem(Item item)
-        {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
-
-            int row = _context.Execute(@"
-                UPDATE [dbo].[Item] SET 
-                    [Barcode] = @Barcode, 
-                    [Name] = @Name, 
-                    [Description] = @Description, 
-                    [Srp] = @Srp,
-                    [CategoryId] = @CategoryId,
-                    [BrandId] = @BrandId
-                WHERE 
-                    [Id] = @Id;", item);
-
-            return row != 0;
-        }
+        }        
         public bool SaveNewCategory(Category category)
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
@@ -147,6 +145,28 @@ namespace CPKINGDOM.Core.Services
 
             return row != 0;
         }
+        public bool SaveNewSupplier(Supplier supplier)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                INSERT INTO [Supplier] 
+                (
+                    [Name],
+                    [Address],
+                    [ContactPerson],
+                    [ContactNo]
+                )
+                VALUES 
+                (
+                    @Name,
+                    @Address,
+                    @ContactPerson,
+                    @ContactNo
+                )", supplier);
+
+            return row != 0;
+        }
         public bool UpdateBrand(Brand brand)
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
@@ -168,6 +188,38 @@ namespace CPKINGDOM.Core.Services
                     [Name] = @Name
                 WHERE
                     [Id] = @Id;", category);
+
+            return row != 0;
+        }
+        public bool UpdateSupplier(Supplier supplier)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                UPDATE [Supplier] SET
+                    [Name] = @Name,
+                    [Address] = @Address,
+                    [ContactPerson] = @ContactPerson,
+                    [ContactNo] = @ContactNo
+                WHERE
+                    [Id] = @Id;", supplier);
+
+            return row != 0;
+        }
+        public bool UpdateItem(Item item)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            int row = _context.Execute(@"
+                UPDATE [dbo].[Item] SET 
+                    [Barcode] = @Barcode, 
+                    [Name] = @Name, 
+                    [Description] = @Description, 
+                    [Srp] = @Srp,
+                    [CategoryId] = @CategoryId,
+                    [BrandId] = @BrandId
+                WHERE 
+                    [Id] = @Id;", item);
 
             return row != 0;
         }

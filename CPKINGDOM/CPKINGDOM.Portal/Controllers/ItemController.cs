@@ -9,9 +9,11 @@ namespace CPKINGDOM.Portal.Controllers
     public class ItemController : ControllerBase
     {
         private readonly IItemSvc _itemSvc;
-        public ItemController(IItemSvc categorySvc)
+        private readonly IStaffSvc _staffSvc;
+        public ItemController(IItemSvc categorySvc, IStaffSvc staffSvc)
         {
             _itemSvc = categorySvc;
+            _staffSvc = staffSvc;
         }
 
         [HttpGet("getcategories")]
@@ -31,6 +33,24 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(_itemSvc.GetItems());
         }
 
+        [HttpGet("getsuppliers")]
+        public IActionResult GetSuppliers()
+        {
+            return Ok(_itemSvc.GetSuppliers());
+        }
+
+        [HttpGet("getstaffs")]
+        public IActionResult GetStaffs()
+        {
+            return Ok(_staffSvc.GetStaffs());
+        }
+
+        [HttpGet("getroles")]
+        public IActionResult GetRoles()
+        {
+            return Ok(_staffSvc.GetRoles());
+        }
+
         [HttpPost("savenewitem")]
         public IActionResult SaveNewItem(Item item)
         {
@@ -42,16 +62,16 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
-        [HttpPost("updateitem")]
-        public IActionResult UpdateItem(Item item)
+        [HttpPost("savenewsupplier")]
+        public IActionResult SaveNewSupplier(Supplier supplier)
         {
             var result = new JResponse()
             {
-                Success = _itemSvc.UpdateItem(item),
-                Message = "Item successfully updated!"
+                Success = _itemSvc.SaveNewSupplier(supplier),
+                Message = "Supplier successfully added!"
             };
             return Ok(result);
-        }
+        }        
 
         [HttpPost("savenewbrand")]
         public IActionResult SaveNewBrand(Brand brand)
@@ -63,6 +83,7 @@ namespace CPKINGDOM.Portal.Controllers
             };
             return Ok(result);
         }
+
         [HttpPost("savenewcategory")]
         public IActionResult SaveNewCategory(Category category)
         {
@@ -70,6 +91,17 @@ namespace CPKINGDOM.Portal.Controllers
             {
                 Success = _itemSvc.SaveNewCategory(category),
                 Message = "Category successfully added!"
+            };
+            return Ok(result);
+        }
+
+        [HttpPost("savenewstaff")]
+        public IActionResult SaveNewStaff(Staff staff)
+        {
+            var result = new JResponse()
+            {
+                Success = _staffSvc.SaveNewStaff(staff),
+                Message = "Staff successfully added!"
             };
             return Ok(result);
         }
@@ -92,6 +124,39 @@ namespace CPKINGDOM.Portal.Controllers
             {
                 Success = _itemSvc.UpdateCategory(category),
                 Message = "Category successfully updated!"
+            };
+            return Ok(result);
+        }
+
+        [HttpPost("updatesupplier")]
+        public IActionResult UpdateSupplier(Supplier supplier)
+        {
+            var result = new JResponse()
+            {
+                Success = _itemSvc.UpdateSupplier(supplier),
+                Message = "Supplier successfully updated!"
+            };
+            return Ok(result);
+        }
+
+        [HttpPost("updateitem")]
+        public IActionResult UpdateItem(Item item)
+        {
+            var result = new JResponse()
+            {
+                Success = _itemSvc.UpdateItem(item),
+                Message = "Item successfully updated!"
+            };
+            return Ok(result);
+        }
+
+        [HttpPost("updatestaff")]
+        public IActionResult UpdateStaff(Staff staff)
+        {
+            var result = new JResponse()
+            {
+                Success = _staffSvc.UpdateStaff(staff),
+                Message = "Staff successfully updated!"
             };
             return Ok(result);
         }

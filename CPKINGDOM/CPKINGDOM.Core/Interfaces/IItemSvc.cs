@@ -8,11 +8,14 @@ namespace CPKINGDOM.Core.Interfaces
         List<Category> GetCategories();
         List<Item> GetItems();
         List<Brand> GetBrands();
-        bool SaveNewItem(Item item);
-        bool UpdateItem(Item item);
+        List<Supplier> GetSuppliers();        
+        bool SaveNewItem(Item item);        
         bool SaveNewCategory(Category category);
         bool SaveNewBrand(Brand brand);
+        bool SaveNewSupplier(Supplier supplier);        
+        bool UpdateItem(Item item);
         bool UpdateBrand(Brand brand);
         bool UpdateCategory(Category category);
+        bool UpdateSupplier(Supplier supplier);        
     }
 }
