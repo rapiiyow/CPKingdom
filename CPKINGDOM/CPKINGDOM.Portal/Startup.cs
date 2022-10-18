@@ -30,6 +30,7 @@ namespace CPKINGDOM.Portal
 
             services.AddScoped<IItemSvc, ItemSvc>();
             services.AddScoped<IStaffSvc, StaffSvc>();
+            services.AddScoped<IInventorySvc, InventorySvc>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

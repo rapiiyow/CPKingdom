@@ -16,7 +16,6 @@ namespace CPKINGDOM.Core.Services
         {
             _config = config;
         }
-
         public List<Role> GetRoles()
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
@@ -32,7 +31,6 @@ namespace CPKINGDOM.Core.Services
 
             return roles.ToList();
         }
-
         public List<Staff> GetStaffs()
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);

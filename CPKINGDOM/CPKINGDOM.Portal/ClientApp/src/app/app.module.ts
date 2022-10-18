@@ -15,6 +15,7 @@ import { BrandComponent } from './brand/brand-component';
 import { CategoryComponent } from './category/category-component';
 import { SupplierComponent } from './supplier/supplier-component';
 import { StaffComponent } from './staff/staff-component';
+import { InventoryComponent } from './inventory/inventory-component';
 
 @NgModule({
     declarations: [
@@ -25,7 +26,8 @@ import { StaffComponent } from './staff/staff-component';
         BrandComponent,
         CategoryComponent,
         SupplierComponent,
-        StaffComponent
+        StaffComponent,
+        InventoryComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,6 +40,7 @@ import { StaffComponent } from './staff/staff-component';
             { path: 'category', component: CategoryComponent },
             { path: 'supplier', component: SupplierComponent },
             { path: 'staff', component: StaffComponent },
+            { path: 'inventory', component: InventoryComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,
