@@ -18,6 +18,7 @@
     qtyPurchased: number;
     amountPaid: number;
     tranBodyId: number;
+    isService: boolean;
     constructor() {
         this.id = 0;
         this.itemId = 0;
@@ -38,5 +39,6 @@
         this.qtyPurchased = 0;
         this.amountPaid = 0;
         this.tranBodyId = 0;
+        this.isService = false;
     }
 }

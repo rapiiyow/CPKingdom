@@ -47,6 +47,8 @@
     <None Remove="ClientApp\src\app\settings\supplier\supplier-service.ts" />
     <None Remove="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
     <None Remove="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\service\service-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\service\servicedetail\servicedetail-component.ts" />
     <None Remove="ClientApp\src\app\transaction\transaction-service.ts" />
   </ItemGroup>
 
@@ -96,15 +98,17 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\category.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\JResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\service\service-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\service\servicedetail\servicedetail-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\transaction\transaction-service.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\app\transaction\service\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

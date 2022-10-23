@@ -9,5 +9,6 @@ namespace CPKINGDOM.Core.Interfaces
         bool SaveNewStaff(Staff staff);
         bool UpdateStaff(Staff staff);
         List<Role> GetRoles();
+        List<Staff> GetTechnicians();
     }
 }

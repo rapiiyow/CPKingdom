@@ -18,6 +18,8 @@ import { SupplierComponent } from './settings/supplier/supplier-component';
 import { StaffComponent } from './settings/staff/staff-component';
 import { PurchaseComponent } from './transaction/purchase/purchase-component';
 import { PurchaseDetailComponent } from './transaction/purchase/purchasedetail/purchasedetail-component';
+import { ServiceComponent } from './transaction/service/service-component';
+import { ServiceDetailComponent } from './transaction/service/servicedetail/servicedetail-component';
 
 @NgModule({
     declarations: [
@@ -31,7 +33,9 @@ import { PurchaseDetailComponent } from './transaction/purchase/purchasedetail/p
         StaffComponent,
         InventoryComponent,
         PurchaseComponent,
-        PurchaseDetailComponent
+        PurchaseDetailComponent,
+        ServiceComponent,
+        ServiceDetailComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -47,6 +51,8 @@ import { PurchaseDetailComponent } from './transaction/purchase/purchasedetail/p
             { path: 'inventory', component: InventoryComponent },
             { path: 'purchase', component: PurchaseComponent },
             { path: 'purchasedetail/:id', component: PurchaseDetailComponent },
+            { path: 'service', component: ServiceComponent },
+            { path: 'servicedetail/:id', component: ServiceDetailComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,

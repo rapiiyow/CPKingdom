@@ -21,5 +21,7 @@
         public decimal AmountPaid { get; set; }
         public int QtyPurchased { get; set; }
         public int TranBodyId { get; set; }
+        public bool IsService { get; set; }
+        public string Notes { get; set; }
     }
 }

@@ -101,5 +101,33 @@ namespace CPKINGDOM.Core.Services
 
             return row != 0;
         }
+        public List<Staff> GetTechnicians()
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var staffs = _context.Query<Staff>(@"
+                SELECT 
+                    a.Id,
+                    a.FirstName,
+                    a.MiddleName,
+                    a.LastName,
+                    a.Address,
+                    a.ContactNo,
+                    a.RoleId,
+                    b.Name as 'RoleName',
+                    CONCAT(a.FirstName, ' ', a.LastName) as 'FullName'
+                FROM 
+                    Staff a 
+                INNER JOIN 
+                    Role b 
+                ON 
+                    a.RoleId = b.Id 
+                WHERE b.Name = 'Technician'
+                ORDER BY 
+                    a.FirstName;
+            ");
+
+            return staffs.ToList();
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace CPKINGDOM.Core.Models
         public string CustomerName { get; set; }
         public string CustomerContactNo { get; set; }
         public string Notes { get; set; }
-        public int Technichian { get; set; }
+        public int Technician { get; set; }
         public string Status { get; set; }
         public bool IsService { get; set; }
         public decimal ServiceFee { get; set; }

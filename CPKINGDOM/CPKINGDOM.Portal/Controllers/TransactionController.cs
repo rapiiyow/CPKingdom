@@ -14,10 +14,11 @@ namespace CPKINGDOM.Portal.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionSvc _transactionSvc;
-
-        public TransactionController(ITransactionSvc transactionSvc)
+        private readonly IStaffSvc _staffSvc;
+        public TransactionController(ITransactionSvc transactionSvc, IStaffSvc staffSvc)
         {
             _transactionSvc = transactionSvc;
+            _staffSvc = staffSvc;
         }
 
         [HttpGet("getpurchaseno")]
@@ -25,14 +26,33 @@ namespace CPKINGDOM.Portal.Controllers
         {
             var result = new JResponse()
             {
-                Data = _transactionSvc.GetPurchaseNo(),
-                Message = "Item successfully updated!"
+                Data = _transactionSvc.GetPurchaseNo()
+            };
+            return Ok(result);
+        }
+
+        [HttpGet("getserviceno")]
+        public IActionResult GetServiceNo()
+        {
+            var result = new JResponse()
+            {
+                Data = _transactionSvc.GetServiceNo()
+            };
+            return Ok(result);
+        }
+
+        [HttpGet("gettechnicians")]
+        public IActionResult GetTechnicians()
+        {
+            var result = new JResponse()
+            {
+                Data = _staffSvc.GetTechnicians()
             };
             return Ok(result);
         }
 
         [HttpPost("savepurchase")]
-        public IActionResult UpdateInventory(TransactionHead transactionHead)
+        public IActionResult SaveNewPurchase(TransactionHead transactionHead)
         {
             var result = new JResponse()
             {
@@ -63,6 +83,29 @@ namespace CPKINGDOM.Portal.Controllers
                 Message = "Purchase successfully updated!"
             };
             return Ok(result);
+        }
+
+        [HttpPost("saveservice")]
+        public IActionResult SaveService(TransactionHead transactionHead)
+        {
+            var result = new JResponse()
+            {
+                Success = _transactionSvc.SaveNewService(transactionHead),
+                Message = "Service successfully saved!"
+            };
+            return Ok(result);
+        }
+
+        [HttpGet("getservicetransactions")]
+        public IActionResult GetServiceTransactions()
+        {
+            return Ok(_transactionSvc.GetServiceTransactions());
+        }
+
+        [HttpGet("getselectedservicetransaction")]
+        public IActionResult GetSelectedServiceTransaction(int id)
+        {
+            return Ok(_transactionSvc.GetSelectedServiceTransaction(id));
         }
     }
 }

@@ -10,6 +10,12 @@ export class TransactionService {
     getPurchaseNo() {
         return this.http.get<JResponse>(`transaction/getpurchaseno`);
     }
+    getServiceNo() {
+        return this.http.get<JResponse>(`transaction/getserviceno`);
+    }
+    getTechnicians() {
+        return this.http.get<JResponse>(`transaction/gettechnicians`);
+    }
     getAvailableItems() {
         return this.http.get<Inventory[]>(`inventory/getavailableitems`);
     }
@@ -24,6 +30,15 @@ export class TransactionService {
     }
     updatePurchaseTransaction(transactionHead: TransactionHead) {
         return this.http.post(`transaction/updatepurchasetransaction`, transactionHead);
+    }
+    saveNewService(transactionHead: TransactionHead) {
+        return this.http.post(`transaction/saveservice`, transactionHead);
+    }
+    getServiceTransactions() {
+        return this.http.get<TransactionHead[]>(`transaction/getservicetransactions`);
+    }
+    getSelectedServiceTransaction(id) {
+        return this.http.get<TransactionHead>(`transaction/getselectedservicetransaction?id=${id}`);
     }
     //getBrands() {
     //    return this.http.get<Brand[]>(`inventory/getbrands`);

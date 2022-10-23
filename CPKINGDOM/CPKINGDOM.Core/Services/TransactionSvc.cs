@@ -49,6 +49,38 @@ namespace CPKINGDOM.Core.Services
 
             return purchaseNo + count;
         }
+        public string GetServiceNo()
+        {
+            string serviceNo = "";
+
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            string count = _context.QuerySingle<string>(@"SELECT COUNT(*)+1 AS CNT FROM TransactionHead WHERE IsService = 1;").ToString();
+
+            switch (count.Length)
+            {
+                case 1:
+                    serviceNo = "S00000";
+                    break;
+                case 2:
+                    serviceNo = "S0000";
+                    break;
+                case 3:
+                    serviceNo = "S000";
+                    break;
+                case 4:
+                    serviceNo = "S00";
+                    break;
+                case 5:
+                    serviceNo = "S0";
+                    break;
+                case 6:
+                    serviceNo = "S";
+                    break;
+            }
+
+            return serviceNo + count;
+        }
         public bool SaveNewPurchase(TransactionHead transactionHead)
         {
             bool success = false;
@@ -120,6 +152,8 @@ namespace CPKINGDOM.Core.Services
 	                (SELECT SUM(AmountPaid) FROM TransactionBody WHERE HeadId = A.Id) AS TotalPaid 
                 FROM 
 	                TransactionHead A
+                WHERE 
+                    IsService = 0
                 ORDER BY 
 	                CAST(A.CreatedDate AS date), 
 	                A.Id;
@@ -185,6 +219,131 @@ namespace CPKINGDOM.Core.Services
             }
 
             return success;
+        }
+        public bool SaveNewService(TransactionHead transactionHead)
+        {
+            bool success = false;
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            transactionHead.IsService = true;
+
+            var headId = _context.QuerySingle<int>(@"
+                INSERT INTO [TransactionHead]
+				(
+					[TransactionNo],
+					[CustomerName],
+					[CustomerContactNo],
+                    [Technician],
+					[Status],
+					[IsService],
+                    [ServiceFee],
+					[CreatedDate],
+                    [Notes]
+				)
+                OUTPUT INSERTED.Id
+				VALUES
+				(
+					@TransactionNo,
+					@CustomerName,
+					@CustomerContactNo,
+                    @Technician,
+					@Status,
+					@IsService,
+                    @ServiceFee,
+					@CreatedDate,
+                    @Notes
+				);", transactionHead);
+
+            foreach (var item in transactionHead.Inventory)
+            {
+                var transactionBodyModel = new TransactionBody();
+                transactionBodyModel.HeadId = headId;
+                transactionBodyModel.InventoryId = item.Id;
+                transactionBodyModel.Quantity = item.QtyPurchased;
+                transactionBodyModel.Price = item.Srp;
+                transactionBodyModel.AmountPaid = item.AmountPaid;
+
+                if (item.IsService)
+                {
+                    transactionBodyModel.Notes = item.Description;
+                }
+                
+
+                int tranBody = _context.Execute(@"
+                INSERT INTO [TransactionBody]
+				(
+					[HeadId],
+					[InventoryId],
+					[Quantity],
+					[Price],
+					[AmountPaid],
+                    [Notes]
+				)
+				VALUES
+				(
+					@HeadId,
+					@InventoryId,
+					@Quantity,
+					@Price,
+					@AmountPaid,
+                    @Notes
+				);", transactionBodyModel);
+
+                success = tranBody != 0;
+            }
+
+            return success;
+        }
+        public List<TransactionHead> GetServiceTransactions()
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var transactionHeads = _context.Query<TransactionHead>(@"
+                SELECT 
+	                A.*,
+	                (SELECT SUM(Price) FROM TransactionBody WHERE HeadId = A.Id) AS TotalAmount, 
+	                (SELECT SUM(AmountPaid) FROM TransactionBody WHERE HeadId = A.Id) AS TotalPaid 
+                FROM 
+	                TransactionHead A
+                WHERE 
+                    IsService = 1
+                ORDER BY 
+	                CAST(A.CreatedDate AS date), 
+	                A.Id;
+            ");
+
+            return transactionHeads.ToList();
+        }
+        public TransactionHead GetSelectedServiceTransaction(int id)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            var parameters = new { Id = id };
+            var transactionHeads = _context.QuerySingle<TransactionHead>(@"
+                SELECT * FROM TransactionHead WHERE Id = @Id;
+            ", parameters);
+
+            var inventory = _context.Query<Inventory>(@"
+                	SELECT 
+		                a.Id AS TranBodyId,
+		                a.Id,
+		                a.Quantity AS QtyPurchased,
+		                a.Price AS Srp,
+		                a.AmountPaid,
+		                ISNULL(D.Name,'') AS BrandName,
+		                ISNULL(C.Name,'') AS ItemName,
+		                C.Description,
+                        A.Notes
+	                FROM TransactionBody A 	
+	                LEFT JOIN Inventory B ON A.InventoryId = B.Id
+	                LEFT JOIN Item C ON B.ItemId = C.Id
+	                LEFT JOIN Brand D ON C.BrandId = D.Id
+	                WHERE
+		                HeadId = @Id;
+            ", parameters);
+
+            transactionHeads.Inventory = inventory.ToList();
+
+            return transactionHeads;
         }
     }
 }

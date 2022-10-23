@@ -22,6 +22,7 @@ var Inventory = /** @class */ (function () {
         this.qtyPurchased = 0;
         this.amountPaid = 0;
         this.tranBodyId = 0;
+        this.isService = false;
     }
     return Inventory;
 }());
