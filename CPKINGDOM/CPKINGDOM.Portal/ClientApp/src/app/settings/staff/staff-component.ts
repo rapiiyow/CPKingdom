@@ -2,12 +2,10 @@
 import { FormControl } from "@angular/forms";
 import { MatPaginator, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { Brand } from "../models/brand";
-import { Category } from "../models/category";
-import { Staff } from "../models/staff";
-import { JResponse } from "../models/JResponse";
+import { Staff } from "../../models/staff";
+import { JResponse } from "../../models/JResponse";
 import { StaffService } from "./staff-service";
-import { Role } from "../models/role";
+import { Role } from "../../models/role";
 
 @Component({
     selector: 'staff-component',

@@ -2,8 +2,8 @@
 import { FormControl } from "@angular/forms";
 import { MatPaginator, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { Supplier } from "../models/supplier";
-import { JResponse } from "../models/JResponse";
+import { Supplier } from "../../models/supplier";
+import { JResponse } from "../../models/JResponse";
 import { SupplierService } from "./supplier-service";
 
 @Component({

@@ -2,26 +2,25 @@
 import { FormControl } from "@angular/forms";
 import { MatPaginator, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { Category } from "../models/category";
-import { Brand } from "../models/brand";
-import { JResponse } from "../models/JResponse";
-import { BrandService } from "./brand-service";
+import { Category } from "../../models/category";
+import { JResponse } from "../../models/JResponse";
+import { CategoryService } from "./category-service";
 
 @Component({
-    selector: 'brand-component',
-    styleUrls: ['./brand-component.css'],
-    templateUrl: './brand-component.html'
+    selector: 'category-component',
+    styleUrls: ['./category-component.css'],
+    templateUrl: './category-component.html'
 })
-export class BrandComponent implements OnInit {
+export class CategoryComponent implements OnInit {
     displayedColumns: string[] = ['actions', 'name'];
     dataSource: any = [];
-    brandModel: Brand = new Brand();
+    categoryModel: Category = new Category();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     modalRef: NgbModalRef;
     nameFilter = new FormControl('');
-    filterValues = new Brand();
-    constructor(private modalService: NgbModal, private brandService: BrandService, private cdf: ChangeDetectorRef) {
-        this.getBrands();
+    filterValues = new Category();
+    constructor(private modalService: NgbModal, private categoryService: CategoryService, private cdf: ChangeDetectorRef) {
+        this.getCategories();
     }
     ngOnInit(): void {
         this.nameFilter.valueChanges
@@ -32,38 +31,38 @@ export class BrandComponent implements OnInit {
                 }
             )
     }
-    getBrands() {
-        this.brandService.getBrands().subscribe(res => {
-            this.dataSource = new MatTableDataSource<Brand>(res);
+    getCategories() {
+        this.categoryService.getCategories().subscribe(res => {
+            this.dataSource = new MatTableDataSource<Category>(res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.filterPredicate = this.createFilter();
         });
     }
     onNewClick(content) {
-        this.brandModel = new Brand();
+        this.categoryModel = new Category();
         this.modalRef = this.modalService.open(content, { size: 'sm', backdrop: 'static', keyboard: false });
     }
-    onSaveBrandClick() {
-        if (this.brandModel.id <= 0) {
-            this.brandService.saveNewBrand(this.brandModel).subscribe((res: JResponse) => {
+    onSaveCategoryClick() {
+        if (this.categoryModel.id <= 0) {
+            this.categoryService.saveNewCategory(this.categoryModel).subscribe((res: JResponse) => {
                 if (res.success) {
-                    this.getBrands();
-                    this.brandModel = new Brand();
+                    this.getCategories();
+                    this.categoryModel = new Category();
                     this.onCloseModal();
                 }
                 else {
-                    alert('Failed to add new brand.');
+                    alert('Failed to add new category.');
                 }
             });
         } else {
-            this.brandService.updateBrand(this.brandModel).subscribe((res: JResponse) => {
+            this.categoryService.updateCategory(this.categoryModel).subscribe((res: JResponse) => {
                 if (res.success) {
-                    this.getBrands();
-                    this.brandModel = new Brand();
+                    this.getCategories();
+                    this.categoryModel = new Category();
                     this.onCloseModal();
                 }
                 else {
-                    alert('Failed to update brand.');
+                    alert('Failed to update category.');
                 }
             });
         }
@@ -75,8 +74,8 @@ export class BrandComponent implements OnInit {
         }
         return filterFunction;
     }
-    onEditClick(_brand: Brand, content) {
-        this.brandModel = _brand;
+    onEditClick(_category: Category, content) {
+        this.categoryModel = _category;
         this.modalRef = this.modalService.open(content, { size: 'sm', backdrop: 'static', keyboard: false });
     }
     onCloseModal() {

@@ -24,10 +24,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\brand\brand-component.ts" />
-    <None Remove="ClientApp\src\app\brand\brand-service.ts" />
-    <None Remove="ClientApp\src\app\category\category-component.ts" />
-    <None Remove="ClientApp\src\app\category\category-service.ts" />
+    <None Remove="ClientApp\src\app\models\transaction-head.ts" />
+    <None Remove="ClientApp\src\app\settings\brand\brand-component.ts" />
+    <None Remove="ClientApp\src\app\settings\brand\brand-service.ts" />
+    <None Remove="ClientApp\src\app\settings\category\category-component.ts" />
+    <None Remove="ClientApp\src\app\settings\category\category-service.ts" />
     <None Remove="ClientApp\src\app\inventory\inventory-component.ts" />
     <None Remove="ClientApp\src\app\inventory\inventory-service.ts" />
     <None Remove="ClientApp\src\app\models\inventory.ts" />
@@ -40,10 +41,13 @@
     <None Remove="ClientApp\src\app\models\item.ts" />
     <None Remove="ClientApp\src\app\models\JResponse.ts" />
     <None Remove="ClientApp\src\app\models\supplier.ts" />
-    <None Remove="ClientApp\src\app\staff\staff-component.ts" />
-    <None Remove="ClientApp\src\app\staff\staff-service.ts" />
-    <None Remove="ClientApp\src\app\supplier\supplier-component.ts" />
-    <None Remove="ClientApp\src\app\supplier\supplier-service.ts" />
+    <None Remove="ClientApp\src\app\settings\staff\staff-component.ts" />
+    <None Remove="ClientApp\src\app\settings\staff\staff-service.ts" />
+    <None Remove="ClientApp\src\app\settings\supplier\supplier-component.ts" />
+    <None Remove="ClientApp\src\app\settings\supplier\supplier-service.ts" />
+    <None Remove="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\transaction-service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,29 +64,30 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\inventory.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\role.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\staff.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\staff\staff-component.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\models\transaction-head.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\settings\staff\staff-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="ClientApp\src\app\staff\staff-service.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\staff\staff-service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\models\supplier.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\supplier\supplier-component.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\supplier\supplier-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="ClientApp\src\app\supplier\supplier-service.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\supplier\supplier-service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="ClientApp\src\app\category\category-component.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\category\category-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="ClientApp\src\app\category\category-service.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\category\category-service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="ClientApp\src\app\brand\brand-component.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\brand\brand-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="ClientApp\src\app\brand\brand-service.ts">
+    <TypeScriptCompile Include="ClientApp\src\app\settings\brand\brand-service.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\item\item-component.ts" />
@@ -91,6 +96,15 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\category.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\JResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\transaction-service.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\transaction\service\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

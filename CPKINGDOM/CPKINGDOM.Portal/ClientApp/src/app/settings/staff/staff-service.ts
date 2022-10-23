@@ -1,7 +1,7 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Role } from "../models/role";
-import { Staff } from "../models/staff";
+import { Role } from "../../models/role";
+import { Staff } from "../../models/staff";
 
 @Injectable({ providedIn: 'root' })
 export class StaffService {

@@ -67,6 +67,8 @@
     <Build Include="Tables\Staff.sql" />
     <Build Include="Tables\Role.sql" />
     <Build Include="Tables\Inventory.sql" />
+    <Build Include="Tables\TransactionHead.sql" />
+    <Build Include="Tables\TransactionBody.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />
@@ -74,5 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="CPKINGDOM.DB.refactorlog" />
   </ItemGroup>
 </Project>

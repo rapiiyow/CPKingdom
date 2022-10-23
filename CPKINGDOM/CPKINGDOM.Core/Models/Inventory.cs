@@ -18,5 +18,8 @@
         public string CategoryName { get; set; }
         public string BrandName { get; set; }
         public string ItemFullName { get; set; }
+        public decimal AmountPaid { get; set; }
+        public int QtyPurchased { get; set; }
+        public int TranBodyId { get; set; }
     }
 }

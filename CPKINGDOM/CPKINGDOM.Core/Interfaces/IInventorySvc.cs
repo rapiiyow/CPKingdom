@@ -9,5 +9,6 @@ namespace CPKINGDOM.Core.Interfaces
         bool SaveInventory(Inventory inventory);
         bool UpdateInventory(Inventory inventory);
         List<Inventory> GetItemInventory(int itemId);
+        List<Inventory> GetAvailableItems();
     }
 }

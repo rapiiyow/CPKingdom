@@ -19,6 +19,9 @@ var Inventory = /** @class */ (function () {
         this.categoryName = '';
         this.brandName = '';
         this.itemFullName = '';
+        this.qtyPurchased = 0;
+        this.amountPaid = 0;
+        this.tranBodyId = 0;
     }
     return Inventory;
 }());

@@ -1,6 +1,6 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Supplier } from "../models/supplier";
+import { Supplier } from "../../models/supplier";
 
 @Injectable({ providedIn: 'root' })
 export class SupplierService {

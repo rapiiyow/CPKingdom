@@ -8,14 +8,16 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatTableModule } from '@angular/material';
+import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemComponent } from './item/item-component';
-import { BrandComponent } from './brand/brand-component';
-import { CategoryComponent } from './category/category-component';
-import { SupplierComponent } from './supplier/supplier-component';
-import { StaffComponent } from './staff/staff-component';
 import { InventoryComponent } from './inventory/inventory-component';
+import { BrandComponent } from './settings/brand/brand-component';
+import { CategoryComponent } from './settings/category/category-component';
+import { SupplierComponent } from './settings/supplier/supplier-component';
+import { StaffComponent } from './settings/staff/staff-component';
+import { PurchaseComponent } from './transaction/purchase/purchase-component';
+import { PurchaseDetailComponent } from './transaction/purchase/purchasedetail/purchasedetail-component';
 
 @NgModule({
     declarations: [
@@ -27,7 +29,9 @@ import { InventoryComponent } from './inventory/inventory-component';
         CategoryComponent,
         SupplierComponent,
         StaffComponent,
-        InventoryComponent
+        InventoryComponent,
+        PurchaseComponent,
+        PurchaseDetailComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,6 +45,8 @@ import { InventoryComponent } from './inventory/inventory-component';
             { path: 'supplier', component: SupplierComponent },
             { path: 'staff', component: StaffComponent },
             { path: 'inventory', component: InventoryComponent },
+            { path: 'purchase', component: PurchaseComponent },
+            { path: 'purchasedetail/:id', component: PurchaseDetailComponent },
         ]),
         BrowserAnimationsModule,
         MatTableModule,
@@ -51,7 +57,8 @@ import { InventoryComponent } from './inventory/inventory-component';
         MatPaginatorModule,
         MatFormFieldModule,
         ReactiveFormsModule,
-        MatInputModule
+        MatInputModule,
+        MatSortModule
     ],
     providers: [],
     bootstrap: [AppComponent]

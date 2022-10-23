@@ -48,5 +48,11 @@ namespace CPKINGDOM.Portal.Controllers
             };
             return Ok(result);
         }
+
+        [HttpGet("getavailableitems")]
+        public IActionResult GetAvailableItems()
+        {
+            return Ok(_inventorySvc.GetAvailableItems());
+        }
     }
 }

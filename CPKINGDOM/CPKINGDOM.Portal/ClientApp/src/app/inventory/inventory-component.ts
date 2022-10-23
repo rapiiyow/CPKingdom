@@ -41,7 +41,6 @@ export class InventoryComponent implements OnInit {
     constructor(private modalService: NgbModal, private inventoryService: InventoryService, private cdf: ChangeDetectorRef) {
         this.getInventories();
         this.getSuppliers();
-        //this.getBrands();
     }
     ngOnInit(): void {
         this.barcodeFilter.valueChanges
@@ -51,13 +50,6 @@ export class InventoryComponent implements OnInit {
                     this.dataSource.filter = JSON.stringify(this.filterValues);
                 }
             )
-        //this.categoryFilter.valueChanges
-        //    .subscribe(
-        //        categoryName => {
-        //            this.filterValues.categoryName = categoryName;
-        //            this.dataSource.filter = JSON.stringify(this.filterValues);
-        //        }
-        //    )
         this.brandFilter.valueChanges
             .subscribe(
                 brandName => {
@@ -85,22 +77,13 @@ export class InventoryComponent implements OnInit {
             this.suppliers = res;
         });
     }
-    //getBrands() {
-    //    this.inventoryService.getBrands().subscribe(res => {
-    //        this.brands = res;
-    //    });
-    //}
     getInventories() {
-        this.inventoryService.getInventories().subscribe(res => {            
+        this.inventoryService.getInventories().subscribe(res => {
             this.dataSource = new MatTableDataSource<Inventory>(res);
             this.dataSource.paginator = this.paginator;
             this.dataSource.filterPredicate = this.createFilter();
         });
     }
-    //onNewClick(content) {
-    //    this.inventoryModel = new Inventory();
-    //    this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
-    //}
     onViewItemsClick(itemId, content) {
         this.inventoryService.getItemInventory(itemId).subscribe(res => {
 
@@ -151,7 +134,6 @@ export class InventoryComponent implements OnInit {
         let filterFunction = function (data, filter): boolean {
             let searchTerms = JSON.parse(filter);
             return data.barcode.toLowerCase().indexOf(searchTerms.barcode) !== -1
-                //&& data.categoryName.toString().toLowerCase().indexOf(searchTerms.description) !== -1
                 && data.brandName.toString().toLowerCase().indexOf(searchTerms.brandName) !== -1
                 && data.itemName.toString().toLowerCase().indexOf(searchTerms.itemName) !== -1
                 && data.description.toString().toLowerCase().indexOf(searchTerms.description) !== -1;

@@ -116,5 +116,34 @@ namespace CPKINGDOM.Core.Services
 
 			return row != 0;
 		}
+		public List<Inventory> GetAvailableItems()
+		{
+			using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+			var inventories = _context.Query<Inventory>(@"
+                SELECT 
+					A.Id, 
+					B.Barcode, 
+					A.QtyAvailable, 
+					c.Name as BrandName, 
+					b.Name as ItemName, 
+					b.Description, 
+					d.Name as SupplierName,
+					B.Srp
+				FROM 
+					Inventory A
+				INNER JOIN 
+					Item B ON A.ItemId = B.Id
+				INNER JOIN 
+					Brand C ON B.BrandId = C.Id
+				INNER JOIN 
+					Supplier d on a.SupplierId = d.Id
+				WHERE 
+					A.QtyAvailable > 0
+				ORDER BY 
+					c.Name;
+            ");
+
+			return inventories.ToList();
+		}
 	}
 }
