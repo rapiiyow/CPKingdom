@@ -136,7 +136,14 @@ namespace CPKINGDOM.Core.Services
 					@AmountPaid
 				);", transactionBodyModel);
 
-                success = tranBody != 0;
+                var inventoryParam = new { QtyPurchased = item.QtyPurchased, Id = item.Id };
+                int updateQty = _context.Execute(@"
+                UPDATE Inventory SET
+                    QtyAvailable = QtyAvailable - @QtyPurchased
+                WHERE
+                    Id = @Id;", inventoryParam);
+
+                success = updateQty != 0;
             }
 
             return success;
@@ -288,6 +295,13 @@ namespace CPKINGDOM.Core.Services
 					@AmountPaid,
                     @Notes
 				);", transactionBodyModel);
+
+                var inventoryParam = new { QtyPurchased = item.QtyPurchased, Id = item.Id };
+                int updateQty = _context.Execute(@"
+                UPDATE Inventory SET
+                    QtyAvailable = QtyAvailable - @QtyPurchased
+                WHERE
+                    Id = @Id;", inventoryParam);
 
                 success = tranBody != 0;
             }
