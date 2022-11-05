@@ -61,14 +61,15 @@ export class ServiceDetailComponent implements OnInit {
                 this.selectedItems = res.inventory;
                 this.originalPaid = res.inventory.map(t => t.amountPaid).reduce((acc, value) => acc + value, 0);
                 debugger;
-                Object.assign(this.serviceItem, this.selectedItems.filter(a => a.id <= 0));
+                Object.assign(this.serviceItem, this.selectedItems.filter(a => a.id <= 0)[0]);
+                this.selectedItems = [...this.selectedItems, this.serviceItem];
             });
         } else {
             this.transactionService.getServiceNo().subscribe(res => {
                 this.headModel = new TransactionHead();
                 this.headModel.transactionNo = res.data;
             });
-            
+
             this.selectedItems = [...this.selectedItems, this.serviceItem];
         }
 

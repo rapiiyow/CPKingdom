@@ -39,7 +39,6 @@ export class ServiceComponent {
         }
     }
     onEditClick(id) {
-        debugger;
         let ID = id;
         this.router.navigate(['/servicedetail', ID]);
     }

@@ -339,13 +339,13 @@ namespace CPKINGDOM.Core.Services
             var inventory = _context.Query<Inventory>(@"
                 	SELECT 
 		                a.Id AS TranBodyId,
-		                a.Id,
+		                b.Id,
 		                a.Quantity AS QtyPurchased,
 		                a.Price AS Srp,
 		                a.AmountPaid,
-		                ISNULL(D.Name,'') AS BrandName,
-		                ISNULL(C.Name,'') AS ItemName,
-		                C.Description,
+		                ISNULL(D.Name,'- - - - -') AS BrandName,
+		                ISNULL(C.Name,'Service') AS ItemName,
+		                ISNULL(C.Description, A.Notes) AS Description,
                         A.Notes
 	                FROM TransactionBody A 	
 	                LEFT JOIN Inventory B ON A.InventoryId = B.Id
