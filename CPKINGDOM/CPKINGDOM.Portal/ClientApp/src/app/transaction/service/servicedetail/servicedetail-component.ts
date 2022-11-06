@@ -61,8 +61,9 @@ export class ServiceDetailComponent implements OnInit {
                 this.selectedItems = res.inventory;
                 this.originalPaid = res.inventory.map(t => t.amountPaid).reduce((acc, value) => acc + value, 0);
                 debugger;
-                Object.assign(this.serviceItem, this.selectedItems.filter(a => a.id <= 0)[0]);
-                this.selectedItems = [...this.selectedItems, this.serviceItem];
+                this.serviceItem = this.selectedItems.filter(a => a.id <= 0)[0];
+                //Object.assign(this.serviceItem, this.selectedItems.filter(a => a.id <= 0)[0]);
+                //this.selectedItems = [...this.selectedItems, this.serviceItem];
             });
         } else {
             this.transactionService.getServiceNo().subscribe(res => {
@@ -185,15 +186,15 @@ export class ServiceDetailComponent implements OnInit {
                 alert('Please add an item');
             }
         } else {
-            //this.transactionService.updateServiceTransaction(_transactionHead).subscribe((res: JResponse) => {
-            //    if (res.success) {
-            //        alert(res.message);
-            //        this.onCloseClicked();
-            //    }
-            //    else {
-            //        alert('Failed to save transaction.');
-            //    }
-            //});
+            this.transactionService.updatePurchaseTransaction(_transactionHead).subscribe((res: JResponse) => {
+                if (res.success) {
+                    alert(res.message);
+                    this.onCloseClicked();
+                }
+                else {
+                    alert('Failed to save transaction.');
+                }
+            });
         }
     }
 }

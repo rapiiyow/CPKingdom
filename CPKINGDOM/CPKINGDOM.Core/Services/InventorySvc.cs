@@ -104,13 +104,11 @@ namespace CPKINGDOM.Core.Services
 
 			int row = _context.Execute(@"
                 UPDATE [Inventory] SET 
-					   [ItemId] = @ItemId
 					   [SupplierId] = @SupplierId,
 					   [CostPrice] = @CostPrice,
 					   [DateReceived] = @DateReceived,
 					   [QtyReceived] = @QtyReceived,
-					   [QtyAvailable] = @QtyAvailable,
-					   [Remarks] = @Remarks
+					   [QtyAvailable] = @QtyAvailable
 				WHERE 
 					   [Id] = @Id;", inventory);
 

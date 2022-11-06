@@ -92,14 +92,14 @@
 
             <ng-container matColumnDef="lineTotal">
                 <th mat-header-cell *matHeaderCellDef> Total </th>
-                <td mat-cell *matCellDef="let element"> {{element.srp * element.qtyPurchased | currency}} </td>
-                <td mat-footer-cell *matFooterCellDef> {{ getTotalCost() | currency}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.srp * element.qtyPurchased | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{ getTotalCost() | number : '1.2-2'}} </td>
             </ng-container>
 
             <ng-container matColumnDef="balance">
                 <th mat-header-cell *matHeaderCellDef> Balance </th>
-                <td mat-cell *matCellDef="let element"> {{(element.srp * element.qtyPurchased) - element.amountPaid | currency}} </td>
-                <td mat-footer-cell *matFooterCellDef>{{ getTotalBalance() | currency}}</td>
+                <td mat-cell *matCellDef="let element"> {{(element.srp * element.qtyPurchased) - element.amountPaid | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef>{{ getTotalBalance() | number : '1.2-2'}}</td>
             </ng-container>
 
             <ng-container matColumnDef="amountPaid">
@@ -107,7 +107,7 @@
                 <td class="selected-item" mat-cell *matCellDef="let element">
                     <input type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.amountPaid" value="1">
                 </td>
-                <td mat-footer-cell *matFooterCellDef>{{ getTotalPaid() | currency}}</td>
+                <td mat-footer-cell *matFooterCellDef>{{ getTotalPaid() | number : '1.2-2'}}</td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

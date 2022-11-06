@@ -1,6 +1,6 @@
 ﻿import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Brand } from "../../models/brand";
 import { JResponse } from "../../models/JResponse";
@@ -11,31 +11,23 @@ import { BrandService } from "./brand-service";
     styleUrls: ['./brand-component.css'],
     templateUrl: './brand-component.html'
 })
-export class BrandComponent implements OnInit {
+export class BrandComponent {
     displayedColumns: string[] = ['actions', 'name'];
     dataSource: any = [];
     brandModel: Brand = new Brand();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     nameFilter = new FormControl('');
     filterValues = new Brand();
     constructor(private modalService: NgbModal, private brandService: BrandService, private cdf: ChangeDetectorRef) {
         this.getBrands();
     }
-    ngOnInit(): void {
-        this.nameFilter.valueChanges
-            .subscribe(
-                name => {
-                    this.filterValues.name = name;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-    }
     getBrands() {
         this.brandService.getBrands().subscribe(res => {
             this.dataSource = new MatTableDataSource<Brand>(res);
             this.dataSource.paginator = this.paginator;
-            this.dataSource.filterPredicate = this.createFilter();
+            this.dataSource.sort = this.sort;
         });
     }
     onNewClick(content) {
@@ -67,18 +59,19 @@ export class BrandComponent implements OnInit {
             });
         }
     }
-    createFilter(): (data: any, filter: string) => boolean {
-        let filterFunction = function (data, filter): boolean {
-            let searchTerms = JSON.parse(filter);
-            return data.name.toLowerCase().indexOf(searchTerms.name) !== -1;
-        }
-        return filterFunction;
-    }
     onEditClick(_brand: Brand, content) {
         this.brandModel = _brand;
         this.modalRef = this.modalService.open(content, { size: 'sm', backdrop: 'static', keyboard: false });
     }
     onCloseModal() {
         this.modalRef.close();
+    }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
 }

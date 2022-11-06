@@ -1,6 +1,6 @@
 ﻿import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Brand } from "../models/brand";
 import { Category } from "../models/category";
@@ -13,13 +13,14 @@ import { ItemService } from "./item-service";
     styleUrls: ['./item-component.css'],
     templateUrl: './item-component.html'
 })
-export class ItemComponent implements OnInit {
+export class ItemComponent {
     categories: Category[];
     brands: Brand[];
     displayedColumns: string[] = ['actions', 'brandName', 'name', 'description', 'srp'];
     dataSource: any = [];
     itemModel: Item = new Item();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     nameFilter = new FormControl('');
     descriptionFilter = new FormControl('');
@@ -28,22 +29,6 @@ export class ItemComponent implements OnInit {
         this.getItems();
         this.getCategories();
         this.getBrands();
-    }
-    ngOnInit(): void {
-        this.nameFilter.valueChanges
-            .subscribe(
-                name => {
-                    this.filterValues.name = name;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.descriptionFilter.valueChanges
-            .subscribe(
-                description => {
-                    this.filterValues.description = description;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
     }
     getCategories() {
         this.itemService.getCategories().subscribe(res => {
@@ -59,7 +44,7 @@ export class ItemComponent implements OnInit {
         this.itemService.getItems().subscribe(res => {
             this.dataSource = new MatTableDataSource<Item>(res);
             this.dataSource.paginator = this.paginator;
-            this.dataSource.filterPredicate = this.createFilter();
+            this.dataSource.sort = this.sort;
         });
     }
     onNewClick(content) {
@@ -91,19 +76,19 @@ export class ItemComponent implements OnInit {
             });
         }
     }
-    createFilter(): (data: any, filter: string) => boolean {
-        let filterFunction = function (data, filter): boolean {
-            let searchTerms = JSON.parse(filter);
-            return data.name.toLowerCase().indexOf(searchTerms.name) !== -1
-                && data.description.toString().toLowerCase().indexOf(searchTerms.description) !== -1;
-        }
-        return filterFunction;
-    }
     onEditClick(_item: Item, content) {
         this.itemModel = _item;
         this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
     }
     onCloseModal() {
         this.modalRef.close();
+    }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
 }

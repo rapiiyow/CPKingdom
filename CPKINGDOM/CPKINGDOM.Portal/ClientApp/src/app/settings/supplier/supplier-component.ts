@@ -1,6 +1,6 @@
 ﻿import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Supplier } from "../../models/supplier";
 import { JResponse } from "../../models/JResponse";
@@ -11,31 +11,23 @@ import { SupplierService } from "./supplier-service";
     styleUrls: ['./supplier-component.css'],
     templateUrl: './supplier-component.html'
 })
-export class SupplierComponent implements OnInit {
+export class SupplierComponent {
     displayedColumns: string[] = ['actions', 'name', 'contactPerson', 'contactNo', 'address'];
     dataSource: any = [];
     supplierModel: Supplier = new Supplier();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     nameFilter = new FormControl('');
     filterValues = new Supplier();
     constructor(private modalService: NgbModal, private supplierService: SupplierService, private cdf: ChangeDetectorRef) {
         this.getSuppliers();
     }
-    ngOnInit(): void {
-        this.nameFilter.valueChanges
-            .subscribe(
-                name => {
-                    this.filterValues.name = name;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-    }
     getSuppliers() {
         this.supplierService.getSuppliers().subscribe(res => {
             this.dataSource = new MatTableDataSource<Supplier>(res);
             this.dataSource.paginator = this.paginator;
-            this.dataSource.filterPredicate = this.createFilter();
+            this.dataSource.sort = this.sort;
         });
     }
     onNewClick(content) {
@@ -67,12 +59,13 @@ export class SupplierComponent implements OnInit {
             });
         }
     }
-    createFilter(): (data: any, filter: string) => boolean {
-        let filterFunction = function (data, filter): boolean {
-            let searchTerms = JSON.parse(filter);
-            return data.name.toLowerCase().indexOf(searchTerms.name) !== -1;
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
         }
-        return filterFunction;
     }
     onEditClick(_supplier: Supplier, content) {
         this.supplierModel = _supplier;

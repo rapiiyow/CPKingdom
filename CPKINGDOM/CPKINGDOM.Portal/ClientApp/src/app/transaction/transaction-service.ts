@@ -6,7 +6,9 @@ import { TransactionHead } from "../models/transaction-head";
 
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {
+
+    }
     getPurchaseNo() {
         return this.http.get<JResponse>(`transaction/getpurchaseno`);
     }
@@ -40,22 +42,4 @@ export class TransactionService {
     getSelectedServiceTransaction(id) {
         return this.http.get<TransactionHead>(`transaction/getselectedservicetransaction?id=${id}`);
     }
-    //getBrands() {
-    //    return this.http.get<Brand[]>(`inventory/getbrands`);
-    //}
-    //getInventories() {
-    //    return this.http.get<Inventory[]>(`inventory/getinventories`);
-    //}
-    //saveNewInventory(inventory: Inventory) {
-    //    return this.http.post(`inventory/saveinventory`, inventory);
-    //}
-    //updateInventory(inventory: Inventory) {
-    //    return this.http.post(`inventory/updateinventory`, inventory);
-    //}
-    //getSuppliers() {
-    //    return this.http.get<Supplier[]>(`item/getsuppliers`);
-    //}
-    //getItemInventory(itemId) {
-    //    return this.http.get<Inventory[]>(`inventory/getiteminventory?itemId=${itemId}`);
-    //}
 }

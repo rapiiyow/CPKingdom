@@ -8,7 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatPaginatorModule, MatSortModule, MatTableModule } from '@angular/material';
+import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatPaginatorModule, MatSidenav, MatSidenavModule, MatSortModule, MatTableModule, MatToolbarModule } from '@angular/material';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemComponent } from './item/item-component';
 import { InventoryComponent } from './inventory/inventory-component';
@@ -20,6 +20,7 @@ import { PurchaseComponent } from './transaction/purchase/purchase-component';
 import { PurchaseDetailComponent } from './transaction/purchase/purchasedetail/purchasedetail-component';
 import { ServiceComponent } from './transaction/service/service-component';
 import { ServiceDetailComponent } from './transaction/service/servicedetail/servicedetail-component';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 @NgModule({
     declarations: [
@@ -64,7 +65,11 @@ import { ServiceDetailComponent } from './transaction/service/servicedetail/serv
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
-        MatSortModule
+        MatSortModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        AngularFontAwesomeModule
     ],
     providers: [],
     bootstrap: [AppComponent]

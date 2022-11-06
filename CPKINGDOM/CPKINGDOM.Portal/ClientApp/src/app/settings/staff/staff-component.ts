@@ -1,6 +1,6 @@
 ﻿import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Staff } from "../../models/staff";
 import { JResponse } from "../../models/JResponse";
@@ -12,27 +12,19 @@ import { Role } from "../../models/role";
     styleUrls: ['./staff-component.css'],
     templateUrl: './staff-component.html'
 })
-export class StaffComponent implements OnInit {
+export class StaffComponent {
     roles: Role[];
     displayedColumns: string[] = ['actions', 'fullName', 'address', 'contactNo', 'roleName'];
     dataSource: any = [];
     staffModel: Staff = new Staff();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     nameFilter = new FormControl('');
     filterValues = new Staff();
     constructor(private modalService: NgbModal, private staffService: StaffService, private cdf: ChangeDetectorRef) {
         this.getRoles();
         this.getStaffs();
-    }
-    ngOnInit(): void {
-        this.nameFilter.valueChanges
-            .subscribe(
-                name => {
-                    this.filterValues.fullName = name;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
     }
     getRoles() {
         this.staffService.getRoles().subscribe(res => {
@@ -43,7 +35,7 @@ export class StaffComponent implements OnInit {
         this.staffService.getStaffs().subscribe(res => {
             this.dataSource = new MatTableDataSource<Staff>(res);
             this.dataSource.paginator = this.paginator;
-            this.dataSource.filterPredicate = this.createFilter();
+            this.dataSource.sort = this.sort;
         });
     }
     onNewClick(content) {
@@ -75,12 +67,13 @@ export class StaffComponent implements OnInit {
             });
         }
     }
-    createFilter(): (data: any, filter: string) => boolean {
-        let filterFunction = function (data, filter): boolean {
-            let searchTerms = JSON.parse(filter);
-            return data.fullName.toLowerCase().indexOf(searchTerms.fullName) !== -1
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
         }
-        return filterFunction;
     }
     onEditClick(_staff: Staff, content) {
         this.staffModel = _staff;

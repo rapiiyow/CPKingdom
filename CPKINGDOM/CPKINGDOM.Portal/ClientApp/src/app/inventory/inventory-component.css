@@ -12,13 +12,16 @@
 .mat-column-barcode {
     padding-left: 16px;
 }
+
 .mat-column-dateReceived {
     padding-left: 16px;
 }
-.mat-column-qtyAvailable {
-    text-align: center;
-}
 
-/*.filter {
-    display: block;
+/*.mat-column-qtyAvailable {
+    text-align: center;
 }*/
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}

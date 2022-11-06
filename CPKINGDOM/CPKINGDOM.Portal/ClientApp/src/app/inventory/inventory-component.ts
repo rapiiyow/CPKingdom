@@ -1,6 +1,6 @@
 ﻿import { ChangeDetectorRef, Component, OnInit, ViewChild } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Brand } from "../models/brand";
 import { Category } from "../models/category";
@@ -14,7 +14,7 @@ import { InventoryService } from "./inventory-service";
     styleUrls: ['./inventory-component.css'],
     templateUrl: './inventory-component.html'
 })
-export class InventoryComponent implements OnInit {
+export class InventoryComponent {
     categories: Category[];
     brands: Brand[];
     suppliers: Supplier[] = [];
@@ -24,6 +24,7 @@ export class InventoryComponent implements OnInit {
     inventoryModel: Inventory = new Inventory();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild('iteminventory', { static: false }) itemInventorypaginator: MatPaginator;
+    @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     modalInventoryRef: NgbModalRef;
 
@@ -38,40 +39,15 @@ export class InventoryComponent implements OnInit {
     stockInModel = new Inventory();
     inventories: any = [];
 
+    selectedItem: Inventory;
+
+    originalReceivedQty: number;
+
     constructor(private modalService: NgbModal, private inventoryService: InventoryService, private cdf: ChangeDetectorRef) {
         this.getInventories();
         this.getSuppliers();
     }
-    ngOnInit(): void {
-        this.barcodeFilter.valueChanges
-            .subscribe(
-                barcode => {
-                    this.filterValues.barcode = barcode;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.brandFilter.valueChanges
-            .subscribe(
-                brandName => {
-                    this.filterValues.brandName = brandName;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.itemNameFilter.valueChanges
-            .subscribe(
-                itemName => {
-                    this.filterValues.itemName = itemName;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.descriptionFilter.valueChanges
-            .subscribe(
-                description => {
-                    this.filterValues.description = description;
-                    this.dataSource.filter = JSON.stringify(this.filterValues);
-                }
-            )
-    }
+
     getSuppliers() {
         this.inventoryService.getSuppliers().subscribe(res => {
             this.suppliers = res;
@@ -81,11 +57,12 @@ export class InventoryComponent implements OnInit {
         this.inventoryService.getInventories().subscribe(res => {
             this.dataSource = new MatTableDataSource<Inventory>(res);
             this.dataSource.paginator = this.paginator;
-            this.dataSource.filterPredicate = this.createFilter();
+            this.dataSource.sort = this.sort;
         });
     }
-    onViewItemsClick(itemId, content) {
-        this.inventoryService.getItemInventory(itemId).subscribe(res => {
+    onViewItemsClick(item, content) {
+        this.selectedItem = item;
+        this.inventoryService.getItemInventory(item.itemId).subscribe(res => {
 
             this.inventories = new MatTableDataSource<Inventory>(res);
             this.inventories.paginator = this.itemInventorypaginator;
@@ -94,16 +71,31 @@ export class InventoryComponent implements OnInit {
         });
     }
     onSaveItemClick() {
-        this.inventoryService.saveNewInventory(this.stockInModel).subscribe((res: JResponse) => {
-            if (res.success) {
-                this.getInventories();
-                this.stockInModel = new Inventory();
-                this.onCloseModal();
-            }
-            else {
-                alert('Failed to add new inventory.');
-            }
-        });
+        if (this.stockInModel.id <= 0) {
+            this.inventoryService.saveNewInventory(this.stockInModel).subscribe((res: JResponse) => {
+                if (res.success) {
+                    this.getInventories();
+                    this.stockInModel = new Inventory();
+                    this.onCloseModal();
+                }
+                else {
+                    alert('Failed to add new inventory.');
+                }
+            });
+        } else {
+            var _qtyStockOut = this.originalReceivedQty - this.stockInModel.qtyAvailable;
+            this.stockInModel.qtyAvailable = this.stockInModel.qtyReceived - _qtyStockOut;
+            this.inventoryService.updateInventory(this.stockInModel).subscribe((res: JResponse) => {
+                if (res.success) {
+                    this.getInventories();
+                    this.stockInModel = new Inventory();
+                    this.onCloseModal();
+                }
+                else {
+                    alert('Failed to update inventory.');
+                }
+            });
+        }        
     }
     onSaveInventoryClick() {
         if (this.inventoryModel.id <= 0) {
@@ -130,22 +122,30 @@ export class InventoryComponent implements OnInit {
             });
         }
     }
-    createFilter(): (data: any, filter: string) => boolean {
-        let filterFunction = function (data, filter): boolean {
-            let searchTerms = JSON.parse(filter);
-            return data.barcode.toLowerCase().indexOf(searchTerms.barcode) !== -1
-                && data.brandName.toString().toLowerCase().indexOf(searchTerms.brandName) !== -1
-                && data.itemName.toString().toLowerCase().indexOf(searchTerms.itemName) !== -1
-                && data.description.toString().toLowerCase().indexOf(searchTerms.description) !== -1;
-
-        }
-        return filterFunction;
-    }
     onAddQtyClick(_inventory: Inventory, content) {
         this.stockInModel = _inventory;
         this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
     }
+    onEditClick(_inventory: Inventory, content) {
+        this.stockInModel = _inventory;
+        this.stockInModel.barcode = this.selectedItem.barcode;
+        this.stockInModel.categoryName = this.selectedItem.categoryName;
+        this.stockInModel.brandName = this.selectedItem.brandName;
+        this.stockInModel.itemName = this.selectedItem.itemName;
+        this.stockInModel.description = this.selectedItem.description;
+        this.originalReceivedQty = _inventory.qtyReceived;
+        this.stockInModel.dateReceived = new Date(_inventory.dateReceived).toLocaleDateString('en-US');
+        this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
+    }
     onCloseModal() {
         this.modalRef.close();
+    }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+
+        if (this.dataSource.paginator) {
+            this.dataSource.paginator.firstPage();
+        }
     }
 }
