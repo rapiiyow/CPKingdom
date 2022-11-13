@@ -116,7 +116,7 @@
         </table>
     </div>
 </div>
-<div class="modal-footer">
+<div *ngIf="headModel.status != 'Paid'" class="modal-footer">
     <button class="btn  btn-primary mr-1" (click)="onSavePurchase(headModel, selectedItems)"><i class="fa fa-save"></i> Save </button>
 </div>
 
