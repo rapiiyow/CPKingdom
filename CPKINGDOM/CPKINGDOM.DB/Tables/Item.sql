@@ -5,5 +5,7 @@
 	[Description] [nvarchar](50) NULL,
 	[Srp] [decimal](18, 2) NULL,
 	[CategoryId] [int] NULL, 
-    [BrandId] INT NULL
+    [BrandId] INT NULL, 
+    [ReorderPoint] INT NULL, 
+    [CriticalLevel] INT NULL
 ) ON [PRIMARY]

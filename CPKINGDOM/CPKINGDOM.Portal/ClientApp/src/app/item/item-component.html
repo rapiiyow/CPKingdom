@@ -27,11 +27,6 @@
                             <mat-icon>edit</mat-icon>
                         </button>
                     </div>
-                    <!--<div class="example-button-container mr-1">
-                        <button mat-icon-button color="warn" (click)="openLg(content)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>-->
                 </div>
             </td>
         </ng-container>
@@ -107,9 +102,17 @@
             <input type="text" class="form-control" [(ngModel)]="itemModel.description" placeholder="Description">
         </div>
         <div class="form-row">
-            <div class="form-group col-md-3">
+            <div class="form-group col-md-4">
                 <label for="inputZip">Srp</label>
                 <input type="number" class="form-control" [(ngModel)]="itemModel.srp">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputZip">Reorder Point</label>
+                <input type="number" class="form-control" [(ngModel)]="itemModel.reorderPoint">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputZip">Critical Level</label>
+                <input type="number" class="form-control" [(ngModel)]="itemModel.criticalLevel">
             </div>
         </div>
     </div>

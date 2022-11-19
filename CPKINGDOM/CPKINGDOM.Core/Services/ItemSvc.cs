@@ -59,7 +59,9 @@ namespace CPKINGDOM.Core.Services
 	                a.[Srp],
 	                a.[CategoryId],
                     a.[BrandId],
-	                b.[Name] AS BrandName
+	                b.[Name] AS BrandName,
+                    a.[ReorderPoint],
+                    a.[CriticalLevel]
                 FROM
 	                [Item] a
                 INNER JOIN
@@ -99,7 +101,9 @@ namespace CPKINGDOM.Core.Services
                     [Description],
                     [Srp],
                     [CategoryId],
-                    [BrandId]
+                    [BrandId],
+                    [ReorderPoint],
+                    [CriticalLevel]
                 )
                 VALUES 
                 (
@@ -108,7 +112,9 @@ namespace CPKINGDOM.Core.Services
                     @Description,
                     @Srp,
                     @CategoryId,
-                    @BrandId
+                    @BrandId,
+                    @ReorderPoint,
+                    @CriticalLevel
                 )", item);
 
             return row != 0;
@@ -217,7 +223,9 @@ namespace CPKINGDOM.Core.Services
                     [Description] = @Description, 
                     [Srp] = @Srp,
                     [CategoryId] = @CategoryId,
-                    [BrandId] = @BrandId
+                    [BrandId] = @BrandId,
+                    [ReorderPoint] = @ReorderPoint,
+                    [CriticalLevel] = @CriticalLevel
                 WHERE 
                     [Id] = @Id;", item);
 

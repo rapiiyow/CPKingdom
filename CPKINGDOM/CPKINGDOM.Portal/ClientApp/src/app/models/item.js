@@ -12,6 +12,8 @@ var Item = /** @class */ (function () {
         this.categoryName = '';
         this.brandId = 0;
         this.brandName = '';
+        this.reorderPoint = 0;
+        this.criticalLevel = 0;
     }
     return Item;
 }());

@@ -8,6 +8,8 @@
     categoryName: string;
     brandId: number;
     brandName: string;
+    reorderPoint: number;
+    criticalLevel: number;
     constructor() {
         this.id = 0;
         this.barcode = '';
@@ -18,5 +20,7 @@
         this.categoryName = '';
         this.brandId = 0;
         this.brandName = '';
+        this.reorderPoint = 0;
+        this.criticalLevel = 0;
     }
 }
