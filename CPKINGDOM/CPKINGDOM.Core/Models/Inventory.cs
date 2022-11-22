@@ -23,5 +23,7 @@
         public int TranBodyId { get; set; }
         public bool IsService { get; set; }
         public string Notes { get; set; }
+        public int ReorderPoint { get; set; }
+        public int IsCritical { get; set; }
     }
 }

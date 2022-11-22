@@ -15,6 +15,8 @@ export class TransactionHead {
     inventory: Inventory[];
     totalAmount: number;
     totalPaid: number;
+    tranDateTime: Date;
+    staffName: string;
     constructor() {
         this.id = 0;
         this.transactionNo = '';
@@ -30,5 +32,7 @@ export class TransactionHead {
         this.inventory = [];
         this.totalAmount = 0;
         this.totalPaid = 0;
+        this.tranDateTime = new Date();
+        this.staffName = '';
     }
 }

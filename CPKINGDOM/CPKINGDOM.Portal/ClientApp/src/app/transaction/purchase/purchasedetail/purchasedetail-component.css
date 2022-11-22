@@ -38,6 +38,11 @@ tr.mat-footer-row {
     text-align: center;
 }
 
+.mat-column-costPrice {
+    width: 120px;
+    text-align: center;
+}
+
 .mat-column-qtyPurchased {
     width: 80px;
     text-align: center;
@@ -65,4 +70,8 @@ tr.mat-footer-row {
 .selected-item {
     padding-left: 5px;
     padding-right: 5px;
+}
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
 }

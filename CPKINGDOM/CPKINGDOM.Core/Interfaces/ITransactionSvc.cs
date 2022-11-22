@@ -14,5 +14,7 @@ namespace CPKINGDOM.Core.Interfaces
         bool SaveNewService(TransactionHead transactionHead);
         List<TransactionHead> GetServiceTransactions();
         TransactionHead GetSelectedServiceTransaction(int id);
+        List<TransactionHead> GetPurchaseUnpaid();
+        List<TransactionHead> GetServiceUnpaid();
     }
 }

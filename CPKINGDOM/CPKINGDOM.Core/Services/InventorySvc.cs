@@ -126,7 +126,8 @@ namespace CPKINGDOM.Core.Services
 					b.Name as ItemName, 
 					b.Description, 
 					d.Name as SupplierName,
-					B.Srp
+					B.Srp,
+					A.CostPrice
 				FROM 
 					Inventory A
 				INNER JOIN 
@@ -142,6 +143,36 @@ namespace CPKINGDOM.Core.Services
             ");
 
 			return inventories.ToList();
+		}
+		public List<Inventory> GetReorderCritical()
+		{
+			using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+			var inventory = _context.Query<Inventory>(@"
+                select 
+	                i.BrandName, 
+	                i.Name as ItemName, 
+	                i.Description, 
+	                i.ReorderPoint, 
+	                i.QtyAvailable, 
+	                (case when i.CriticalLevel >= i.QtyAvailable then 1 else 0 end) IsCritical 
+                from 
+                (
+	                select 
+		                a.*, 
+		                b.Name as BrandName, 
+		                (select SUM(QtyAvailable) from Inventory where ItemId = a.Id) as QtyAvailable 
+	                from 
+		                Item a 
+	                inner join Brand b on a.BrandId = b.Id
+                ) i
+                where 
+	                i.ReorderPoint is not null and 
+	                i.ReorderPoint >= i.QtyAvailable
+                order by i.BrandName, i.Name;
+            ");
+
+			return inventory.ToList();
 		}
 	}
 }

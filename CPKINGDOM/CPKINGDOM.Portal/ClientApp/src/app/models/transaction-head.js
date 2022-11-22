@@ -17,6 +17,8 @@ var TransactionHead = /** @class */ (function () {
         this.inventory = [];
         this.totalAmount = 0;
         this.totalPaid = 0;
+        this.tranDateTime = new Date();
+        this.staffName = '';
     }
     return TransactionHead;
 }());

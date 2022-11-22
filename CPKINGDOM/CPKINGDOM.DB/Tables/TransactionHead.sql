@@ -10,5 +10,6 @@
     [IsService] BIT NULL,
     [ServiceFee] DECIMAL(18, 2) NULL, 
     [CreatedBy] INT NULL, 
-    [CreatedDate] DATETIME NULL
+    [CreatedDate] DATETIME NULL, 
+    [TranDateTime] DATETIME NULL 
 )

@@ -19,5 +19,7 @@ namespace CPKINGDOM.Core.Models
         public List<Inventory> Inventory { get; set; }
         public decimal TotalAmount { get; set; }
         public decimal TotalPaid { get; set; }
+        public DateTime TranDateTime { get; set; }
+        public string StaffName { get; set; }
     }
 }

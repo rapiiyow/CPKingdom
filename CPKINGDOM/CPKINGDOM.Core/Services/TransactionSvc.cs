@@ -96,7 +96,9 @@ namespace CPKINGDOM.Core.Services
 					[CustomerContactNo],
 					[Status],
 					[IsService],
-					[CreatedDate]
+					[CreatedDate],
+                    [Notes],
+                    [TranDateTime]
 				)
                 OUTPUT INSERTED.Id
 				VALUES
@@ -106,7 +108,9 @@ namespace CPKINGDOM.Core.Services
 					@CustomerContactNo,
 					@Status,
 					@IsService,
-					@CreatedDate
+					@CreatedDate,
+                    @Notes,
+                    @TranDateTime
 				);", transactionHead);
 
             foreach (var item in transactionHead.Inventory)
@@ -162,7 +166,7 @@ namespace CPKINGDOM.Core.Services
                 WHERE 
                     IsService = 0
                 ORDER BY 
-	                CAST(A.CreatedDate AS date), 
+	                CAST(A.TranDateTime AS date), 
 	                A.Id;
             ");
 
@@ -205,7 +209,8 @@ namespace CPKINGDOM.Core.Services
 
             int row = _context.Execute(@"
                 UPDATE [TransactionHead] SET 
-					   [Status] = @Status
+					   [Status] = @Status,
+                       [Notes] = @Notes
 				WHERE 
 					   [Id] = @Id;", transactionHead);
 
@@ -358,6 +363,47 @@ namespace CPKINGDOM.Core.Services
             transactionHeads.Inventory = inventory.ToList();
 
             return transactionHeads;
+        }        
+        public List<TransactionHead> GetPurchaseUnpaid()
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var transactionHeads = _context.Query<TransactionHead>(@"
+                select 
+	                a.*, 
+	                (select SUM(Price) from TransactionBody where HeadId = a.Id) as TotalAmount, 
+	                (select SUM(AmountPaid) from TransactionBody where HeadId = a.Id) as TotalPaid 
+                from 
+	                TransactionHead a 
+                where 
+	                a.IsService = 0 and 
+	                a.Status in ('Partial Payment', 'Unpaid')
+                order by
+	                a.TranDateTime;
+            ");
+
+            return transactionHeads.ToList();
+        }
+        public List<TransactionHead> GetServiceUnpaid()
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var transactionHeads = _context.Query<TransactionHead>(@"
+                select 
+	                a.*, 
+	                (select SUM(Price) from TransactionBody where HeadId = a.Id) as TotalAmount, 
+	                (select SUM(AmountPaid) from TransactionBody where HeadId = a.Id) as TotalPaid,
+	                (select CONCAT(FirstName, ' ', LastName) from Staff where Id = a.Technician) as StaffName
+                from 
+	                TransactionHead a 
+                where 
+	                a.IsService = 1 and 
+	                a.Status in ('Partial Payment', 'Unpaid')
+                order by
+	                a.TranDateTime;
+            ");
+
+            return transactionHeads.ToList();
         }
     }
 }

@@ -78,6 +78,10 @@
         </button>
     </div>
     <div class="modal-body">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilterInventoryItems($event)" #input>
+        </mat-form-field>
         <table mat-table [dataSource]="inventories">
 
             <ng-container matColumnDef="actions">
@@ -89,11 +93,6 @@
                                 <mat-icon>edit</mat-icon>
                             </button>
                         </div>
-                        <!--<div class="example-button-container mr-1">
-                            <button mat-icon-button color="primary" (click)="onViewItemsClick(items,content)">
-                                <mat-icon>clear</mat-icon>
-                            </button>
-                        </div>-->
                     </div>
                 </td>
             </ng-container>

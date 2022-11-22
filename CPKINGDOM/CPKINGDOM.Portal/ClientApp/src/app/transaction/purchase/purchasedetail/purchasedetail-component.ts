@@ -1,7 +1,7 @@
 ﻿import { OnInit, ViewChild } from "@angular/core";
 import { Component } from "@angular/core";
 import { FormControl } from "@angular/forms";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { ActivatedRoute, Router } from "@angular/router";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Inventory } from "../../../models/inventory";
@@ -17,8 +17,8 @@ export class PurchaseDetailComponent implements OnInit {
     modalRef: NgbModalRef;
     availableItemModalRef: NgbModalRef;
     headModel: TransactionHead = new TransactionHead();
-    displayedColumns: string[] = ['actions', 'brandName', 'itemName', 'description', 'srp', 'qtyPurchased', 'lineTotal', 'balance', 'amountPaid'];
-    availableItemDisplayedColumns: string[] = ['actions', 'barcode', 'qtyAvailable', 'brandName', 'itemName', 'description', 'supplierName', 'srp'];
+    displayedColumns: string[] = ['actions', 'brandName', 'itemName', 'description', 'costPrice', 'srp', 'qtyPurchased', 'lineTotal', 'balance', 'amountPaid'];
+    availableItemDisplayedColumns: string[] = ['actions', 'barcode', 'qtyAvailable', 'brandName', 'itemName', 'description', 'supplierName', 'costPrice', 'srp'];
     dataSource: any = [];
 
     selectedItems: Inventory[] = [];
@@ -32,6 +32,7 @@ export class PurchaseDetailComponent implements OnInit {
 
     availableItems: any = [];
     @ViewChild('iteminventory', { static: false }) itemInventorypaginator: MatPaginator;
+    @ViewChild('matSortAvailable', { static: false }) sort: MatSort;
     ID: any;
 
     totalBalance: number = 0;
@@ -39,6 +40,7 @@ export class PurchaseDetailComponent implements OnInit {
     originalPaid: number = 0;
     constructor(private modalService: NgbModal, private transactionService: TransactionService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.ID = activatedRoute.snapshot.paramMap.get('id');
+        this.getAvailableItems();
     }
 
     ngOnInit(): void {
@@ -54,59 +56,21 @@ export class PurchaseDetailComponent implements OnInit {
                 this.headModel.transactionNo = res.data;
             });
         }
-
-        this.barcodeFilter.valueChanges
-            .subscribe(
-                barcode => {
-                    this.filterValues.barcode = barcode;
-                    this.availableItems.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.brandFilter.valueChanges
-            .subscribe(
-                brandName => {
-                    this.filterValues.brandName = brandName;
-                    this.availableItems.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.itemNameFilter.valueChanges
-            .subscribe(
-                itemName => {
-                    this.filterValues.itemName = itemName;
-                    this.availableItems.filter = JSON.stringify(this.filterValues);
-                }
-            )
-        this.descriptionFilter.valueChanges
-            .subscribe(
-                description => {
-                    this.filterValues.description = description;
-                    this.availableItems.filter = JSON.stringify(this.filterValues);
-                }
-            )
     }
-
-    onAddItem(content) {
+    getAvailableItems() {
         this.transactionService.getAvailableItems().subscribe(res => {
             this.availableItems = new MatTableDataSource<Inventory>(res);
             this.availableItems.paginator = this.itemInventorypaginator;
-            this.availableItems.filterPredicate = this.createFilter();
-            this.availableItemModalRef = this.modalService.open(content, { size: 'xl', backdrop: 'static', keyboard: false });
+            this.availableItems.sort = this.sort;
         });
+    }
+    onAddItem(content) {
+        this.getAvailableItems();
+        this.availableItemModalRef = this.modalService.open(content, { size: 'xl', backdrop: 'static', keyboard: false });
     }
 
     onCloseClicked() {
         this.router.navigateByUrl('/purchase');
-    }
-    createFilter(): (data: any, filter: string) => boolean {
-        let filterFunction = function (data, filter): boolean {
-            let searchTerms = JSON.parse(filter);
-            return data.barcode.toLowerCase().indexOf(searchTerms.barcode) !== -1
-                && data.brandName.toString().toLowerCase().indexOf(searchTerms.brandName) !== -1
-                && data.itemName.toString().toLowerCase().indexOf(searchTerms.itemName) !== -1
-                && data.description.toString().toLowerCase().indexOf(searchTerms.description) !== -1;
-
-        }
-        return filterFunction;
     }
     addSelectedItem(_selectedItem: Inventory) {
         _selectedItem.qtyPurchased = 1;
@@ -174,6 +138,14 @@ export class PurchaseDetailComponent implements OnInit {
                     alert('Failed to save transaction.');
                 }
             });
+        }
+    }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.availableItems.filter = filterValue.trim().toLowerCase();
+
+        if (this.availableItems.paginator) {
+            this.availableItems.paginator.firstPage();
         }
     }
 }

@@ -148,4 +148,12 @@ export class InventoryComponent {
             this.dataSource.paginator.firstPage();
         }
     }
+    applyFilterInventoryItems(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.inventories.filter = filterValue.trim().toLowerCase();
+
+        if (this.inventories.paginator) {
+            this.inventories.paginator.firstPage();
+        }
+    }
 }
