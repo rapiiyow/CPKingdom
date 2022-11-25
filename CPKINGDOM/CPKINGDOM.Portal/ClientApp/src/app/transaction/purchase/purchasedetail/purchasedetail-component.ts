@@ -23,11 +23,6 @@ export class PurchaseDetailComponent implements OnInit {
 
     selectedItems: Inventory[] = [];
 
-    barcodeFilter = new FormControl('');
-    categoryFilter = new FormControl('');
-    brandFilter = new FormControl('');
-    itemNameFilter = new FormControl('');
-    descriptionFilter = new FormControl('');
     filterValues = new Inventory();
 
     availableItems: any = [];

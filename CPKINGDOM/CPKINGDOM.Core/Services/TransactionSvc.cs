@@ -250,7 +250,8 @@ namespace CPKINGDOM.Core.Services
 					[IsService],
                     [ServiceFee],
 					[CreatedDate],
-                    [Notes]
+                    [Notes],
+                    [TranDateTime]
 				)
                 OUTPUT INSERTED.Id
 				VALUES
@@ -263,7 +264,8 @@ namespace CPKINGDOM.Core.Services
 					@IsService,
                     @ServiceFee,
 					@CreatedDate,
-                    @Notes
+                    @Notes,
+                    @TranDateTime
 				);", transactionHead);
 
             foreach (var item in transactionHead.Inventory)
