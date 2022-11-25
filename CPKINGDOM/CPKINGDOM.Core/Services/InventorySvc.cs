@@ -155,7 +155,7 @@ namespace CPKINGDOM.Core.Services
 	                i.Description, 
 	                i.ReorderPoint, 
 	                i.QtyAvailable, 
-	                (case when i.CriticalLevel >= i.QtyAvailable then 1 else 0 end) IsCritical 
+	                (case when i.CriticalLevel >= i.QtyAvailable then 'Yes' else 'No' end) IsCritical 
                 from 
                 (
 	                select 

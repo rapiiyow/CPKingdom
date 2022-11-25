@@ -1,0 +1,42 @@
+﻿<div class="modal-header">
+    <h6 class="modal-title pull-left">
+    </h6>
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary mr-1" (click)="onPrint();"><i class="fa fa-print"></i> Print </button>
+    </div>
+</div>
+<div class="modal-body">
+    <div id="print">
+        <div style="text-align:center" class="mb-3">
+            <h3>Unpaid Service Transactions</h3>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Transaction #</th>
+                        <th scope="col">Technician</th>
+                        <th scope="col">Customer</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Amount</th>
+                        <th scope="col">Paid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tran of transactions; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ tran.tranDateTime | date}}</td>
+                        <td>{{ tran.transactionNo }}</td>
+                        <td>{{ tran.staffName }}</td>
+                        <td>{{ tran.customerName }}</td>
+                        <td>{{ tran.status }}</td>
+                        <td>{{ tran.totalAmount | number:'1.0':'en-US' }}</td>
+                        <td>{{ tran.totalPaid | number:'1.0':'en-US' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

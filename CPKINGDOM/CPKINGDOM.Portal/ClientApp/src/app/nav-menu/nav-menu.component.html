@@ -41,7 +41,46 @@
                 <i class="fa fa-list-ol ml-3" aria-hidden="true"></i>Inventory
             </a>
         </li>
+        <li (click)="liClickReport()" class="cursorpointer">
+            <a routerLinkActive="active current">
+                <i class="fa fa-book ml-3" aria-hidden="true"></i>Reports
 
+                <ng-container *ngIf="!reportShowUp">
+                    <i class="fa fa-chevron-down ml-3" aria-hidden="true"></i>
+                </ng-container>
+                <ng-container *ngIf="reportShowUp">
+                    <i class="fa fa-chevron-up ml-3" aria-hidden="true"></i>
+                </ng-container>
+            </a>
+
+            <ul class="collapse list-unstyled childmenu" [ngClass]="reportShowSubChild===true?'show':''">
+                <li>
+                    <a routerLink="/category" routerLinkActive="active current">
+                        <i class="fa fa-list-alt ml-3" aria-hidden="true"></i>List of Collectibles
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/brand" routerLinkActive="active current">
+                        <i class="fa fa-cube ml-3" aria-hidden="true"></i>Sold below SRP
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/reorderpoint" routerLinkActive="active current">
+                        <i class="fa fa-cubes ml-3" aria-hidden="true"></i>Reorder Point
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/unpaidpurchase" routerLinkActive="active current">
+                        <i class="fa fa-truck ml-3" aria-hidden="true"></i>Unpaid Purchase
+                    </a>
+                </li>
+                <li>
+                    <a routerLink="/unpaidservice" routerLinkActive="active current">
+                        <i class="fa fa-truck ml-3" aria-hidden="true"></i>Unpaid Service
+                    </a>
+                </li>
+            </ul>
+        </li>
         <li (click)="liClickSettings()" class="cursorpointer">
             <a routerLinkActive="active current">
                 <i class="fa fa-cogs ml-3" aria-hidden="true"></i>Settings

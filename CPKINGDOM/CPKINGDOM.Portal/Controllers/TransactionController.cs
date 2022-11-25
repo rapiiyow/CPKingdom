@@ -107,5 +107,17 @@ namespace CPKINGDOM.Portal.Controllers
         {
             return Ok(_transactionSvc.GetSelectedServiceTransaction(id));
         }
+
+        [HttpGet("getunpaidpurchase")]
+        public IActionResult GetUnpaidPurchase()
+        {
+            return Ok(_transactionSvc.GetPurchaseUnpaid());
+        }
+
+        [HttpGet("getunpaidservice")]
+        public IActionResult GetUnpaidService()
+        {
+            return Ok(_transactionSvc.GetServiceUnpaid());
+        }
     }
 }

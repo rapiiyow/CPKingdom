@@ -19,6 +19,8 @@
     amountPaid: number;
     tranBodyId: number;
     isService: boolean;
+    reorderPoint: number;
+    isCritical: string;
     constructor() {
         this.id = 0;
         this.itemId = 0;
@@ -40,5 +42,7 @@
         this.amountPaid = 0;
         this.tranBodyId = 0;
         this.isService = false;
+        this.reorderPoint = 0;
+        this.isCritical = '';
     }
 }

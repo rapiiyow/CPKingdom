@@ -16,7 +16,6 @@ namespace CPKINGDOM.Core.Services
         {
             _config = config;
         }
-
         public string GetPurchaseNo()
         {
             string purchaseNo = "";

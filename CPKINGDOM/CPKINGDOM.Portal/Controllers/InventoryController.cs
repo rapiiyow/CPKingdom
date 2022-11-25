@@ -54,5 +54,11 @@ namespace CPKINGDOM.Portal.Controllers
         {
             return Ok(_inventorySvc.GetAvailableItems());
         }
+
+        [HttpGet("getreorderpoint")]
+        public IActionResult GetReorderPoint()
+        {
+            return Ok(_inventorySvc.GetReorderCritical());
+        }
     }
 }

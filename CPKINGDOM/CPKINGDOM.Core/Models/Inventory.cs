@@ -24,6 +24,6 @@
         public bool IsService { get; set; }
         public string Notes { get; set; }
         public int ReorderPoint { get; set; }
-        public int IsCritical { get; set; }
+        public string IsCritical { get; set; }
     }
 }

@@ -18,6 +18,9 @@ export class NavMenuComponent {
 
     settingShowSubChild: boolean = false;
     settingShowUp: boolean = false;
+
+    reportShowSubChild: boolean = false;
+    reportShowUp: boolean = false;
   collapse() {
     this.isExpanded = false;
   }
@@ -47,5 +50,10 @@ export class NavMenuComponent {
 
         this.settingShowSubChild = !this.settingShowSubChild;
         this.settingShowUp = this.settingShowSubChild;
+    }
+    liClickReport = () => {
+
+        this.reportShowSubChild = !this.reportShowSubChild;
+        this.reportShowUp = this.reportShowSubChild;
     }
 }

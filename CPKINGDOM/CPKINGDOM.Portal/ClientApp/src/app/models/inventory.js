@@ -23,6 +23,8 @@ var Inventory = /** @class */ (function () {
         this.amountPaid = 0;
         this.tranBodyId = 0;
         this.isService = false;
+        this.reorderPoint = 0;
+        this.isCritical = '';
     }
     return Inventory;
 }());

@@ -21,6 +21,9 @@ import { PurchaseDetailComponent } from './transaction/purchase/purchasedetail/p
 import { ServiceComponent } from './transaction/service/service-component';
 import { ServiceDetailComponent } from './transaction/service/servicedetail/servicedetail-component';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { ReorderPointComponent } from './reports/reorder-point/reorder-point';
+import { UnpaidPurchaseComponent } from './reports/unpaid-purchase/unpaid-purchase';
+import { UnpaidServiceComponent } from './reports/unpaid-service/unpaid-service';
 
 @NgModule({
     declarations: [
@@ -36,7 +39,10 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
         PurchaseComponent,
         PurchaseDetailComponent,
         ServiceComponent,
-        ServiceDetailComponent
+        ServiceDetailComponent,
+        ReorderPointComponent,
+        UnpaidPurchaseComponent,
+        UnpaidServiceComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,6 +60,9 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
             { path: 'purchasedetail/:id', component: PurchaseDetailComponent },
             { path: 'service', component: ServiceComponent },
             { path: 'servicedetail/:id', component: ServiceDetailComponent },
+            { path: 'reorderpoint', component: ReorderPointComponent },
+            { path: 'unpaidpurchase', component: UnpaidPurchaseComponent },
+            { path: 'unpaidservice', component: UnpaidServiceComponent }
         ]),
         BrowserAnimationsModule,
         MatTableModule,
