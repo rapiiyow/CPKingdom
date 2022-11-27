@@ -1,4 +1,5 @@
 ﻿using CPKINGDOM.Core.Models;
+using System;
 using System.Collections.Generic;
 
 namespace CPKINGDOM.Core.Interfaces
@@ -16,5 +17,6 @@ namespace CPKINGDOM.Core.Interfaces
         TransactionHead GetSelectedServiceTransaction(int id);
         List<TransactionHead> GetPurchaseUnpaid();
         List<TransactionHead> GetServiceUnpaid();
+        List<TransactionHead> GetTechnicianTransaction(int staffId, DateTime fromDate, DateTime toDate);
     }
 }

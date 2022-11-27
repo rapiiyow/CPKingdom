@@ -2,6 +2,7 @@
 using CPKINGDOM.Core.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -403,6 +404,32 @@ namespace CPKINGDOM.Core.Services
                 order by
 	                a.TranDateTime;
             ");
+
+            return transactionHeads.ToList();
+        }
+        public List<TransactionHead> GetTechnicianTransaction(int staffId, DateTime fromDate, DateTime toDate)
+        {
+            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+
+            var param = new { StaffId = staffId, FROM = fromDate, TO = toDate };
+            var transactionHeads = _context.Query<TransactionHead>(@"
+                select 
+	                a.Technician,
+	                a.TransactionNo, 
+	                a.TranDateTime, 
+	                a.CustomerName, 
+	                a.Status, 
+	                (select SUM(tb.Quantity*tb.Price) from TransactionBody tb where tb.HeadId = a.Id) as TotalAmount,
+	                (select SUM(tb.AmountPaid) from TransactionBody tb where tb.HeadId = a.Id) as TotalPaid
+                from 
+	                TransactionHead a 
+                inner join Staff b on a.Technician = b.Id
+                where 
+	                a.Technician = @StaffId and
+	                a.IsService = 1 and
+	                cast(a.TranDateTime as date) between cast(@FROM as date) and cast(@TO as date)
+                order by a.TranDateTime, a.TransactionNo;
+            ", param);
 
             return transactionHeads.ToList();
         }

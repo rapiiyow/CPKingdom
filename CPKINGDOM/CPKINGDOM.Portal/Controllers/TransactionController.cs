@@ -119,5 +119,11 @@ namespace CPKINGDOM.Portal.Controllers
         {
             return Ok(_transactionSvc.GetServiceUnpaid());
         }
+
+        [HttpGet("gettechniciantransaction")]
+        public IActionResult GetTechnicianTransaction(int staffId, DateTime fromDate, DateTime toDate)
+        {
+            return Ok(_transactionSvc.GetTechnicianTransaction(staffId, fromDate, toDate));
+        }
     }
 }

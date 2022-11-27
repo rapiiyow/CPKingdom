@@ -49,6 +49,8 @@
     <None Remove="ClientApp\src\app\settings\staff\staff-service.ts" />
     <None Remove="ClientApp\src\app\settings\supplier\supplier-component.ts" />
     <None Remove="ClientApp\src\app\settings\supplier\supplier-service.ts" />
+    <None Remove="ClientApp\src\app\technician\technician-monitoring.ts" />
+    <None Remove="ClientApp\src\app\technician\technician-service.ts" />
     <None Remove="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
     <None Remove="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts" />
     <None Remove="ClientApp\src\app\transaction\service\service-component.ts" />
@@ -108,6 +110,8 @@
     <TypeScriptCompile Include="ClientApp\src\app\models\category.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\JResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\technician\technician-monitoring.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\technician\technician-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\transaction\service\service-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

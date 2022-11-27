@@ -24,7 +24,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { ReorderPointComponent } from './reports/reorder-point/reorder-point';
 import { UnpaidPurchaseComponent } from './reports/unpaid-purchase/unpaid-purchase';
 import { UnpaidServiceComponent } from './reports/unpaid-service/unpaid-service';
-
+import { TechnicianMonitoringComponent } from './technician/technician-monitoring';
 @NgModule({
     declarations: [
         AppComponent,
@@ -42,7 +42,8 @@ import { UnpaidServiceComponent } from './reports/unpaid-service/unpaid-service'
         ServiceDetailComponent,
         ReorderPointComponent,
         UnpaidPurchaseComponent,
-        UnpaidServiceComponent
+        UnpaidServiceComponent,
+        TechnicianMonitoringComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -62,7 +63,8 @@ import { UnpaidServiceComponent } from './reports/unpaid-service/unpaid-service'
             { path: 'servicedetail/:id', component: ServiceDetailComponent },
             { path: 'reorderpoint', component: ReorderPointComponent },
             { path: 'unpaidpurchase', component: UnpaidPurchaseComponent },
-            { path: 'unpaidservice', component: UnpaidServiceComponent }
+            { path: 'unpaidservice', component: UnpaidServiceComponent },
+            { path: 'technician', component: TechnicianMonitoringComponent }
         ]),
         BrowserAnimationsModule,
         MatTableModule,
