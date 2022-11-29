@@ -27,22 +27,12 @@ export class InventoryComponent {
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     modalInventoryRef: NgbModalRef;
-
-    barcodeFilter = new FormControl('');
-    categoryFilter = new FormControl('');
-    brandFilter = new FormControl('');
-    itemNameFilter = new FormControl('');
-    descriptionFilter = new FormControl('');
-
     filterValues = new Inventory();
-
     stockInModel = new Inventory();
     inventories: any = [];
-
     selectedItem: Inventory;
-
+    selectedItems: Inventory[] = [];
     originalReceivedQty: number;
-
     constructor(private modalService: NgbModal, private inventoryService: InventoryService, private cdf: ChangeDetectorRef) {
         this.getInventories();
         this.getSuppliers();
@@ -155,5 +145,9 @@ export class InventoryComponent {
         if (this.inventories.paginator) {
             this.inventories.paginator.firstPage();
         }
+    }
+    onAddBulk(content) {
+        //this.itemModel = new Item();
+        this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
     }
 }
