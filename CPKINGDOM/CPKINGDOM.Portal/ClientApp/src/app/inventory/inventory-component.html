@@ -1,0 +1,359 @@
+﻿
+<div class="form-row">
+    <div class="d-flex justify-content-between col my-2 mr-1">
+        <div>
+            <div class="text-muted ml-1"><h4>Inventory</h4></div>
+        </div>
+        <div class="float-right" role="group">
+            <button class="btn btn-primary mr-2" (click)="onAddBulk(addbulk)">
+                <i class="fa fa-plus"></i> Add Bulk Items
+            </button>
+        </div>
+    </div>
+</div>
+<mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input>
+</mat-form-field>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let items">
+                <div class="d-flex flex-row text-center">
+                    <div class="example-button-container mr-1">
+                        <button mat-icon-button color="primary" (click)="onAddQtyClick(items,addqty)">
+                            <mat-icon>add_circle_outline</mat-icon>
+                        </button>
+                    </div>
+                    <div class="example-button-container mr-1">
+                        <button mat-icon-button color="primary" (click)="onViewItemsClick(items,inventory)">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="barcode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Barcode </th>
+            <td mat-cell *matCellDef="let element"> {{element.barcode}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="brandName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
+            <td mat-cell *matCellDef="let element"> {{element.brandName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="itemName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+            <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="srp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> SRP </th>
+            <td mat-cell *matCellDef="let element"> {{element.srp}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="qtyAvailable">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Qty Available </th>
+            <td mat-cell *matCellDef="let element"> {{element.qtyAvailable}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 30, 40, 50]"
+                   showFirstLastButtons>
+    </mat-paginator>
+</div>
+
+<ng-template #inventory let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Inventory</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilterInventoryItems($event)" #input>
+        </mat-form-field>
+        <table mat-table [dataSource]="inventories">
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let items">
+                    <div class="d-flex flex-row text-center">
+                        <div class="example-button-container mr-1">
+                            <button mat-icon-button color="primary" (click)="onEditClick(items,addqty)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dateReceived">
+                <th mat-header-cell *matHeaderCellDef> Date Received </th>
+                <td mat-cell *matCellDef="let element"> {{element.dateReceived | date}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplierName">
+                <th mat-header-cell *matHeaderCellDef> Supplier </th>
+                <td mat-cell *matCellDef="let element"> {{element.supplierName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costPrice">
+                <th mat-header-cell *matHeaderCellDef> Cost </th>
+                <td mat-cell *matCellDef="let element"> {{element.costPrice}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtyReceived">
+                <th mat-header-cell *matHeaderCellDef> Received </th>
+                <td mat-cell *matCellDef="let element"> {{element.qtyReceived}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtyAvailable">
+                <th mat-header-cell *matHeaderCellDef> Available </th>
+                <td mat-cell *matCellDef="let element"> {{element.qtyAvailable}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedItemInventoryColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedItemInventoryColumns;"></tr>
+        </table>
+
+        <mat-paginator #iteminventory
+                       [pageSizeOptions]="[10, 20, 30, 40, 50]"
+                       showFirstLastButtons>
+        </mat-paginator>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #addqty let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Stock-In</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+            <label>Barcode</label>
+            <input type="text" class="form-control" [(ngModel)]="stockInModel.barcode" disabled>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputState">Category</label>
+                <input type="text" class="form-control" [(ngModel)]="stockInModel.categoryName" disabled>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputState">Brand</label>
+                <input type="text" class="form-control" [(ngModel)]="stockInModel.brandName" disabled>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputAddress">Item</label>
+            <input type="text" class="form-control" [(ngModel)]="stockInModel.itemName" disabled>
+        </div>
+        <div class="form-group">
+            <label for="inputAddress2">Description</label>
+            <input type="text" class="form-control" [(ngModel)]="stockInModel.description" disabled>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputState">Supplier</label>
+                <select class="form-control" [(ngModel)]="stockInModel.supplierId">
+                    <option *ngFor="let supplier of suppliers" [ngValue]="supplier.id">
+                        {{supplier.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputState">Date Received</label>
+                <input type="date" class="form-control" [(ngModel)]="stockInModel.dateReceived">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label>Quantity</label>
+                <input type="number" class="form-control" [(ngModel)]="stockInModel.qtyReceived">
+            </div>
+            <div class="form-group col-md-4">
+                <label>Cost</label>
+                <input type="number" class="form-control" [(ngModel)]="stockInModel.costPrice">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-primary mr-1" (click)="onSaveItemClick()"><i class="fa fa-save"></i> Save </button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #addbulk let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Stock-In Items</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputState">Supplier</label>
+                <select class="form-control" [(ngModel)]="stockInModel.supplierId">
+                    <option *ngFor="let supplier of suppliers" [ngValue]="supplier.id">
+                        {{supplier.name}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputState">Date Received</label>
+                <input type="date" class="form-control" [(ngModel)]="stockInModel.dateReceived">
+            </div>
+        </div>
+        <mat-divider class="mb-2"></mat-divider>
+        <div class="form-row">
+            <div class="d-flex justify-content-between col my-2 mr-1">
+                <div>
+                    <div class="text-muted ml-1"><h4>Items</h4></div>
+                </div>
+                <div class="float-right" role="group">
+                    <button class="btn btn-primary mr-2" (click)="onAddItem(inventoryModal)">
+                        <i class="fa fa-plus"></i> Add Item
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="mat-elevation-z8 mt-2">
+            <table mat-table [dataSource]="selectedItems">
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let items;">
+                        <div class="d-flex flex-row text-center">
+                            <div class="example-button-container mr-1">
+                                <button mat-icon-button color="warn" (click)="removeSelectedItem(items)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="brandName">
+                    <th mat-header-cell *matHeaderCellDef> Brand </th>
+                    <td mat-cell *matCellDef="let element"> {{element.brandName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="itemName">
+                    <th mat-header-cell *matHeaderCellDef> Item </th>
+                    <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="description">
+                    <th mat-header-cell *matHeaderCellDef> Description </th>
+                    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="costPrice">
+                    <th mat-header-cell *matHeaderCellDef> Cost </th>
+                    <td class="selected-item" *matCellDef="let element">
+                        <input type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.costPrice" placeholder="0">
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="qtyReceived">
+                    <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                    <td class="selected-item" mat-cell *matCellDef="let element">
+                        <input type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.qtyReceived" placeholder="0">
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedSelectedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedSelectedColumns;"></tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-primary mr-1" (click)="onSaveItemClick()"><i class="fa fa-save"></i> Save </button>
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #inventoryModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Items</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <table mat-table [dataSource]="availableItems" matSort>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let items">
+                    <div class="d-flex flex-row text-center">
+                        <div class="example-button-container">
+                            <button mat-icon-button color="primary" (click)="addSelectedItem(items)">
+                                <mat-icon>add_circle_outline</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="barcode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Barcode </th>
+                <td mat-cell *matCellDef="let element"> {{element.barcode}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtyAvailable">
+                <th mat-header-cell *matHeaderCellDef> Stock </th>
+                <td mat-cell *matCellDef="let element"> {{element.qtyAvailable}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="brandName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
+                <td mat-cell *matCellDef="let element"> {{element.brandName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="itemName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+                <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="availableItemDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: availableItemDisplayedColumns;"></tr>
+        </table>
+
+        <mat-paginator #availableItemPaginator
+                       [pageSizeOptions]="[10, 20, 30, 40, 50]"
+                       showFirstLastButtons>
+        </mat-paginator>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

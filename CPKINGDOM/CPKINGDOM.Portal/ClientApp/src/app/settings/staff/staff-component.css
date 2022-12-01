@@ -1,0 +1,19 @@
+﻿table {
+    width: 100%;
+}
+
+.mat-column-actions {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+}
+
+.mat-column-fullName {
+    padding-left: 16px;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}

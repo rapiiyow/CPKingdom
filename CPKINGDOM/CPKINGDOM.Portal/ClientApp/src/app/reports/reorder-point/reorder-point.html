@@ -1,0 +1,40 @@
+﻿<div class="modal-header">
+    <h6 class="modal-title pull-left">
+    </h6>
+    <div class="btn-group pull-right">
+        <button class="btn btn-primary mr-1" (click)="onPrint();"><i class="fa fa-print"></i> Print </button>
+    </div>
+</div>
+<div class="modal-body">
+    <div id="print">
+        <div style="text-align:center" class="mb-3">
+            <h3>Reorder Point & Critical Items</h3>
+        </div>
+        <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Reorder Point</th>
+                        <th scope="col">Qty Available</th>
+                        <th scope="col">Critical</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of items; index as i">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.brandName }}</td>
+                        <td>{{ item.itemName }}</td>
+                        <td>{{ item.description }}</td>
+                        <td>{{ item.reorderPoint | number:'1.0':'en-US' }}</td>
+                        <td>{{ item.qtyAvailable | number:'1.0':'en-US' }}</td>
+                        <td>{{ item.isCritical }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

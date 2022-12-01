@@ -1,0 +1,77 @@
+﻿table {
+    width: 100%;
+}
+tr.mat-footer-row {
+    font-weight: bold;
+}
+.mat-column-actions {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+}
+
+.mat-column-barcode {
+    padding-left: 16px;
+}
+
+.mat-column-brandName {
+    padding-left: 16px;
+    text-align: center;
+}
+
+.mat-column-itemName {
+    text-align: center;
+}
+
+.mat-column-description {
+    text-align: center;
+}
+
+.mat-column-qtyAvailable {
+    width: 40px;
+    text-align: center;
+}
+
+.mat-column-srp {
+    width: 120px;
+    text-align: center;
+}
+
+.mat-column-costPrice {
+    width: 120px;
+    text-align: center;
+}
+
+.mat-column-qtyPurchased {
+    width: 80px;
+    text-align: center;
+}
+
+.mat-column-lineTotal {
+    width: 70px;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.mat-column-balance {
+    width: 70px;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.mat-column-amountPaid {
+    width: 120px;
+    text-align: center;
+}
+
+.selected-item {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}

@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="aaec8cf1-40a5-40aa-bd61-016dd2160f88" ChangeDateTime="10/22/2022 14:12:28">
+    <Property Name="ElementName" Value="[dbo].[TransactionHead].[StaffId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TransactionHead]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Technichia" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="0eed0573-c567-4f68-b924-1726a9b45f17" ChangeDateTime="10/22/2022 14:12:57">
+    <Property Name="ElementName" Value="[dbo].[TransactionHead].[Technichia]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TransactionHead]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Technician" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2ad39c32-3d57-4f18-b7a9-21b00ef9a69c" ChangeDateTime="10/22/2022 14:20:29">
+    <Property Name="ElementName" Value="[dbo].[TransactionBody].[Srp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TransactionBody]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Price" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="72090b3c-4be9-498c-aeb5-f44f07c38bf1" ChangeDateTime="10/23/2022 04:20:17">
+    <Property Name="ElementName" Value="[dbo].[TransactionBody].[ItemId]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TransactionBody]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="InventoryId" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="a5b8434f-19e3-4712-a35f-577f1dd2be1e" ChangeDateTime="11/21/2022 02:25:02">
+    <Property Name="ElementName" Value="[dbo].[TransactionHead].[TranDate]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TransactionHead]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="TranDateTime" />
+  </Operation>
+</Operations>

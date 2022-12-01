@@ -10,5 +10,6 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 :r .\TableData\Category.Data.sql
+:r .\TableData\Role.Data.sql
 
 GO

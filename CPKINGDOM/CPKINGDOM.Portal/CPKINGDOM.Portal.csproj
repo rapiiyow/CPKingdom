@@ -24,11 +24,38 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\models\transaction-head.ts" />
+    <None Remove="ClientApp\src\app\reports\reorder-point\reorder-point.ts" />
+    <None Remove="ClientApp\src\app\reports\report-service.ts" />
+    <None Remove="ClientApp\src\app\reports\unpaid-purchase\unpaid-purchase.ts" />
+    <None Remove="ClientApp\src\app\reports\unpaid-service\unpaid-service.ts" />
+    <None Remove="ClientApp\src\app\settings\brand\brand-component.ts" />
+    <None Remove="ClientApp\src\app\settings\brand\brand-service.ts" />
+    <None Remove="ClientApp\src\app\settings\category\category-component.ts" />
+    <None Remove="ClientApp\src\app\settings\category\category-service.ts" />
+    <None Remove="ClientApp\src\app\inventory\inventory-component.ts" />
+    <None Remove="ClientApp\src\app\inventory\inventory-service.ts" />
+    <None Remove="ClientApp\src\app\models\inventory.ts" />
+    <None Remove="ClientApp\src\app\models\role.ts" />
+    <None Remove="ClientApp\src\app\models\staff.ts" />
     <None Remove="ClientApp\src\app\item\item-component.ts" />
     <None Remove="ClientApp\src\app\item\item-service.ts" />
+    <None Remove="ClientApp\src\app\models\brand.ts" />
     <None Remove="ClientApp\src\app\models\category.ts" />
     <None Remove="ClientApp\src\app\models\item.ts" />
     <None Remove="ClientApp\src\app\models\JResponse.ts" />
+    <None Remove="ClientApp\src\app\models\supplier.ts" />
+    <None Remove="ClientApp\src\app\settings\staff\staff-component.ts" />
+    <None Remove="ClientApp\src\app\settings\staff\staff-service.ts" />
+    <None Remove="ClientApp\src\app\settings\supplier\supplier-component.ts" />
+    <None Remove="ClientApp\src\app\settings\supplier\supplier-service.ts" />
+    <None Remove="ClientApp\src\app\technician\technician-monitoring.ts" />
+    <None Remove="ClientApp\src\app\technician\technician-service.ts" />
+    <None Remove="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\service\service-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\service\servicedetail\servicedetail-component.ts" />
+    <None Remove="ClientApp\src\app\transaction\transaction-service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,11 +63,66 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\inventory\inventory-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\inventory\inventory-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\models\inventory.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\role.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\staff.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\transaction-head.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\reports\reorder-point\reorder-point.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\reports\report-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\reports\unpaid-service\unpaid-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\reports\unpaid-purchase\unpaid-purchase.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\settings\staff\staff-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\settings\staff\staff-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\models\supplier.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\settings\supplier\supplier-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\settings\supplier\supplier-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\settings\category\category-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\settings\category\category-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\settings\brand\brand-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\settings\brand\brand-service.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="ClientApp\src\app\item\item-component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\item\item-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\models\brand.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\category.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\item.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\models\JResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\technician\technician-monitoring.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\technician\technician-service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\service\service-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\service\servicedetail\servicedetail-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\purchase\purchase-component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\purchase\purchasedetail\purchasedetail-component.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\transaction\transaction-service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

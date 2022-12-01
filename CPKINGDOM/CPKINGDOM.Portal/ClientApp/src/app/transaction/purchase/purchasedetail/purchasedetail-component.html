@@ -1,0 +1,221 @@
+﻿<div class="modal-header">
+    <h4 class="text-muted ml-1">Purchase Detail</h4>
+    <button type="button" class="close" (click)="onCloseClicked()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Purchase No.</label>
+            <input type="text" class="form-control" [(ngModel)]="headModel.transactionNo" disabled>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Date & Time</label>
+            <input *ngIf="ID<=0" type="datetime-local" class="form-control" [(ngModel)]="headModel.tranDateTime">
+            <input *ngIf="ID>0" type="datetime-local" class="form-control" [(ngModel)]="headModel.tranDateTime" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Customer Name</label>
+            <input *ngIf="ID<=0" type="text" class="form-control" [(ngModel)]="headModel.customerName">
+            <input *ngIf="ID>0" type="text" class="form-control" [(ngModel)]="headModel.customerName" disabled>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Contact No.</label>
+            <input *ngIf="ID<=0" type="text" class="form-control" [(ngModel)]="headModel.customerContactNo">
+            <input *ngIf="ID>0" type="text" class="form-control" [(ngModel)]="headModel.customerContactNo" disabled>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Remarks</label>
+            <textarea class="form-control" rows="3" [(ngModel)]="headModel.notes"></textarea>
+        </div>
+    </div>
+    <mat-divider class="mb-2"></mat-divider>
+    <div class="form-row">
+        <div class="d-flex justify-content-between col my-2 mr-1">
+            <div>
+                <div class="text-muted ml-1"><h4>Items</h4></div>
+            </div>
+            <div *ngIf="ID<=0" class="float-right" role="group">
+                <button class="btn btn-primary mr-2" (click)="onAddItem(inventoryModal)">
+                    <i class="fa fa-plus"></i> Add Item
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="mat-elevation-z8 mt-2">
+        <table mat-table [dataSource]="selectedItems">
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let items;">
+                    <div *ngIf="ID<=0" class="d-flex flex-row text-center">
+                        <div class="example-button-container mr-1">
+                            <button mat-icon-button color="warn" (click)="removeSelectedItem(items)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+                <td mat-footer-cell *matFooterCellDef> Total </td>
+            </ng-container>
+
+            <ng-container matColumnDef="brandName">
+                <th mat-header-cell *matHeaderCellDef> Brand </th>
+                <td mat-cell *matCellDef="let element"> {{element.brandName}} </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="itemName">
+                <th mat-header-cell *matHeaderCellDef> Item </th>
+                <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="costPrice">
+                <th mat-header-cell *matHeaderCellDef> Cost </th>
+                <td class="selected-item" *matCellDef="let element">
+                    <input type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.costPrice" placeholder="0" disabled>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="srp">
+                <th mat-header-cell *matHeaderCellDef> Price </th>
+                <td class="selected-item" *matCellDef="let element">
+                    <input *ngIf="ID <= 0" type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.srp" placeholder="0">
+                    <input *ngIf="ID > 0" type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.srp" placeholder="0" disabled>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtyPurchased">
+                <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                <td class="selected-item" mat-cell *matCellDef="let element">
+                    <input *ngIf="ID <= 0" type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.qtyPurchased" placeholder="0">
+                    <input *ngIf="ID > 0" type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.qtyPurchased" placeholder="0" disabled>
+                </td>
+                <td mat-footer-cell *matFooterCellDef></td>
+            </ng-container>
+
+            <ng-container matColumnDef="lineTotal">
+                <th mat-header-cell *matHeaderCellDef> Total </th>
+                <td mat-cell *matCellDef="let element"> {{element.srp * element.qtyPurchased | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef> {{ getTotalCost() | number : '1.2-2'}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="balance">
+                <th mat-header-cell *matHeaderCellDef> Balance </th>
+                <td mat-cell *matCellDef="let element"> {{(element.srp * element.qtyPurchased) - element.amountPaid | number : '1.2-2'}} </td>
+                <td mat-footer-cell *matFooterCellDef>{{ getTotalBalance() | number : '1.2-2'}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="amountPaid">
+                <th mat-header-cell *matHeaderCellDef> Paid </th>
+                <td class="selected-item" mat-cell *matCellDef="let element">
+                    <input type="number" style="text-align:right" class="form-control form-control-sm" [(ngModel)]="element.amountPaid" value="1">
+                </td>
+                <td mat-footer-cell *matFooterCellDef>{{ getTotalPaid() | number : '1.2-2'}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+        </table>
+    </div>
+</div>
+<div *ngIf="headModel.status != 'Paid'" class="modal-footer">
+    <button class="btn  btn-primary mr-1" (click)="onSavePurchase(headModel, selectedItems)"><i class="fa fa-save"></i> Save </button>
+</div>
+
+<ng-template #inventoryModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Inventory</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <mat-form-field appearance="standard">
+            <mat-label>Filter</mat-label>
+            <input matInput (keyup)="applyFilter($event)" #input>
+        </mat-form-field>
+        <table mat-table [dataSource]="availableItems" matSort>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> Actions </th>
+                <td mat-cell *matCellDef="let items">
+                    <div class="d-flex flex-row text-center">
+                        <div class="example-button-container">
+                            <button mat-icon-button color="primary" (click)="addSelectedItem(items)">
+                                <mat-icon>add_circle_outline</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="barcode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Barcode </th>
+                <td mat-cell *matCellDef="let element"> {{element.barcode}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="qtyAvailable">
+                <th mat-header-cell *matHeaderCellDef> Stock </th>
+                <td mat-cell *matCellDef="let element"> {{element.qtyAvailable}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="brandName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Brand </th>
+                <td mat-cell *matCellDef="let element"> {{element.brandName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="itemName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Item </th>
+                <td mat-cell *matCellDef="let element"> {{element.itemName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Description </th>
+                <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="supplierName">
+                <th mat-header-cell *matHeaderCellDef> Supplier </th>
+                <td mat-cell *matCellDef="let element"> {{element.supplierName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="costPrice">
+                <th mat-header-cell *matHeaderCellDef> Cost </th>
+                <td mat-cell *matCellDef="let element"> {{element.costPrice}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="srp">
+                <th mat-header-cell *matHeaderCellDef> SRP </th>
+                <td mat-cell *matCellDef="let element"> {{element.srp}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="availableItemDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: availableItemDisplayedColumns;"></tr>
+        </table>
+
+        <mat-paginator #iteminventory
+                       [pageSizeOptions]="[10, 20, 30, 40, 50]"
+                       showFirstLastButtons>
+        </mat-paginator>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>

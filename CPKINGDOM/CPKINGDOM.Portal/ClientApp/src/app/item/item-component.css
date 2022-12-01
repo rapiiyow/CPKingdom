@@ -9,10 +9,11 @@
     text-align: center;
 }
 
-.mat-column-categoryName {
+.mat-column-brandName {
     padding-left: 16px;
 }
 
-/*.filter {
-    display: block;
-}*/
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}

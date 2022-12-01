@@ -2,7 +2,6 @@ using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +29,9 @@ namespace CPKINGDOM.Portal
             });
 
             services.AddScoped<IItemSvc, ItemSvc>();
+            services.AddScoped<IStaffSvc, StaffSvc>();
+            services.AddScoped<IInventorySvc, InventorySvc>();
+            services.AddScoped<ITransactionSvc, TransactionSvc>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

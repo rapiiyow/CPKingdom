@@ -1,0 +1,37 @@
+﻿table {
+    width: 100%;
+}
+
+.mat-column-actions {
+    width: 32px;
+    border-right: 1px solid currentColor;
+    padding-right: 24px;
+    text-align: center;
+}
+
+.mat-column-barcode {
+    padding-left: 16px;
+}
+
+.mat-column-dateReceived {
+    padding-left: 16px;
+}
+
+.mat-column-brandName {
+    padding-left: 16px;
+    text-align: center;
+}
+
+.mat-form-field {
+    font-size: 14px;
+    width: 100%;
+}
+.mat-column-qtyReceived {
+    width: 120px;
+    text-align: center;
+}
+
+.mat-column-costPrice {
+    width: 120px;
+    text-align: center;
+}
