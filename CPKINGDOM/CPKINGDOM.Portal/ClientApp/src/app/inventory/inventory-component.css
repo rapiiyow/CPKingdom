@@ -17,11 +17,21 @@
     padding-left: 16px;
 }
 
-/*.mat-column-qtyAvailable {
+.mat-column-brandName {
+    padding-left: 16px;
     text-align: center;
-}*/
+}
 
 .mat-form-field {
     font-size: 14px;
     width: 100%;
+}
+.mat-column-qtyReceived {
+    width: 120px;
+    text-align: center;
+}
+
+.mat-column-costPrice {
+    width: 120px;
+    text-align: center;
 }

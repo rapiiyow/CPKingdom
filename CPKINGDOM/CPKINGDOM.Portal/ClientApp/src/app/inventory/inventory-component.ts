@@ -19,11 +19,14 @@ export class InventoryComponent {
     brands: Brand[];
     suppliers: Supplier[] = [];
     displayedColumns: string[] = ['actions', 'barcode', 'brandName', 'itemName', 'description', 'srp', 'qtyAvailable'];
+    availableItemDisplayedColumns: string[] = ['actions', 'barcode', 'brandName', 'itemName', 'description', 'qtyAvailable'];
     displayedItemInventoryColumns: string[] = ['actions', 'dateReceived', 'supplierName', 'costPrice', 'qtyReceived', 'qtyAvailable'];
+    displayedSelectedColumns: string[] = ['actions', 'brandName', 'itemName', 'description', 'costPrice', 'qtyReceived'];
     dataSource: any = [];
     inventoryModel: Inventory = new Inventory();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
     @ViewChild('iteminventory', { static: false }) itemInventorypaginator: MatPaginator;
+    @ViewChild('availableItemPaginator', { static: false }) availableItemPaginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     modalInventoryRef: NgbModalRef;
@@ -33,6 +36,8 @@ export class InventoryComponent {
     selectedItem: Inventory;
     selectedItems: Inventory[] = [];
     originalReceivedQty: number;
+    availableItems: any = [];
+    availableItemModalRef: NgbModalRef;
     constructor(private modalService: NgbModal, private inventoryService: InventoryService, private cdf: ChangeDetectorRef) {
         this.getInventories();
         this.getSuppliers();
@@ -85,7 +90,7 @@ export class InventoryComponent {
                     alert('Failed to update inventory.');
                 }
             });
-        }        
+        }
     }
     onSaveInventoryClick() {
         if (this.inventoryModel.id <= 0) {
@@ -147,7 +152,33 @@ export class InventoryComponent {
         }
     }
     onAddBulk(content) {
-        //this.itemModel = new Item();
-        this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
+        this.modalRef = this.modalService.open(content, { size: 'xl', backdrop: 'static', keyboard: false });
+    }
+    getAvailableItems() {
+        this.inventoryService.getInventories().subscribe(res => {
+            this.availableItems = new MatTableDataSource<Inventory>(res);
+            this.availableItems.paginator = this.availableItemPaginator;
+        });
+    }
+    onAddItem(content) {
+        this.getAvailableItems();
+        this.availableItemModalRef = this.modalService.open(content, { size: 'xl', backdrop: 'static', keyboard: false });
+    }
+    addSelectedItem(_selectedItem: Inventory) {
+        _selectedItem.qtyPurchased = 1;
+        _selectedItem.amountPaid = 0;
+        var _item = this.selectedItems.filter(a => a.itemId == _selectedItem.itemId);
+
+        if (_item.length <= 0) {
+            this.selectedItems = [...this.selectedItems, _selectedItem];
+            alert('Successfully added');
+        }
+        else {
+            alert('Item already added')
+        }
+
+    }
+    removeSelectedItem(item: Inventory) {
+        this.selectedItems = this.selectedItems.filter(a => a.id !== item.id);
     }
 }
