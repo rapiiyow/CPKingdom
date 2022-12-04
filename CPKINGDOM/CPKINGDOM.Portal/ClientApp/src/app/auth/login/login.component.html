@@ -1,0 +1,23 @@
+<div class="login container d-flex justify-content-center align-items-center">
+    <mat-card class="card-login">
+        <mat-card-content>
+            <img src="../../../assets/img/CpKingdomLogo.JPG" alt="Dashboard's Logo" class="w-100 mb-3">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="d-flex flex-column">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input matInput formControlName="username">
+                        <mat-error *ngIf="loginForm.controls.username.invalid">{{getErrorMessage('username')}}</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" formControlName="password">
+                        <mat-error *ngIf="loginForm.controls.password.invalid">{{getErrorMessage('password')}}</mat-error>
+                    </mat-form-field>
+    
+                    <button mat-flat-button class="btn-primary mt-3 p-2">Login</button>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

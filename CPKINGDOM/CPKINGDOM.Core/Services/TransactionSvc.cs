@@ -162,7 +162,7 @@ namespace CPKINGDOM.Core.Services
 	                (SELECT SUM(Price) FROM TransactionBody WHERE HeadId = A.Id) AS TotalAmount, 
 	                (SELECT SUM(AmountPaid) FROM TransactionBody WHERE HeadId = A.Id) AS TotalPaid 
                 FROM 
-	                TransactionHead A
+	                [TransactionHead] A
                 WHERE 
                     IsService = 0
                 ORDER BY 
@@ -281,7 +281,7 @@ namespace CPKINGDOM.Core.Services
                 {
                     transactionBodyModel.Notes = item.Description;
                 }
-                
+
 
                 int tranBody = _context.Execute(@"
                 INSERT INTO [TransactionBody]
@@ -365,7 +365,7 @@ namespace CPKINGDOM.Core.Services
             transactionHeads.Inventory = inventory.ToList();
 
             return transactionHeads;
-        }        
+        }
         public List<TransactionHead> GetPurchaseUnpaid()
         {
             using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);

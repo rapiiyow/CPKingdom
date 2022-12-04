@@ -1,5 +1,6 @@
 ﻿using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CPKINGDOM.Portal.Controllers
@@ -15,18 +16,20 @@ namespace CPKINGDOM.Portal.Controllers
             _inventorySvc = inventorySvc;
         }
 
+        [Authorize]
         [HttpGet("getinventories")]
         public IActionResult GetInventories()
         {
             return Ok(_inventorySvc.GetInventories());
         }
 
+        [Authorize]
         [HttpGet("getiteminventory")]
         public IActionResult GetItemInventory(int itemId)
         {
             return Ok(_inventorySvc.GetItemInventory(itemId));
         }
-
+        [Authorize]
         [HttpPost("saveinventory")]
         public IActionResult SaveInventory(Inventory inventory)
         {
@@ -38,6 +41,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("updateinventory")]
         public IActionResult UpdateInventory(Inventory inventory)
         {

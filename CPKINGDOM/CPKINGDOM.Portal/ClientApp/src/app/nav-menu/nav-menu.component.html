@@ -1,10 +1,16 @@
-<div id="sidebar-wrapper">
+<div id="sidebar-wrapper" [ngClass]="!visible ? 'hidenav' : 'visible'">
     <div class="sidebar-wrapper-brand">
         <img src="../../../assets/img/CpKingdomLogo.JPG" alt="Dashboard's Logo" class="sidebar-wrapper_logo">
     </div>
 
     <ul class="list-unstyled components sidebar-wrapper-nav">
-        <li class="cursorpointer">
+        <li class="cursorpointer" *ngFor="let module of modules">
+            <a [routerLink]="module.route">
+                <i [ngClass]="'fa ' + module.icon" class="ml-3" aria-hidden="true"></i>
+                {{module.moduleName}}
+            </a>
+        </li>
+        <!-- <li class="cursorpointer">
             <a routerLink="/">
                 <i class="fa fa-home ml-3" aria-hidden="true"></i>Dashboard
             </a>
@@ -84,9 +90,9 @@
                         <i class="fa fa-truck ml-3" aria-hidden="true"></i>Unpaid Service
                     </a>
                 </li>
-            </ul>
-        </li>
-        <li (click)="liClickSettings()" class="cursorpointer">
+            </ul> -->
+        <!-- </li> -->
+        <!-- <li (click)="liClickSettings()" class="cursorpointer">
             <a routerLinkActive="active current">
                 <i class="fa fa-cogs ml-3" aria-hidden="true"></i>Settings
 
@@ -125,19 +131,22 @@
                     </a>
                 </li>
             </ul>
+        </li> -->
+    
+        <li class="cursorpointer">
+            <a (click)="logout()">
+                <i class="fa fa-sign-out" class="ml-3" aria-hidden="true"></i>
+                Logout
+            </a>
         </li>
     </ul>
 </div>
-<div id="content">
+<div id="content" [ngStyle]="{'margin-left': visible ? '250px' : '0'}">
     <div id="content-wrapper">
         <div class="row">
             <div class="col-md-12">
-                <router-outlet>
-
-                </router-outlet>
+                <router-outlet> </router-outlet>
             </div>
         </div>
     </div>
 </div>
-
-

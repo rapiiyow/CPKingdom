@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule, MatListModule, MatPaginatorModule, MatSidenav, MatSidenavModule, MatSortModule, MatTableModule, MatToolbarModule } from '@angular/material';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemComponent } from './item/item-component';
 import { InventoryComponent } from './inventory/inventory-component';
@@ -25,6 +24,13 @@ import { ReorderPointComponent } from './reports/reorder-point/reorder-point';
 import { UnpaidPurchaseComponent } from './reports/unpaid-purchase/unpaid-purchase';
 import { UnpaidServiceComponent } from './reports/unpaid-service/unpaid-service';
 import { TechnicianMonitoringComponent } from './technician/technician-monitoring';
+import { LoginComponent } from './auth/login/login.component';
+import { SharedModule } from './shared/shared.module';
+import { AuthService } from './shared/service/auth.service';
+import { AuthGuard } from './shared/guard/auth.guard';
+import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
+import { ModuleGuard } from './shared/guard/module.guard';
+import { NotFoundComponent } from './not-found/not-found.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -43,46 +49,47 @@ import { TechnicianMonitoringComponent } from './technician/technician-monitorin
         ReorderPointComponent,
         UnpaidPurchaseComponent,
         UnpaidServiceComponent,
-        TechnicianMonitoringComponent
+        TechnicianMonitoringComponent,
+        LoginComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         HttpClientModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'item', component: ItemComponent },
-            { path: 'brand', component: BrandComponent },
-            { path: 'category', component: CategoryComponent },
-            { path: 'supplier', component: SupplierComponent },
-            { path: 'staff', component: StaffComponent },
-            { path: 'inventory', component: InventoryComponent },
-            { path: 'purchase', component: PurchaseComponent },
-            { path: 'purchasedetail/:id', component: PurchaseDetailComponent },
-            { path: 'service', component: ServiceComponent },
-            { path: 'servicedetail/:id', component: ServiceDetailComponent },
-            { path: 'reorderpoint', component: ReorderPointComponent },
-            { path: 'unpaidpurchase', component: UnpaidPurchaseComponent },
-            { path: 'unpaidservice', component: UnpaidServiceComponent },
-            { path: 'technician', component: TechnicianMonitoringComponent }
+            { path: 'auth/login', component: LoginComponent},
+
+            { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'item', component: ItemComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'brand', component: BrandComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'category', component: CategoryComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'supplier', component: SupplierComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'staff', component: StaffComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'inventory', component: InventoryComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'purchase', component: PurchaseComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'purchasedetail/:id', component: PurchaseDetailComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'service', component: ServiceComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'servicedetail/:id', component: ServiceDetailComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'reorderpoint', component: ReorderPointComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'unpaidpurchase', component: UnpaidPurchaseComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'unpaidservice', component: UnpaidServiceComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'technician', component: TechnicianMonitoringComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: '404', component: NotFoundComponent},
+            { path: '**', redirectTo: '404' }
         ]),
         BrowserAnimationsModule,
-        MatTableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatDividerModule,
         NgbModalModule,
-        MatPaginatorModule,
-        MatFormFieldModule,
         ReactiveFormsModule,
-        MatInputModule,
-        MatSortModule,
-        MatSidenavModule,
-        MatToolbarModule,
-        MatListModule,
-        AngularFontAwesomeModule
+        AngularFontAwesomeModule,
+        SharedModule
     ],
-    providers: [],
+    providers: [
+        AuthService, 
+        AuthGuard,
+        ModuleGuard,
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

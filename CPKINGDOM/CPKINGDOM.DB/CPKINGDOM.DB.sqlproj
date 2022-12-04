@@ -16,12 +16,13 @@
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -65,10 +66,13 @@
     <Build Include="Tables\Brand.sql" />
     <Build Include="Tables\Supplier.sql" />
     <Build Include="Tables\Staff.sql" />
-    <Build Include="Tables\Role.sql" />
     <Build Include="Tables\Inventory.sql" />
     <Build Include="Tables\TransactionHead.sql" />
     <Build Include="Tables\TransactionBody.sql" />
+    <Build Include="Tables\Users.sql" />
+    <Build Include="Tables\Modules.sql" />
+    <Build Include="Tables\RoleAccess.sql" />
+    <Build Include="Tables\Role.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />
