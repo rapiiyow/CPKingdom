@@ -1,26 +1,23 @@
-﻿using CPKINGDOM.Core.Interfaces;
+﻿using CPKINGDOM.Core.Context;
+using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace CPKINGDOM.Core.Services
 {
     public class StaffSvc : IStaffSvc
     {
-        private readonly IConfiguration _config;
+        private readonly DbContext _context;
 
-        public StaffSvc(IConfiguration config)
-        {
-            _config = config;
-        }
+        public StaffSvc(DbContext context) => _context = context;
         public List<Role> GetRoles()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var roles = _context.Query<Role>(@"
+            var roles = connection.Query<Role>(@"
                 SELECT 
                     *
                 FROM 
@@ -33,9 +30,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Staff> GetStaffs()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var staffs = _context.Query<Staff>(@"
+            var staffs = connection.Query<Staff>(@"
                 SELECT 
                     a.Id,
                     a.FirstName,
@@ -60,9 +57,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool SaveNewStaff(Staff staff)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 INSERT INTO [dbo].[Staff]
                 (
                     [FirstName],
@@ -86,9 +83,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool UpdateStaff(Staff staff)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [Staff] SET
 	                FirstName = @FirstName,
 	                MiddleName = @MiddleName,
@@ -103,9 +100,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Staff> GetTechnicians()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var staffs = _context.Query<Staff>(@"
+            var staffs = connection.Query<Staff>(@"
                 SELECT 
                     a.Id,
                     a.FirstName,

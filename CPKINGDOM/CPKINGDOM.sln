@@ -9,8 +9,6 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CPKINGDOM.DB", "CPKINGDOM.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CPKINGDOM.Portal", "CPKINGDOM.Portal\CPKINGDOM.Portal.csproj", "{C3EBEA1E-4401-469F-98E4-958C470360FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CPKINGDOM.Api", "CPKINGDOM.Api\CPKINGDOM.Api.csproj", "{6D3D1C0E-2F00-4820-9266-BCF6E07018CC}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,10 +29,6 @@ Global
 		{C3EBEA1E-4401-469F-98E4-958C470360FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3EBEA1E-4401-469F-98E4-958C470360FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3EBEA1E-4401-469F-98E4-958C470360FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D3D1C0E-2F00-4820-9266-BCF6E07018CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D3D1C0E-2F00-4820-9266-BCF6E07018CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D3D1C0E-2F00-4820-9266-BCF6E07018CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D3D1C0E-2F00-4820-9266-BCF6E07018CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

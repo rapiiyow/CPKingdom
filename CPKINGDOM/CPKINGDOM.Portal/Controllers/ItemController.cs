@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CPKINGDOM.Portal.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("item")]
     public class ItemController : ControllerBase
     {
         private readonly IItemSvc _itemSvc;

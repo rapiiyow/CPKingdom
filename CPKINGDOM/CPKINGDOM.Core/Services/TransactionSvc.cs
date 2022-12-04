@@ -1,29 +1,26 @@
-﻿using CPKINGDOM.Core.Interfaces;
+﻿using CPKINGDOM.Core.Context;
+using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace CPKINGDOM.Core.Services
 {
     public class TransactionSvc : ITransactionSvc
     {
-        private readonly IConfiguration _config;
+        private readonly DbContext _context;
 
-        public TransactionSvc(IConfiguration config)
-        {
-            _config = config;
-        }
+        public TransactionSvc(DbContext context) => _context = context;
         public string GetPurchaseNo()
         {
             string purchaseNo = "";
 
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            string count = _context.QuerySingle<string>(@"SELECT COUNT(*)+1 AS CNT FROM TransactionHead WHERE IsService = 0;").ToString();
+            string count = connection.QuerySingle<string>(@"SELECT COUNT(*)+1 AS CNT FROM TransactionHead WHERE IsService = 0;").ToString();
 
             switch (count.Length)
             {
@@ -53,9 +50,9 @@ namespace CPKINGDOM.Core.Services
         {
             string serviceNo = "";
 
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            string count = _context.QuerySingle<string>(@"SELECT COUNT(*)+1 AS CNT FROM TransactionHead WHERE IsService = 1;").ToString();
+            string count = connection.QuerySingle<string>(@"SELECT COUNT(*)+1 AS CNT FROM TransactionHead WHERE IsService = 1;").ToString();
 
             switch (count.Length)
             {
@@ -84,11 +81,11 @@ namespace CPKINGDOM.Core.Services
         public bool SaveNewPurchase(TransactionHead transactionHead)
         {
             bool success = false;
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
             transactionHead.IsService = false;
 
-            var headId = _context.QuerySingle<int>(@"
+            var headId = connection.QuerySingle<int>(@"
                 INSERT INTO [TransactionHead]
 				(
 					[TransactionNo],
@@ -122,7 +119,7 @@ namespace CPKINGDOM.Core.Services
                 transactionBodyModel.Price = item.Srp;
                 transactionBodyModel.AmountPaid = item.AmountPaid;
 
-                int tranBody = _context.Execute(@"
+                int tranBody = connection.Execute(@"
                 INSERT INTO [TransactionBody]
 				(
 					[HeadId],
@@ -141,7 +138,7 @@ namespace CPKINGDOM.Core.Services
 				);", transactionBodyModel);
 
                 var inventoryParam = new { QtyPurchased = item.QtyPurchased, Id = item.Id };
-                int updateQty = _context.Execute(@"
+                int updateQty = connection.Execute(@"
                 UPDATE Inventory SET
                     QtyAvailable = QtyAvailable - @QtyPurchased
                 WHERE
@@ -154,9 +151,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<TransactionHead> GetPurchaseTransactions()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var transactionHeads = _context.Query<TransactionHead>(@"
+            var transactionHeads = connection.Query<TransactionHead>(@"
                 SELECT 
 	                A.*,
 	                (SELECT SUM(Price) FROM TransactionBody WHERE HeadId = A.Id) AS TotalAmount, 
@@ -174,13 +171,13 @@ namespace CPKINGDOM.Core.Services
         }
         public TransactionHead GetSelectedPurchaseTransaction(int id)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
             var parameters = new { Id = id };
-            var transactionHeads = _context.QuerySingle<TransactionHead>(@"
+            var transactionHeads = connection.QuerySingle<TransactionHead>(@"
                 SELECT * FROM TransactionHead WHERE Id = @Id;
             ", parameters);
 
-            var inventory = _context.Query<Inventory>(@"
+            var inventory = connection.Query<Inventory>(@"
                 	SELECT 
 		                a.Id AS TranBodyId,
 		                a.Id,
@@ -205,9 +202,9 @@ namespace CPKINGDOM.Core.Services
         public bool UpdatePurchaseTransaction(TransactionHead transactionHead)
         {
             bool success = false;
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [TransactionHead] SET 
 					   [Status] = @Status,
                        [Notes] = @Notes
@@ -220,7 +217,7 @@ namespace CPKINGDOM.Core.Services
                 transactionBodyModel.Id = item.TranBodyId;
                 transactionBodyModel.AmountPaid = item.AmountPaid;
 
-                int tranBody = _context.Execute(@"
+                int tranBody = connection.Execute(@"
                     UPDATE TransactionBody SET
                         AmountPaid = @AmountPaid
                     WHERE
@@ -235,11 +232,11 @@ namespace CPKINGDOM.Core.Services
         public bool SaveNewService(TransactionHead transactionHead)
         {
             bool success = false;
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
             transactionHead.IsService = true;
 
-            var headId = _context.QuerySingle<int>(@"
+            var headId = connection.QuerySingle<int>(@"
                 INSERT INTO [TransactionHead]
 				(
 					[TransactionNo],
@@ -283,7 +280,7 @@ namespace CPKINGDOM.Core.Services
                 }
                 
 
-                int tranBody = _context.Execute(@"
+                int tranBody = connection.Execute(@"
                 INSERT INTO [TransactionBody]
 				(
 					[HeadId],
@@ -304,7 +301,7 @@ namespace CPKINGDOM.Core.Services
 				);", transactionBodyModel);
 
                 var inventoryParam = new { QtyPurchased = item.QtyPurchased, Id = item.Id };
-                int updateQty = _context.Execute(@"
+                int updateQty = connection.Execute(@"
                 UPDATE Inventory SET
                     QtyAvailable = QtyAvailable - @QtyPurchased
                 WHERE
@@ -317,9 +314,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<TransactionHead> GetServiceTransactions()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var transactionHeads = _context.Query<TransactionHead>(@"
+            var transactionHeads = connection.Query<TransactionHead>(@"
                 SELECT 
 	                A.*,
 	                (SELECT SUM(Price) FROM TransactionBody WHERE HeadId = A.Id) AS TotalAmount, 
@@ -337,13 +334,13 @@ namespace CPKINGDOM.Core.Services
         }
         public TransactionHead GetSelectedServiceTransaction(int id)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
             var parameters = new { Id = id };
-            var transactionHeads = _context.QuerySingle<TransactionHead>(@"
+            var transactionHeads = connection.QuerySingle<TransactionHead>(@"
                 SELECT * FROM TransactionHead WHERE Id = @Id;
             ", parameters);
 
-            var inventory = _context.Query<Inventory>(@"
+            var inventory = connection.Query<Inventory>(@"
                 	SELECT 
 		                a.Id AS TranBodyId,
 		                b.Id,
@@ -368,9 +365,9 @@ namespace CPKINGDOM.Core.Services
         }        
         public List<TransactionHead> GetPurchaseUnpaid()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var transactionHeads = _context.Query<TransactionHead>(@"
+            var transactionHeads = connection.Query<TransactionHead>(@"
                 select 
 	                a.*, 
 	                (select SUM(Price) from TransactionBody where HeadId = a.Id) as TotalAmount, 
@@ -388,9 +385,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<TransactionHead> GetServiceUnpaid()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var transactionHeads = _context.Query<TransactionHead>(@"
+            var transactionHeads = connection.Query<TransactionHead>(@"
                 select 
 	                a.*, 
 	                (select SUM(Price) from TransactionBody where HeadId = a.Id) as TotalAmount, 
@@ -409,10 +406,10 @@ namespace CPKINGDOM.Core.Services
         }
         public List<TransactionHead> GetTechnicianTransaction(int staffId, DateTime fromDate, DateTime toDate)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
             var param = new { StaffId = staffId, FROM = fromDate, TO = toDate };
-            var transactionHeads = _context.Query<TransactionHead>(@"
+            var transactionHeads = connection.Query<TransactionHead>(@"
                 select 
 	                a.Technician,
 	                a.TransactionNo, 
