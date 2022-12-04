@@ -6,15 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace CPKINGDOM.Portal.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("inventory")]
     public class InventoryController : ControllerBase
     {
         private readonly IInventorySvc _inventorySvc;
 
-        public InventoryController(IInventorySvc inventorySvc)
-        {
-            _inventorySvc = inventorySvc;
-        }
+        public InventoryController(IInventorySvc inventorySvc) => _inventorySvc = inventorySvc;
 
         [Authorize]
         [HttpGet("getinventories")]

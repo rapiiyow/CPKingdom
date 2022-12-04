@@ -1,27 +1,25 @@
-﻿using CPKINGDOM.Core.Interfaces;
+﻿using CPKINGDOM.Core.Context;
+using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace CPKINGDOM.Core.Services
 {
     public class InventorySvc : IInventorySvc
     {
-        private readonly IConfiguration _config;
+        private readonly DbContext _context;
 
-        public InventorySvc(IConfiguration config)
-        {
-            _config = config;
-        }
+        public InventorySvc(DbContext context) => _context = context;
 
         public List<Inventory> GetInventories()
         {
-			using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-			var inventories = _context.Query<Inventory>(@"
+            var inventories = connection.Query<Inventory>(@"
                 SELECT 
 					A.Id AS ItemId, 
 					C.Name AS CategoryName, 
@@ -40,14 +38,15 @@ namespace CPKINGDOM.Core.Services
 					B.Name;
             ");
 
-			return inventories.ToList();
-		}
+            return inventories.ToList();
+        }
 
         public List<Inventory> GetItemInventory(int itemId)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
-			var parameters = new { ItemId = itemId };
-			var inventories = _context.Query<Inventory>(@"
+            using var connection = _context.CreateConnection();
+
+            var parameters = new { ItemId = itemId };
+            var inventories = connection.Query<Inventory>(@"
                 SELECT 
 					A.[Id],
 					A.[ItemId],
@@ -70,11 +69,11 @@ namespace CPKINGDOM.Core.Services
         }
         public bool SaveInventory(Inventory inventory)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-			inventory.QtyAvailable = inventory.QtyReceived;
+            inventory.QtyAvailable = inventory.QtyReceived;
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 INSERT INTO [Inventory]
 				(
 					[ItemId],
@@ -98,11 +97,11 @@ namespace CPKINGDOM.Core.Services
 
             return row != 0;
         }
-		public bool UpdateInventory(Inventory inventory)
-		{
-			using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+        public bool UpdateInventory(Inventory inventory)
+        {
+            using var connection = _context.CreateConnection();
 
-			int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [Inventory] SET 
 					   [SupplierId] = @SupplierId,
 					   [CostPrice] = @CostPrice,
@@ -112,12 +111,12 @@ namespace CPKINGDOM.Core.Services
 				WHERE 
 					   [Id] = @Id;", inventory);
 
-			return row != 0;
-		}
-		public List<Inventory> GetAvailableItems()
-		{
-			using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
-			var inventories = _context.Query<Inventory>(@"
+            return row != 0;
+        }
+        public List<Inventory> GetAvailableItems()
+        {
+			using var connection = _context.CreateConnection();
+			var inventories = connection.Query<Inventory>(@"
                 SELECT 
 					A.Id, 
 					B.Barcode, 
@@ -142,13 +141,13 @@ namespace CPKINGDOM.Core.Services
 					c.Name;
             ");
 
-			return inventories.ToList();
-		}
-		public List<Inventory> GetReorderCritical()
-		{
-			using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            return inventories.ToList();
+        }
+        public List<Inventory> GetReorderCritical()
+        {
+			using var connection = _context.CreateConnection();
 
-			var inventory = _context.Query<Inventory>(@"
+			var inventory = connection.Query<Inventory>(@"
                 select 
 	                i.BrandName, 
 	                i.Name as ItemName, 
@@ -172,7 +171,7 @@ namespace CPKINGDOM.Core.Services
                 order by i.BrandName, i.Name;
             ");
 
-			return inventory.ToList();
-		}
-	}
+            return inventory.ToList();
+        }
+    }
 }

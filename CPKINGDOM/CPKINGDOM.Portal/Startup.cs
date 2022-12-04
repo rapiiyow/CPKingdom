@@ -1,3 +1,4 @@
+using CPKINGDOM.Core.Context;
 using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,6 +33,7 @@ namespace CPKINGDOM.Portal
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            services.AddSingleton<DbContext>();
             services.AddScoped<IItemSvc, ItemSvc>();
             services.AddScoped<IStaffSvc, StaffSvc>();
             services.AddScoped<IInventorySvc, InventorySvc>();
@@ -76,19 +78,6 @@ namespace CPKINGDOM.Portal
             {
                 app.UseSpaStaticFiles();
             }
-
-            ////JWT
-
-            //app.Use(async (context, next) =>
-            //{
-            //    var token = context.Session.GetString("Token");
-            //    if (!string.IsNullOrEmpty(token))
-            //    {
-            //        context.Request.Headers.Add("Authorization", "Bearer " + token);
-            //    }
-
-            //    await next();
-            //});
             app.UseAuthentication();
             app.UseRouting();
             app.UseAuthorization();
