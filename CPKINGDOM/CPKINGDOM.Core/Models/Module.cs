@@ -6,13 +6,13 @@ namespace CPKINGDOM.Core.Models
 {
     public class Module
     {
-        public int Id { get; set; }
+        public int ModuleId { get; set; }
 
         public string ModuleName { get; set; }
 
         public string Route { get; set; }
 
-        public string Parent { get; set; }
+        public int ParentId { get; set; }
 
         public int Sequence { get; set; }
 

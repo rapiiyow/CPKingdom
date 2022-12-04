@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
+import { Module } from 'src/app/models/modules.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
@@ -43,11 +45,39 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe(res => {
+      this.authService.login(this.loginForm.value).pipe(map(val => {
+        var currentModules: Array<Module> = val.details.modules;
+        var filteredModules = [];
+
+        var mappedModules: Array<Module> = currentModules.map((module: Module) => {
+          return {
+            ...module,
+            submodules: currentModules.filter(mod => module.moduleId === mod.parentId)
+          }
+        })
+
+
+        mappedModules.map((module: Module) => {
+          //check if the module is child
+          var childModule = mappedModules.findIndex(mm => mm.submodules.findIndex(sm => sm.moduleId === module.moduleId) !== -1)
+
+          if(childModule === -1) {
+            filteredModules.push(module)
+          }
+        })
+
+        return {
+          token: val.token,
+          details: {
+            ...val.details,
+            modules: filteredModules
+          }
+        };
+      })).subscribe(res => {
         this.authService.setToken(res.token);
         this.authService.setModules(res.details.modules);
         this.authService.modules.next(res.details.modules);
-        
+
         setTimeout(() => {
           this.router.navigateByUrl('/');
         }, 800);

@@ -25,10 +25,10 @@ namespace CPKINGDOM.Core.Services
 
             var modules = _context.Query<Module>(@"
                     SELECT
-                        m.Id,
+                        m.Id moduleId,
                         m.description as ModuleName,
                         m.route,
-                        m.parent,
+                        m.parentId,
                         m.sequence,
                         m.icon
                     FROM
