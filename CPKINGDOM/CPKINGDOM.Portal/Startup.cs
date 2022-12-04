@@ -1,3 +1,4 @@
+using CPKINGDOM.Core.Context;
 using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Services;
 using Microsoft.AspNetCore.Builder;
@@ -28,10 +29,12 @@ namespace CPKINGDOM.Portal
                 configuration.RootPath = "ClientApp/dist";
             });
 
+            services.AddSingleton<DbContext>();
             services.AddScoped<IItemSvc, ItemSvc>();
             services.AddScoped<IStaffSvc, StaffSvc>();
             services.AddScoped<IInventorySvc, InventorySvc>();
             services.AddScoped<ITransactionSvc, TransactionSvc>();
+            services.AddControllers();             
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

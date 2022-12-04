@@ -1,26 +1,23 @@
-﻿using CPKINGDOM.Core.Interfaces;
+﻿using CPKINGDOM.Core.Context;
+using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace CPKINGDOM.Core.Services
 {
     public class ItemSvc : IItemSvc
     {
-        private readonly IConfiguration _config;
+        private readonly DbContext _context;
 
-        public ItemSvc(IConfiguration config)
-        {
-            _config = config;
-        }
+        public ItemSvc(DbContext context) => _context = context;
         public List<Category> GetCategories()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var categories = _context.Query<Category>(@"
+            var categories = connection.Query<Category>(@"
                 SELECT
                     *
                 FROM
@@ -33,9 +30,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Brand> GetBrands()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var brands = _context.Query<Brand>(@"
+            var brands = connection.Query<Brand>(@"
                 SELECT
                     *
                 FROM
@@ -48,9 +45,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Item> GetItems()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var items = _context.Query<Item>(@"
+            var items = connection.Query<Item>(@"
                 SELECT
 	                a.[Id],
 	                a.[Barcode],
@@ -76,9 +73,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Supplier> GetSuppliers()
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var suppliers = _context.Query<Supplier>(@"
+            var suppliers = connection.Query<Supplier>(@"
                 SELECT
 	                *
                 FROM
@@ -88,12 +85,13 @@ namespace CPKINGDOM.Core.Services
             ");
 
             return suppliers.ToList();
+
         }
         public bool SaveNewItem(Item item)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 INSERT INTO [Item] 
                 (
                     [Barcode],
@@ -118,12 +116,12 @@ namespace CPKINGDOM.Core.Services
                 )", item);
 
             return row != 0;
-        }        
+        }
         public bool SaveNewCategory(Category category)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 INSERT INTO [Category] 
                 (
                     [Name]
@@ -137,9 +135,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool SaveNewBrand(Brand brand)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 INSERT INTO [Brand] 
                 (
                     [Name]
@@ -153,9 +151,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool SaveNewSupplier(Supplier supplier)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 INSERT INTO [Supplier] 
                 (
                     [Name],
@@ -175,9 +173,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool UpdateBrand(Brand brand)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [Brand] SET
                     [Name] = @Name
                 WHERE
@@ -187,9 +185,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool UpdateCategory(Category category)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [Category] SET
                     [Name] = @Name
                 WHERE
@@ -199,9 +197,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool UpdateSupplier(Supplier supplier)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [Supplier] SET
                     [Name] = @Name,
                     [Address] = @Address,
@@ -214,9 +212,9 @@ namespace CPKINGDOM.Core.Services
         }
         public bool UpdateItem(Item item)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            int row = _context.Execute(@"
+            int row = connection.Execute(@"
                 UPDATE [dbo].[Item] SET 
                     [Barcode] = @Barcode, 
                     [Name] = @Name, 

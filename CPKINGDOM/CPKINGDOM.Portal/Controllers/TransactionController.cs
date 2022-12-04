@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace CPKINGDOM.Portal.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("transaction")]
     public class TransactionController : ControllerBase
     {
         private readonly ITransactionSvc _transactionSvc;

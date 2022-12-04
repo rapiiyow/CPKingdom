@@ -1,5 +1,6 @@
 ﻿import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
 import { Inventory } from "../models/inventory";
 import { TransactionHead } from "../models/transaction-head";
 
@@ -9,12 +10,12 @@ export class ReportService {
 
     }
     getReorderPoint() {
-        return this.http.get<Inventory[]>(`inventory/getreorderpoint`);
+        return this.http.get<Inventory[]>(`${environment.apiUrl}inventory/getreorderpoint`);
     }
     getUnpaidPurchase() {
-        return this.http.get<TransactionHead[]>(`transaction/getunpaidpurchase`);
+        return this.http.get<TransactionHead[]>(`${environment.apiUrl}transaction/getunpaidpurchase`);
     }
     getUnpaidService() {
-        return this.http.get<TransactionHead[]>(`transaction/getunpaidservice`);
+        return this.http.get<TransactionHead[]>(`${environment.apiUrl}transaction/getunpaidservice`);
     }
 }
