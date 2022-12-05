@@ -115,8 +115,8 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Inventory> GetAvailableItems()
         {
-			using var connection = _context.CreateConnection();
-			var inventories = connection.Query<Inventory>(@"
+            using var connection = _context.CreateConnection();
+            var inventories = connection.Query<Inventory>(@"
                 SELECT 
 					A.Id, 
 					B.Barcode, 
@@ -145,9 +145,9 @@ namespace CPKINGDOM.Core.Services
         }
         public List<Inventory> GetReorderCritical()
         {
-			using var connection = _context.CreateConnection();
+            using var connection = _context.CreateConnection();
 
-			var inventory = connection.Query<Inventory>(@"
+            var inventory = connection.Query<Inventory>(@"
                 select 
 	                i.BrandName, 
 	                i.Name as ItemName, 
@@ -172,6 +172,43 @@ namespace CPKINGDOM.Core.Services
             ");
 
             return inventory.ToList();
+        }
+        public bool SaveBulkItems(BulkItems bulkItems)
+        {
+            bool success = false;
+            using var connection = _context.CreateConnection();
+
+            foreach (var item in bulkItems.SelectedItems)
+            {
+                item.SupplierId = bulkItems.SupplierId;
+                item.DateReceived = bulkItems.DateReceived;
+                item.QtyAvailable = item.QtyReceived;
+                int row = connection.Execute(@"
+				    INSERT INTO [Inventory]
+					(
+						[ItemId],
+						[SupplierId],
+						[CostPrice],
+						[DateReceived],
+						[QtyReceived],
+						[QtyAvailable],
+						[Remarks]
+					)
+					VALUES
+					(
+						@ItemId,
+						@SupplierId,
+						@CostPrice,
+						@DateReceived,
+						@QtyReceived,
+						@QtyAvailable,
+						@Remarks
+					);", item);
+
+                success = row != 0;
+            }
+
+            return success;
         }
     }
 }

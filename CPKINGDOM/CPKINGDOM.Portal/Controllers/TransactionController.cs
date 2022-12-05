@@ -1,5 +1,6 @@
 ﻿using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +22,7 @@ namespace CPKINGDOM.Portal.Controllers
             _staffSvc = staffSvc;
         }
 
+        [Authorize]
         [HttpGet("getpurchaseno")]
         public IActionResult GetPurchaseNo()
         {
@@ -31,6 +33,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("getserviceno")]
         public IActionResult GetServiceNo()
         {
@@ -41,6 +44,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("gettechnicians")]
         public IActionResult GetTechnicians()
         {
@@ -51,6 +55,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("savepurchase")]
         public IActionResult SaveNewPurchase(TransactionHead transactionHead)
         {
@@ -62,18 +67,21 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("getpurchasetransactions")]
         public IActionResult GetPurchaseTransactions()
         {
             return Ok(_transactionSvc.GetPurchaseTransactions());
         }
 
+        [Authorize]
         [HttpGet("getselectedpurchasetransaction")]
         public IActionResult GetSelectedPurchaseTransaction(int id)
         {
             return Ok(_transactionSvc.GetSelectedPurchaseTransaction(id));
         }
 
+        [Authorize]
         [HttpPost("updatepurchasetransaction")]
         public IActionResult UpdatePurchaseTransaction(TransactionHead transactionHead)
         {
@@ -85,6 +93,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("saveservice")]
         public IActionResult SaveService(TransactionHead transactionHead)
         {
@@ -96,30 +105,35 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("getservicetransactions")]
         public IActionResult GetServiceTransactions()
         {
             return Ok(_transactionSvc.GetServiceTransactions());
         }
 
+        [Authorize]
         [HttpGet("getselectedservicetransaction")]
         public IActionResult GetSelectedServiceTransaction(int id)
         {
             return Ok(_transactionSvc.GetSelectedServiceTransaction(id));
         }
 
+        [Authorize]
         [HttpGet("getunpaidpurchase")]
         public IActionResult GetUnpaidPurchase()
         {
             return Ok(_transactionSvc.GetPurchaseUnpaid());
         }
 
+        [Authorize]
         [HttpGet("getunpaidservice")]
         public IActionResult GetUnpaidService()
         {
             return Ok(_transactionSvc.GetServiceUnpaid());
         }
 
+        [Authorize]
         [HttpGet("gettechniciantransaction")]
         public IActionResult GetTechnicianTransaction(int staffId, DateTime fromDate, DateTime toDate)
         {

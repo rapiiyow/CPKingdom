@@ -3,6 +3,7 @@ import { FormControl } from "@angular/forms";
 import { MatPaginator, MatSort, MatTableDataSource } from "@angular/material";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
 import { Brand } from "../models/brand";
+import { BulkItemModel } from "../models/bulk-items";
 import { Category } from "../models/category";
 import { Inventory } from "../models/inventory";
 import { JResponse } from "../models/JResponse";
@@ -25,8 +26,8 @@ export class InventoryComponent {
     dataSource: any = [];
     inventoryModel: Inventory = new Inventory();
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-    @ViewChild('iteminventory', { static: false }) itemInventorypaginator: MatPaginator;
-    @ViewChild('availableItemPaginator', { static: false }) availableItemPaginator: MatPaginator;
+    @ViewChild(MatPaginator, { static: false }) itemInventorypaginator: MatPaginator;
+    @ViewChild(MatPaginator, { static: false }) availableItemPaginator: MatPaginator;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
     modalRef: NgbModalRef;
     modalInventoryRef: NgbModalRef;
@@ -38,9 +39,11 @@ export class InventoryComponent {
     originalReceivedQty: number;
     availableItems: any = [];
     availableItemModalRef: NgbModalRef;
+    bulkItemModel = new BulkItemModel();
     constructor(private modalService: NgbModal, private inventoryService: InventoryService, private cdf: ChangeDetectorRef) {
         this.getInventories();
         this.getSuppliers();
+        this.getAvailableItems();
     }
 
     getSuppliers() {
@@ -151,6 +154,14 @@ export class InventoryComponent {
             this.inventories.paginator.firstPage();
         }
     }
+    applyFilterAvailableItems(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.availableItems.filter = filterValue.trim().toLowerCase();
+
+        if (this.availableItems.paginator) {
+            this.availableItems.paginator.firstPage();
+        }
+    }
     onAddBulk(content) {
         this.modalRef = this.modalService.open(content, { size: 'xl', backdrop: 'static', keyboard: false });
     }
@@ -171,7 +182,6 @@ export class InventoryComponent {
 
         if (_item.length <= 0) {
             this.selectedItems = [...this.selectedItems, _selectedItem];
-            alert('Successfully added');
         }
         else {
             alert('Item already added')
@@ -180,5 +190,22 @@ export class InventoryComponent {
     }
     removeSelectedItem(item: Inventory) {
         this.selectedItems = this.selectedItems.filter(a => a.id !== item.id);
+    }
+    onSaveBulkItemClick() {
+        if (this.selectedItems.length > 0) {
+            this.bulkItemModel.selectedItems = this.selectedItems;
+            this.inventoryService.saveBulkItems(this.bulkItemModel).subscribe((res: JResponse) => {
+                if (res.success) {
+                    this.getInventories();
+                    this.bulkItemModel = new BulkItemModel();
+                    this.onCloseModal();
+                }
+                else {
+                    alert('Failed to add new inventory.');
+                }
+            });
+        } else {
+            alert('Please add items');
+        }
     }
 }

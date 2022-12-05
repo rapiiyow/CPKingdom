@@ -11,5 +11,6 @@ namespace CPKINGDOM.Core.Interfaces
         List<Inventory> GetItemInventory(int itemId);
         List<Inventory> GetAvailableItems();
         List<Inventory> GetReorderCritical();
+        bool SaveBulkItems(BulkItems bulkItems);
     }
 }

@@ -26,6 +26,7 @@ namespace CPKINGDOM.Portal.Controllers
         {
             return Ok(_inventorySvc.GetItemInventory(itemId));
         }
+
         [Authorize]
         [HttpPost("saveinventory")]
         public IActionResult SaveInventory(Inventory inventory)
@@ -50,16 +51,30 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpGet("getavailableitems")]
         public IActionResult GetAvailableItems()
         {
             return Ok(_inventorySvc.GetAvailableItems());
         }
 
+        [Authorize]
         [HttpGet("getreorderpoint")]
         public IActionResult GetReorderPoint()
         {
             return Ok(_inventorySvc.GetReorderCritical());
+        }
+
+        [Authorize]
+        [HttpPost("savebulkitems")]
+        public IActionResult SaveBulkItems(BulkItems bulkItems)
+        {
+            var result = new JResponse()
+            {
+                Success = _inventorySvc.SaveBulkItems(bulkItems),
+                Message = "Items successfully added!"
+            };
+            return Ok(result);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CPKINGDOM.Portal.Controllers
@@ -16,41 +17,49 @@ namespace CPKINGDOM.Portal.Controllers
             _staffSvc = staffSvc;
         }
 
+        [Authorize]
         [HttpGet("getcategories")]
         public IActionResult GetCategories()
         {
             return Ok(_itemSvc.GetCategories());
         }
+
+        [Authorize]
         [HttpGet("getbrands")]
         public IActionResult GetBrands()
         {
             return Ok(_itemSvc.GetBrands());
         }
 
+        [Authorize]
         [HttpGet("getitems")]
         public IActionResult GetItems()
         {
             return Ok(_itemSvc.GetItems());
         }
 
+        [Authorize]
         [HttpGet("getsuppliers")]
         public IActionResult GetSuppliers()
         {
             return Ok(_itemSvc.GetSuppliers());
         }
 
+        [Authorize]
         [HttpGet("getstaffs")]
         public IActionResult GetStaffs()
         {
             return Ok(_staffSvc.GetStaffs());
         }
 
+        [Authorize]
         [HttpGet("getroles")]
         public IActionResult GetRoles()
         {
             return Ok(_staffSvc.GetRoles());
         }
 
+        [Authorize]
         [HttpPost("savenewitem")]
         public IActionResult SaveNewItem(Item item)
         {
@@ -62,6 +71,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("savenewsupplier")]
         public IActionResult SaveNewSupplier(Supplier supplier)
         {
@@ -71,8 +81,9 @@ namespace CPKINGDOM.Portal.Controllers
                 Message = "Supplier successfully added!"
             };
             return Ok(result);
-        }        
+        }
 
+        [Authorize]
         [HttpPost("savenewbrand")]
         public IActionResult SaveNewBrand(Brand brand)
         {
@@ -84,6 +95,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("savenewcategory")]
         public IActionResult SaveNewCategory(Category category)
         {
@@ -95,6 +107,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("savenewstaff")]
         public IActionResult SaveNewStaff(Staff staff)
         {
@@ -106,6 +119,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("updatebrand")]
         public IActionResult UpdateBrand(Brand brand)
         {
@@ -117,6 +131,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("updatecategory")]
         public IActionResult UpdateCategory(Category category)
         {
@@ -128,6 +143,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("updatesupplier")]
         public IActionResult UpdateSupplier(Supplier supplier)
         {
@@ -139,6 +155,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("updateitem")]
         public IActionResult UpdateItem(Item item)
         {
@@ -150,6 +167,7 @@ namespace CPKINGDOM.Portal.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpPost("updatestaff")]
         public IActionResult UpdateStaff(Staff staff)
         {
