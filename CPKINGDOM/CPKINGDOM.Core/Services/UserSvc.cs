@@ -2,27 +2,27 @@
 using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CPKINGDOM.Core.Services
 {
     public class UserSvc : IUserSvc
     {
+        private readonly DbContext _context;
         private readonly IModuleSvc _moduleSvc;
 
-        private readonly DbContext _context;
-
-        public UserSvc(DbContext context) => _context = context;
+        public UserSvc(DbContext context, IModuleSvc moduleSvc)
+        {
+            _moduleSvc = moduleSvc;
+            _context = context;
+        }
 
         public User GetUserCredential(string username, string password)
         {
             using var connection = _context.CreateConnection();
+
+            var parameters = new { Username = username, Password = password };
 
             var user = connection.Query<User>(@"
                     SELECT
@@ -40,11 +40,11 @@ namespace CPKINGDOM.Core.Services
                       Role r,
                       RoleAccess ra
                     WHERE
-                      u.username = '" + username + @"' AND
-                      u.password = '" + password + @"' AND
-                      u.role_id = r.id;").FirstOrDefault();
+                      u.username = @Username AND
+                      u.password = @Password AND
+                      u.role_id = r.id;", parameters).FirstOrDefault();
 
-            if(user is null)
+            if (user is null)
             {
                 throw new NullReferenceException();
             }
