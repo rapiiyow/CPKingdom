@@ -4,4 +4,5 @@ export interface Module {
     route: string;
     parentId: number;
     submodules: Array<Module>;
+    isOpen: boolean;
 }

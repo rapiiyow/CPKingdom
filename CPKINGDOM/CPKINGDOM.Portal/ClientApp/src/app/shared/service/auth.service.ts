@@ -54,5 +54,6 @@ export class AuthService {
 
   setModules(modules) {
     this.localStorage.setItem('cpkModules', JSON.stringify(modules))
+    this.modules.next(modules);
   }
 }

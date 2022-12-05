@@ -12,18 +12,18 @@
                 </a>
             </li>
             
-            <li (click)="liClick()" class="cursorpointer" *ngIf="module.submodules.length > 0">
+            <li (click)="module.isOpen = !module.isOpen" class="cursorpointer" *ngIf="module.submodules.length > 0">
                 <a routerLinkActive="active current">
                     <i [ngClass]="'fa ' + module.icon" class="ml-3" aria-hidden="true"></i>
                     {{module.moduleName}}
-                    <ng-container *ngIf="!transactionShowUp">
+                    <ng-container *ngIf="!module.isOpen">
                         <i class="fa fa-chevron-down ml-3" aria-hidden="true"></i>
                     </ng-container>
-                    <ng-container *ngIf="transactionShowUp">
+                    <ng-container *ngIf="module.isOpen">
                         <i class="fa fa-chevron-up ml-3" aria-hidden="true"></i>
                     </ng-container>
                 </a>
-                <ul class="collapse list-unstyled childmenu" [ngClass]="transactionShowSubChild===true?'show':''">
+                <ul class="collapse list-unstyled childmenu" [ngClass]="module.isOpen ?'show':''">
                     <li *ngFor="let submodule of module.submodules">
                         <a [routerLink]="submodule.route">
                             <i [ngClass]="'fa ' + submodule.icon" class="ml-3" aria-hidden="true"></i>

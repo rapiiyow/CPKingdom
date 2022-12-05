@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
       this.authService.login(this.loginForm.value).subscribe(res => {
         this.authService.setToken(res.token);
         this.authService.setModules(res.details.modules);
-        this.authService.modules.next(res.details.modules);
 
         setTimeout(() => {
           this.router.navigateByUrl('/');

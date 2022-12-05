@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Module } from '../models/modules.model';
@@ -9,7 +9,7 @@ import { AuthService } from '../shared/service/auth.service';
     templateUrl: './nav-menu.component.html',
     styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent implements OnInit {
+export class NavMenuComponent implements OnInit, AfterViewInit {
     visible: any;
     isExpanded = true;
     modules: Module[];
@@ -27,40 +27,45 @@ export class NavMenuComponent implements OnInit {
     reportShowSubChild: boolean = false;
     reportShowUp: boolean = false;
 
-    constructor(public authService: AuthService) { }
-
+    constructor(public authService: AuthService) {
+    }
+    
     ngOnInit() {
         console.log('INIT nav');
         
         this.authService.navmenuVisible.subscribe(isVisible => {
             this.visible = isVisible
         })
+        
+        this.authService.modules.subscribe(mods => {
+            if(mods) {
+                this.modules = this.initializeNavmodules(mods)
+            }
+        })
+    }
 
-        this.authService.modules
-            .pipe(map(data => this.initializeNavmodules(data)))
-            .subscribe(mods => {
-                this.modules = mods
-            })
+    ngAfterViewInit(): void {
     }
 
     initializeNavmodules(currentModules: Module[]) {
         var filteredModules = [];
 
         var mappedModules: Array<Module> = currentModules.map((module: Module) => {
-          return {
-            ...module,
-            submodules: currentModules.filter(mod => module.moduleId === mod.parentId)
-          }
+            return {
+                ...module,
+                isOpen: false,
+                submodules: currentModules.filter(mod => module.moduleId === mod.parentId)
+            }
         })
 
 
         mappedModules.map((module: Module) => {
-          //check if the module is child
-          var childModule = mappedModules.findIndex(mm => mm.submodules.findIndex(sm => sm.moduleId === module.moduleId) !== -1)
+            //check if the module is child
+            var childModule = mappedModules.findIndex(mm => mm.submodules.findIndex(sm => sm.moduleId === module.moduleId) !== -1)
 
-          if(childModule === -1) {
-            filteredModules.push(module)
-          }
+            if (childModule === -1) {
+                filteredModules.push(module)
+            }
         })
 
         return filteredModules;
@@ -85,10 +90,10 @@ export class NavMenuComponent implements OnInit {
             this.isShowing = false;
         }
     }
-    liClick = () => {
-
-        this.transactionShowSubChild = !this.transactionShowSubChild;
-        this.transactionShowUp = this.transactionShowSubChild;
+    liClick = (module: Module) => {
+        module.isOpen = !module.isOpen
+        // this.transactionShowSubChild = !this.transactionShowSubChild;
+        // this.transactionShowUp = this.transactionShowSubChild;
         //this.closeOptionBar();
     }
     liClickSettings = () => {
