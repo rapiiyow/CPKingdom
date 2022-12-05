@@ -18,7 +18,11 @@ namespace CPKINGDOM.Core.Services
 
         private readonly DbContext _context;
 
-        public UserSvc(DbContext context) => _context = context;
+        public UserSvc(DbContext context, IModuleSvc moduleSvc)
+        {
+            _context = context;
+            _moduleSvc = moduleSvc;
+        }
 
         public User GetUserCredential(string username, string password)
         {
