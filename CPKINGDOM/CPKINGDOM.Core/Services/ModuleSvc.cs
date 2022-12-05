@@ -2,12 +2,8 @@
 using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 
 namespace CPKINGDOM.Core.Services
 {
@@ -20,7 +16,7 @@ namespace CPKINGDOM.Core.Services
         public List<Module> GetModuleByRole(int roleId)
         {
             using var connection = _context.CreateConnection();
-
+            var parameters = new { RoleId = roleId };
             var modules = connection.Query<Module>(@"
                     SELECT
                         m.Id moduleId,
@@ -38,8 +34,8 @@ namespace CPKINGDOM.Core.Services
                     LEFT JOIN
                         role r
                     ON ra.role_id = r.id
-                    WHERE ra.role_id = " + roleId + @"
-                    ORDER BY m.sequence");
+                    WHERE ra.role_id = @RoleId 
+                    ORDER BY m.sequence", parameters);
 
             return modules.ToList();
         }
