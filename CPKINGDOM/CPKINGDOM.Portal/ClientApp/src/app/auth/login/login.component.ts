@@ -45,35 +45,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).pipe(map(val => {
-        var currentModules: Array<Module> = val.details.modules;
-        var filteredModules = [];
-
-        var mappedModules: Array<Module> = currentModules.map((module: Module) => {
-          return {
-            ...module,
-            submodules: currentModules.filter(mod => module.moduleId === mod.parentId)
-          }
-        })
-
-
-        mappedModules.map((module: Module) => {
-          //check if the module is child
-          var childModule = mappedModules.findIndex(mm => mm.submodules.findIndex(sm => sm.moduleId === module.moduleId) !== -1)
-
-          if(childModule === -1) {
-            filteredModules.push(module)
-          }
-        })
-
-        return {
-          token: val.token,
-          details: {
-            ...val.details,
-            modules: filteredModules
-          }
-        };
-      })).subscribe(res => {
+      this.authService.login(this.loginForm.value).subscribe(res => {
         this.authService.setToken(res.token);
         this.authService.setModules(res.details.modules);
         this.authService.modules.next(res.details.modules);

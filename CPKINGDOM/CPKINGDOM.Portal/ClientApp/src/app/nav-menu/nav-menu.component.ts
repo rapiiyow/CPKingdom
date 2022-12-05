@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
+import { map } from 'rxjs/operators';
 import { Module } from '../models/modules.model';
 import { AuthService } from '../shared/service/auth.service';
 
@@ -35,9 +36,34 @@ export class NavMenuComponent implements OnInit {
             this.visible = isVisible
         })
 
-        this.authService.modules.subscribe(mods => {
-            this.modules = mods
+        this.authService.modules
+            .pipe(map(data => this.initializeNavmodules(data)))
+            .subscribe(mods => {
+                this.modules = mods
+            })
+    }
+
+    initializeNavmodules(currentModules: Module[]) {
+        var filteredModules = [];
+
+        var mappedModules: Array<Module> = currentModules.map((module: Module) => {
+          return {
+            ...module,
+            submodules: currentModules.filter(mod => module.moduleId === mod.parentId)
+          }
         })
+
+
+        mappedModules.map((module: Module) => {
+          //check if the module is child
+          var childModule = mappedModules.findIndex(mm => mm.submodules.findIndex(sm => sm.moduleId === module.moduleId) !== -1)
+
+          if(childModule === -1) {
+            filteredModules.push(module)
+          }
+        })
+
+        return filteredModules;
     }
 
     collapse() {
