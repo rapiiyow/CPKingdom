@@ -1,4 +1,5 @@
-﻿using CPKINGDOM.Core.Interfaces;
+﻿using CPKINGDOM.Core.Context;
+using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -12,18 +13,15 @@ namespace CPKINGDOM.Core.Services
 {
     public class ModuleSvc : IModuleSvc
     {
-        private readonly IConfiguration _config;
+        private readonly DbContext _context;
 
-        public ModuleSvc(IConfiguration config)
-        {
-            _config = config;
-        }
+        public ModuleSvc(DbContext context) => _context = context;
 
         public List<Module> GetModuleByRole(int roleId)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var modules = _context.Query<Module>(@"
+            var modules = connection.Query<Module>(@"
                     SELECT
                         m.Id moduleId,
                         m.description as ModuleName,

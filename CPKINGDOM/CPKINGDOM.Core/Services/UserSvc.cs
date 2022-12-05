@@ -1,4 +1,5 @@
-﻿using CPKINGDOM.Core.Interfaces;
+﻿using CPKINGDOM.Core.Context;
+using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
@@ -13,20 +14,17 @@ namespace CPKINGDOM.Core.Services
 {
     public class UserSvc : IUserSvc
     {
-        private readonly IConfiguration _config;
         private readonly IModuleSvc _moduleSvc;
 
-        public UserSvc(IConfiguration config, IModuleSvc moduleSvc)
-        {
-            _config = config;
-            _moduleSvc = moduleSvc;
-        }
+        private readonly DbContext _context;
+
+        public UserSvc(DbContext context) => _context = context;
 
         public User GetUserCredential(string username, string password)
         {
-            using var _context = new SqlConnection(_config["CpKingdom:ConnectionString"]);
+            using var connection = _context.CreateConnection();
 
-            var user = _context.Query<User>(@"
+            var user = connection.Query<User>(@"
                     SELECT
                       u.id as userId,
                       u.username,
