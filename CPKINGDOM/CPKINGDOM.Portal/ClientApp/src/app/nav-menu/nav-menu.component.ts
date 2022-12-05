@@ -1,13 +1,17 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material';
+import { Module } from '../models/modules.model';
+import { AuthService } from '../shared/service/auth.service';
 
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrls: ['./nav-menu.component.css']
+    selector: 'app-nav-menu',
+    templateUrl: './nav-menu.component.html',
+    styleUrls: ['./nav-menu.component.css']
 })
-export class NavMenuComponent {
+export class NavMenuComponent implements OnInit {
+    visible: any;
     isExpanded = true;
+    modules: Module[];
     @ViewChild('sidenav', { static: false }) sidenav: MatSidenav;
     showSubmenu: boolean = false;
     isShowing = false;
@@ -21,12 +25,27 @@ export class NavMenuComponent {
 
     reportShowSubChild: boolean = false;
     reportShowUp: boolean = false;
-  collapse() {
-    this.isExpanded = false;
-  }
 
-  toggle() {
-    this.isExpanded = !this.isExpanded;
+    constructor(public authService: AuthService) { }
+
+    ngOnInit() {
+        console.log('INIT nav');
+        
+        this.authService.navmenuVisible.subscribe(isVisible => {
+            this.visible = isVisible
+        })
+
+        this.authService.modules.subscribe(mods => {
+            this.modules = mods
+        })
+    }
+
+    collapse() {
+        this.isExpanded = false;
+    }
+
+    toggle() {
+        this.isExpanded = !this.isExpanded;
     }
 
     mouseenter() {
@@ -55,5 +74,9 @@ export class NavMenuComponent {
 
         this.reportShowSubChild = !this.reportShowSubChild;
         this.reportShowUp = this.reportShowSubChild;
+    }
+
+    logout() {
+        this.authService.logout();
     }
 }

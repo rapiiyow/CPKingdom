@@ -191,6 +191,7 @@ html {
     transition: all 0.4s ease;
     z-index: 10;
     background-color: #eff3f6;
+    min-height: 100vh;
 }
 
     #content.toggled {
@@ -205,4 +206,9 @@ html {
     width: 100%;
     float: left;
     margin-right: 20px;
+}
+
+.hidenav {
+  display: none;
+  margin-left: 0;
 }
