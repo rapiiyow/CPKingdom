@@ -2,9 +2,8 @@
 using CPKINGDOM.Core.Interfaces;
 using CPKINGDOM.Core.Models;
 using Dapper;
-using Microsoft.Data.SqlClient;
-using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace CPKINGDOM.Core.Services
@@ -40,7 +39,6 @@ namespace CPKINGDOM.Core.Services
 
             return inventories.ToList();
         }
-
         public List<Inventory> GetItemInventory(int itemId)
         {
             using var connection = _context.CreateConnection();
@@ -210,5 +208,14 @@ namespace CPKINGDOM.Core.Services
 
             return success;
         }
-    }
+		public List<ItemInventoryLog> GetItemInventoryLog(int itemId)
+		{
+			using var connection = _context.CreateConnection();
+
+			var parameters = new { ItemId = itemId };
+			var inventories = connection.Query<ItemInventoryLog>(@"GetItemInventoryLog", parameters, commandType: CommandType.StoredProcedure);
+
+			return inventories.ToList();
+		}
+	}
 }

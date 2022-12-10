@@ -31,6 +31,7 @@ import { AuthGuard } from './shared/guard/auth.guard';
 import { AuthInterceptor } from './shared/interceptors/auth.interceptor';
 import { ModuleGuard } from './shared/guard/module.guard';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { InventoryLogComponent } from './reports/inventory-log/inventory-log.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -51,7 +52,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
         UnpaidServiceComponent,
         TechnicianMonitoringComponent,
         LoginComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        InventoryLogComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,6 +76,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
             { path: 'reorderpoint', component: ReorderPointComponent, canActivate: [AuthGuard, ModuleGuard] },
             { path: 'unpaidpurchase', component: UnpaidPurchaseComponent, canActivate: [AuthGuard, ModuleGuard] },
             { path: 'unpaidservice', component: UnpaidServiceComponent, canActivate: [AuthGuard, ModuleGuard] },
+            { path: 'inventorylog', component: InventoryLogComponent, canActivate: [AuthGuard, ModuleGuard] },
             { path: 'technician', component: TechnicianMonitoringComponent, canActivate: [AuthGuard, ModuleGuard] },
             { path: '404', component: NotFoundComponent},
             { path: '**', redirectTo: '404' }

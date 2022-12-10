@@ -76,5 +76,12 @@ namespace CPKINGDOM.Portal.Controllers
             };
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpGet("getiteminventorylog")]
+        public IActionResult GetItemInventoryLog(int itemId)
+        {
+            return Ok(_inventorySvc.GetItemInventoryLog(itemId));
+        }
     }
 }

@@ -59,6 +59,7 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="TableData" />
+    <Folder Include="StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Category.sql" />
@@ -73,6 +74,7 @@
     <Build Include="Tables\Modules.sql" />
     <Build Include="Tables\RoleAccess.sql" />
     <Build Include="Tables\Role.sql" />
+    <Build Include="StoredProcedures\GetItemInventoryLog.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />

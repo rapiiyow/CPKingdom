@@ -1,0 +1,73 @@
+<div class="form-row">
+    <div class="d-flex justify-content-between col my-2 mr-1">
+        <div>
+            <div class="text-muted ml-1"><h4>Item Inventory Log</h4></div>
+        </div>
+    </div>
+</div>
+<hr />
+<div class="form-row mt-3">
+    <div class="form-group col-md-4">
+        <label>Item</label>
+        <select class="form-control" [(ngModel)]="selectedItem" (change)="onChange()">
+            <option *ngFor="let item of items" [ngValue]="item">
+                {{item.name}} {{item.description}}
+            </option>
+        </select>
+    </div>
+</div>
+<hr />
+<div class="btn-group pull-right mb-2">
+    <button class="btn btn-primary mr-1" (click)="onPrint();"><i class="fa fa-print"></i> Print </button>
+</div>
+<div id="print">
+    <div class="form-row">
+        <div class="d-flex justify-content-center col my-2 mr-1">
+            <div>
+                <div class="text-muted ml-1"><h4>Item Inventory Log</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="d-flex justify-content-between col my-2 mr-1">
+            <div>
+                <div class="text-muted ml-1"><h4>Item: {{selectedItem.brandName}} {{selectedItem.name}}</h4></div>
+            </div>
+        </div>
+    </div>
+    <div class="mat-elevation-z8">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Item</th>
+                    <th scope="col">Customer/Supplier</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of inventoryLog; index as i">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ item.tranDate | date}}</td>
+                    <td>{{ item.stockType }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.brandName }}</td>
+                    <td>{{ item.itemName }} {{ item.itemDescription }}</td>
+                    <td>{{ item.customerSupplier }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Available Quantity</th>
+                    <td></td>
+                    <td></td>
+                    <th>{{ getTotalQuantity() | number }}</th>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

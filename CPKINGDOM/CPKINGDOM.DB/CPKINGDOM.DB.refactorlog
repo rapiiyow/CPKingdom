@@ -77,4 +77,25 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="parentId" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="0164fbeb-4d26-44f3-8cf9-965b618146de" ChangeDateTime="12/10/2022 10:50:02">
+    <Property Name="ElementName" Value="[dbo].[InventoryLog].[StockType]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InventoryLog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="IsStockIn" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7c51c35d-46b1-41e3-aff8-8ba60ccfad33" ChangeDateTime="12/10/2022 10:53:33">
+    <Property Name="ElementName" Value="[dbo].[InventoryLog].[SRP]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InventoryLog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Srp" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="34156362-51d8-4a46-af6d-c0e9977c8bce" ChangeDateTime="12/10/2022 10:57:52">
+    <Property Name="ElementName" Value="[dbo].[InventoryLog].[Srp]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[InventoryLog]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Quantity" />
+  </Operation>
 </Operations>
