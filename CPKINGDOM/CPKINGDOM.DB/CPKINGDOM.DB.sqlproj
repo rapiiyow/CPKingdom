@@ -79,6 +79,8 @@
   <ItemGroup>
     <None Include="TableData\Category.Data.sql" />
     <None Include="TableData\Role.Data.sql" />
+    <None Include="TableData\Modules.Data.sql" />
+    <None Include="TableData\RoleAccess.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Script.PostDeployment1.sql" />

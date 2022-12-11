@@ -11,5 +11,6 @@ Post-Deployment Script Template
 */
 :r .\TableData\Category.Data.sql
 :r .\TableData\Role.Data.sql
-
+:r .\TableData\Modules.Data.sql
+:r .\TableData\RoleAccess.Data.sql
 GO
