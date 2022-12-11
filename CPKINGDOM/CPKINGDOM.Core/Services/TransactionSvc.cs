@@ -376,7 +376,8 @@ namespace CPKINGDOM.Core.Services
 	                TransactionHead a 
                 where 
 	                a.IsService = 0 and 
-	                a.Status in ('Partial Payment', 'Unpaid')
+	                a.Status in ('Partial Payment', 'Unpaid') and
+                    (select SUM(Price) from TransactionBody where HeadId = a.Id) > 0
                 order by
 	                a.TranDateTime;
             ");
@@ -397,7 +398,8 @@ namespace CPKINGDOM.Core.Services
 	                TransactionHead a 
                 where 
 	                a.IsService = 1 and 
-	                a.Status in ('Partial Payment', 'Unpaid')
+	                a.Status in ('Partial Payment', 'Unpaid') and
+                    (select SUM(Price) from TransactionBody where HeadId = a.Id) > 0
                 order by
 	                a.TranDateTime;
             ");
@@ -429,6 +431,66 @@ namespace CPKINGDOM.Core.Services
             ", param);
 
             return transactionHeads.ToList();
+        }
+        public int GetTodayPurchaseTransaction()
+        {
+            using var connection = _context.CreateConnection();
+
+            int tran = connection.Query<int>(@"select COUNT(*) cnt from TransactionHead where cast(TranDateTime as date) = cast(getdate() as date) and IsService = 0;").FirstOrDefault();
+
+            return tran;
+        }
+        public int GetTodayServiceTransaction()
+        {
+            using var connection = _context.CreateConnection();
+
+            int tran = connection.Query<int>(@"select COUNT(*) cnt from TransactionHead where cast(TranDateTime as date) = cast(getdate() as date) and IsService = 1;").FirstOrDefault();
+
+            return tran;
+        }
+        public int GetYesterdayPurchaseTransaction()
+        {
+            using var connection = _context.CreateConnection();
+
+            int tran = connection.Query<int>(@"select COUNT(*) cnt from TransactionHead where cast(TranDateTime as date) = cast(getdate()-1 as date) and IsService = 0;").FirstOrDefault();
+
+            return tran;
+        }
+        public int GetYesterdayServiceTransaction()
+        {
+            using var connection = _context.CreateConnection();
+
+            int tran = connection.Query<int>(@"select COUNT(*) cnt from TransactionHead where cast(TranDateTime as date) = cast(getdate()-1 as date) and IsService = 1;").FirstOrDefault();
+
+            return tran;
+        }
+        public decimal GetTotalCollectibles()
+        {
+            using var connection = _context.CreateConnection();
+
+            decimal collectibles = connection.Query<decimal>(@"select 
+	                                                            (SUM(b.Price) - SUM(b.AmountPaid)) as Collectibles 
+                                                            from 
+	                                                            TransactionHead a 
+                                                            inner join 
+	                                                            TransactionBody b on a.Id = b.HeadId 
+                                                            where 
+	                                                            a.Status in ('Unpaid','Partial Payment');").FirstOrDefault();
+
+            return collectibles;
+        }
+        public object GetTransactionDashboard()
+        {
+            var obj = new
+            {
+                TodayPurchase = GetTodayPurchaseTransaction(),
+                TodayService = GetTodayServiceTransaction(),
+                YesterdayPurchase = GetYesterdayPurchaseTransaction(),
+                YesterdayService = GetYesterdayServiceTransaction(),
+                TotalCollectibles = GetTotalCollectibles()
+            };
+
+            return obj;
         }
     }
 }

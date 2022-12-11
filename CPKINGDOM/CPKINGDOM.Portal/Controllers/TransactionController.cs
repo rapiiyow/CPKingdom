@@ -139,5 +139,12 @@ namespace CPKINGDOM.Portal.Controllers
         {
             return Ok(_transactionSvc.GetTechnicianTransaction(staffId, fromDate, toDate));
         }
+
+        [Authorize]
+        [HttpGet("gettransactiondashboard")]
+        public IActionResult GetTransactionDashboard()
+        {
+            return Ok(_transactionSvc.GetTransactionDashboard());
+        }
     }
 }

@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\home\dashboard-service.ts" />
     <None Remove="ClientApp\src\app\models\bulk-items.ts" />
     <None Remove="ClientApp\src\app\models\transaction-head.ts" />
     <None Remove="ClientApp\src\app\reports\reorder-point\reorder-point.ts" />
@@ -67,6 +68,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\home\dashboard-service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\inventory\inventory-component.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

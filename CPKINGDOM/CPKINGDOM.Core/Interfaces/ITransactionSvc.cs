@@ -18,5 +18,6 @@ namespace CPKINGDOM.Core.Interfaces
         List<TransactionHead> GetPurchaseUnpaid();
         List<TransactionHead> GetServiceUnpaid();
         List<TransactionHead> GetTechnicianTransaction(int staffId, DateTime fromDate, DateTime toDate);
+        object GetTransactionDashboard();
     }
 }

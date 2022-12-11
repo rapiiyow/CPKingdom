@@ -55,7 +55,6 @@ export class InventoryLogComponent implements OnInit {
     }
     onChange() {
         this.reportService.getItemInventoryLog(this.selectedItem.id).subscribe(res => {
-            debugger;
             this.inventoryLog = res;
         });
     }

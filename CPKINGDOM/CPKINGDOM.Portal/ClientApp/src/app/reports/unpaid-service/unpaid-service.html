@@ -22,6 +22,7 @@
                         <th scope="col">Status</th>
                         <th scope="col">Amount</th>
                         <th scope="col">Paid</th>
+                        <th scope="col">Balance</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,8 +33,20 @@
                         <td>{{ tran.staffName }}</td>
                         <td>{{ tran.customerName }}</td>
                         <td>{{ tran.status }}</td>
-                        <td>{{ tran.totalAmount | number:'1.0':'en-US' }}</td>
-                        <td>{{ tran.totalPaid | number:'1.0':'en-US' }}</td>
+                        <td>&#8369; {{ tran.totalAmount | number:'1.0':'en-US' }}</td>
+                        <td>&#8369; {{ tran.totalPaid | number:'1.0':'en-US' }}</td>
+                        <td>&#8369; {{ tran.totalAmount - tran.totalPaid | number:'1.0':'en-US' }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Total Collectibles</th>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <th>&#8369; {{ getTotalCollectibles() | number }}</th>
                     </tr>
                 </tbody>
             </table>

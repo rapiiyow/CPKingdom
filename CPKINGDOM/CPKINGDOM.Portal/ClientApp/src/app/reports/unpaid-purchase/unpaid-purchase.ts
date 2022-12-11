@@ -44,4 +44,13 @@ export class UnpaidPurchaseComponent implements OnInit {
             document.body.removeChild(frame1);
         }, 500);
     }
+
+    getTotalCollectibles() {
+        if (typeof this.transactions !== 'undefined') {
+            var amount = this.transactions.map(t => t.totalAmount).reduce((acc, value) => acc + value, 0);
+            var paid = this.transactions.map(t => t.totalPaid).reduce((acc, value) => acc + value, 0);
+
+            return amount - paid;
+        }        
+    }
 }

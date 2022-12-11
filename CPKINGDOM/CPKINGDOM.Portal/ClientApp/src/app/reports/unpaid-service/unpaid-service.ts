@@ -1,6 +1,5 @@
 ﻿import { Component, OnInit } from "@angular/core";
 import { NgbModal, NgbModalRef } from "@ng-bootstrap/ng-bootstrap";
-import { Inventory } from "../../models/inventory";
 import { TransactionHead } from "../../models/transaction-head";
 import { ReportService } from "../report-service";
 
@@ -43,5 +42,14 @@ export class UnpaidServiceComponent implements OnInit {
             window.frames["frame1"].print();
             document.body.removeChild(frame1);
         }, 500);
+    }
+
+    getTotalCollectibles() {
+        if (typeof this.transactions !== 'undefined') {
+            var amount = this.transactions.map(t => t.totalAmount).reduce((acc, value) => acc + value, 0);
+            var paid = this.transactions.map(t => t.totalPaid).reduce((acc, value) => acc + value, 0);
+
+            return amount - paid;
+        }
     }
 }

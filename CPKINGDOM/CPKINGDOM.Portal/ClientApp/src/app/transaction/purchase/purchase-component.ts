@@ -39,7 +39,6 @@ export class PurchaseComponent {
         }
     }
     onEditClick(id) {
-        debugger;
         let ID = id;
         this.router.navigate(['/purchasedetail', ID]);
     }

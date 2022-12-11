@@ -13,7 +13,6 @@ namespace CPKINGDOM.Core.Services
         private readonly DbContext _context;
 
         public InventorySvc(DbContext context) => _context = context;
-
         public List<Inventory> GetInventories()
         {
             using var connection = _context.CreateConnection();
@@ -216,6 +215,6 @@ namespace CPKINGDOM.Core.Services
 			var inventories = connection.Query<ItemInventoryLog>(@"GetItemInventoryLog", parameters, commandType: CommandType.StoredProcedure);
 
 			return inventories.ToList();
-		}
+		}		
 	}
 }
