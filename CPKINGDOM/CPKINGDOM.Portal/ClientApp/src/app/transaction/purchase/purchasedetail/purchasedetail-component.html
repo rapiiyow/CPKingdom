@@ -61,6 +61,13 @@
                             </button>
                         </div>
                     </div>
+                    <div *ngIf="ID>0" class="d-flex flex-row text-center">
+                        <div class="example-button-container mr-1">
+                            <button mat-icon-button color="warn" (click)="onClickReturn(returnModal)" matTooltip="Return Item">
+                                <mat-icon>rotate_90_degrees_ccw</mat-icon>
+                            </button>
+                        </div>
+                    </div>
                 </td>
                 <td mat-footer-cell *matFooterCellDef> Total </td>
             </ng-container>
@@ -216,6 +223,33 @@
         </mat-paginator>
     </div>
     <div class="modal-footer">
+        <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
+    </div>
+</ng-template>
+
+<ng-template #returnModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title">Return Item</h4>
+        <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="returnToStock" id="returnToStock" value="returnToStock" [(ngModel)]="selectedAction">
+            <label class="form-check-label" for="returnToStock">
+                Return to Stock
+            </label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="returnToDispose" id="returnToDispose" value="returnToDispose" [(ngModel)]="selectedAction">
+            <label class="form-check-label" for="returnToDispose">
+                Dispose
+            </label>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn  btn-primary mr-1" (click)="onSaveReturnItem()"><i class="fa fa-save"></i> Save </button>
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
     </div>
 </ng-template>

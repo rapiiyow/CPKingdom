@@ -20,19 +20,17 @@ export class PurchaseDetailComponent implements OnInit {
     displayedColumns: string[] = ['actions', 'brandName', 'itemName', 'description', 'costPrice', 'srp', 'qtyPurchased', 'lineTotal', 'balance', 'amountPaid'];
     availableItemDisplayedColumns: string[] = ['actions', 'barcode', 'qtyAvailable', 'brandName', 'itemName', 'description', 'supplierName', 'costPrice', 'srp'];
     dataSource: any = [];
-
     selectedItems: Inventory[] = [];
-
     filterValues = new Inventory();
-
     availableItems: any = [];
     @ViewChild('iteminventory', { static: false }) itemInventorypaginator: MatPaginator;
     @ViewChild('matSortAvailable', { static: false }) sort: MatSort;
     ID: any;
-
+    modalReturnRef: NgbModalRef;
     totalBalance: number = 0;
     transactionStatus: string = '';
     originalPaid: number = 0;
+    selectedAction = 'returnToStock';
     constructor(private modalService: NgbModal, private transactionService: TransactionService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.ID = activatedRoute.snapshot.paramMap.get('id');
         this.getAvailableItems();
@@ -110,7 +108,7 @@ export class PurchaseDetailComponent implements OnInit {
         _transactionHead.inventory = _selectedItems;
         _transactionHead.status = this.transactionStatus;
         if (this.ID <= 0) {
-            if (_selectedItems.length > 0) {                
+            if (_selectedItems.length > 0) {
                 this.transactionService.saveNewPurchase(_transactionHead).subscribe((res: JResponse) => {
                     if (res.success) {
                         alert(res.message);
@@ -142,5 +140,11 @@ export class PurchaseDetailComponent implements OnInit {
         if (this.availableItems.paginator) {
             this.availableItems.paginator.firstPage();
         }
+    }
+    onClickReturn(content) {
+        this.modalReturnRef = this.modalService.open(content, { size: 'lg', backdrop: 'static', keyboard: false });
+    }
+    onSaveReturnItem() {
+        console.log(this.selectedAction);
     }
 }
